@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小船桌遊卡套 | Boat Boardgame Sleeves</title>
+    <!-- 載入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 載入 Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 載入 EmailJS SDK (用於純前端寄送 Email 提醒) -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Google Fonts: Noto Sans TC & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans TC"', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 自訂燈號發光特效 */
+        .led-green {
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.8);
+        }
+        .led-yellow {
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.7), inset 0 0 4px rgba(255, 255, 255, 0.8);
+        }
+        .led-red {
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.95), inset 0 0 5px rgba(255, 255, 255, 0.9);
+            animation: red-alert 1.4s infinite alternate;
+        }
+        @keyframes red-alert {
+            0% {
+                box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+                transform: scale(0.95);
+            }
+            100% {
+                box-shadow: 0 0 18px rgba(239, 68, 68, 1), 0 0 28px rgba(239, 68, 68, 0.5);
+                transform: scale(1.08);
+            }
+        }
+        /* 點擊狀態卡片跳轉後的高亮呼吸動畫 */
+        @keyframes highlight-flash {
+            0% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.85);
+                transform: scale(1);
+            }
+            35% {
+                box-shadow: 0 0 0 10px rgba(245, 158, 11, 0.35);
+                transform: scale(1.02);
+            }
+            70% {
+                box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.2);
+                transform: scale(1.01);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+                transform: scale(1);
+            }
+        }
+        .card-highlight-flash {
+            animation: highlight-flash 1.6s ease-out;
+            border-color: #f59e0b !important;
+        }
+        /* 自訂捲軸 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- 頂部導覽列 -->
+    <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <!-- Logo 與標題 -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-500 text-slate-900 p-2.5 rounded-xl shadow-md">
+                        <i data-lucide="anchor" class="w-6 h-6 stroke-[2.5]"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
+                            小船桌遊卡套
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 hover:border-amber-400 px-2.5 py-0.5 rounded-full transition cursor-pointer" title="前往 GitHub">
+                                <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                                </svg>
+                                <span>GitHub</span>
+                            </a>
+                        </h1>
+                        <p class="text-xs text-slate-400 mt-0.5">精準追蹤卡套尺寸、數量與定期更換提醒</p>
+                    </div>
+                </div>
+
+                <!-- 頂部操作按鈕群 -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知">
+                        <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
+                        <span id="notify-perm-text">開啟桌面提醒</span>
+                    </button>
+
+                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="設定 Google 試算表同步、Email 通知與備份">
+                        <i data-lucide="settings" class="w-4 h-4 text-sky-400"></i>
+                        <span>雲端與通知設定</span>
+                    </button>
+
+                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer" title="點擊立即從 Google 試算表重新同步最新資料">
+                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-4 h-4 text-emerald-400"></i>
+                        <span id="cloud-sync-text">試算表已同步</span>
+                    </button>
+
+                    <button onclick="openGameModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer">
+                        <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
+                        <span>新增桌遊</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+        <!-- 紅色提醒橫幅 (有過期桌遊時自動顯示) -->
+        <div id="overdue-banner" class="hidden bg-red-50 border-l-4 border-red-500 rounded-r-2xl p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start sm:items-center gap-3">
+                <div class="p-2 bg-red-100 rounded-xl text-red-600 shrink-0">
+                    <i data-lucide="bell-ring" class="w-6 h-6 animate-bounce"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm sm:text-base font-bold text-red-800" id="overdue-banner-title">提醒：有桌遊的卡套已到達更換時間！</h3>
+                    <p class="text-xs sm:text-sm text-red-700 mt-0.5" id="overdue-banner-desc">請準備對應尺寸的卡套進行更換，避免卡牌磨損或黏手。</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <button onclick="sendOverdueEmailReport(false)" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-xl shadow-sm transition cursor-pointer">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>立即寄送 Email 提醒</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 數據統計卡片 -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- 總收錄桌遊 -->
+            <div onclick="jumpToGameByStatus('all')" role="button" tabindex="0" class="group bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all cursor-pointer flex items-center justify-between" title="點擊檢視全部桌遊">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                        收錄桌遊總數
+                        <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-indigo-500 transition"></i>
+                    </p>
+                    <p class="text-2xl sm:text-3xl font-bold text-slate-800 mt-1" id="stat-total-games">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 group-hover:scale-105 transition flex items-center justify-center">
+                    <i data-lucide="dices" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <!-- 狀態良好 (綠燈) -->
+            <div onclick="jumpToGameByStatus('green')" role="button" tabindex="0" class="group bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-emerald-300 transition-all cursor-pointer flex items-center justify-between" title="點擊跳轉至第一個狀態良好的桌遊">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                        綠燈 (狀態良好)
+                        <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-emerald-500 transition"></i>
+                    </p>
+                    <div class="flex items-baseline gap-2 mt-1">
+                        <p class="text-2xl sm:text-3xl font-bold text-emerald-600" id="stat-healthy-games">0</p>
+                        <span class="text-xs text-slate-400 font-medium">總套數 <span id="stat-total-sleeves">0</span></span>
+                    </div>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:scale-105 transition flex items-center justify-center">
+                    <span class="w-4 h-4 rounded-full bg-emerald-500 led-green"></span>
+                </div>
+            </div>
+
+            <!-- 即將到期 (黃燈) -->
+            <div onclick="jumpToGameByStatus('yellow')" role="button" tabindex="0" class="group bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-amber-400 transition-all cursor-pointer flex items-center justify-between" title="點擊跳轉至第一個即將到期的桌遊">
+                <div>
+                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                        即將到期 (14天內)
+                        <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-amber-500 transition"></i>
+                    </p>
+                    <p class="text-2xl sm:text-3xl font-bold text-amber-600 mt-1" id="stat-due-soon">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-500 group-hover:scale-105 transition flex items-center justify-center">
+                    <span class="w-4 h-4 rounded-full bg-amber-400 led-yellow"></span>
+                </div>
+            </div>
+
+            <!-- 需立即更換 (紅燈) -->
+            <div onclick="jumpToGameByStatus('red')" role="button" tabindex="0" class="group bg-white rounded-2xl p-5 border border-red-200/80 shadow-sm hover:shadow-md hover:border-red-400 transition-all cursor-pointer flex items-center justify-between relative overflow-hidden" title="點擊跳轉至第一個亮紅燈需更換的桌遊">
+                <div>
+                    <p class="text-xs font-bold text-red-600 uppercase tracking-wider flex items-center gap-1">
+                        亮紅燈 (需更換)
+                        <i data-lucide="arrow-down-right" class="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 text-red-600 transition"></i>
+                    </p>
+                    <p class="text-2xl sm:text-3xl font-bold text-red-600 mt-1" id="stat-overdue">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 group-hover:scale-105 transition flex items-center justify-center">
+                    <span class="w-4 h-4 rounded-full bg-red-500 led-red"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 卡套尺寸採購統計區塊 -->
+        <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-visible">
+            <div class="p-4 sm:px-6 sm:py-4 bg-slate-700 border-b border-slate-600/80 text-white rounded-t-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-amber-500/20 text-amber-300 rounded-xl border border-amber-400/30">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                            卡套尺寸採購統計
+                            <span id="size-stats-badge" class="text-xs font-semibold bg-amber-400 text-slate-900 px-2.5 py-0.5 rounded-full">0 種尺寸需補貨</span>
+                        </h2>
+                        <p class="text-xs text-slate-300">自動合併相同長寬規格，彙整「已到期＋即將到期」採購需求與全館總用量</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <div class="inline-flex rounded-xl bg-slate-900/25 p-1 border border-white/15">
+                        <button type="button" onclick="setSizeStatsMode('needed')" id="btn-size-mode-needed" class="px-3 py-1 rounded-lg text-xs font-semibold bg-amber-400 text-slate-900 shadow-xs transition cursor-pointer">
+                            僅顯示需補貨尺寸
+                        </button>
+                        <button type="button" onclick="setSizeStatsMode('all')" id="btn-size-mode-all" class="px-3 py-1 rounded-lg text-xs font-medium text-slate-200 hover:text-white transition cursor-pointer">
+                            顯示全部尺寸
+                        </button>
+                    </div>
+                    <button type="button" onclick="copyShoppingList()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white hover:bg-amber-50 text-slate-800 border border-white/80 shadow-sm transition cursor-pointer">
+                        <i data-lucide="copy" class="w-3.5 h-3.5 text-amber-600"></i>
+                        <span>複製採購清單</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 尺寸統計表格區 -->
+            <div class="p-4 sm:p-6">
+                <div id="size-stats-table-wrapper" class="overflow-x-auto overflow-y-visible rounded-xl border border-slate-200 relative">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                                <th class="py-3 px-4 bg-slate-100 rounded-tl-xl">卡套尺寸規格</th>
+                                <th class="py-3 px-4 text-right whitespace-nowrap bg-slate-100">
+                                    <span class="inline-flex items-center justify-end gap-1.5 text-red-600">
+                                        <span class="w-2 h-2 rounded-full bg-red-500"></span>已到期 (紅燈)
+                                    </span>
+                                </th>
+                                <th class="py-3 px-4 text-right whitespace-nowrap bg-slate-100">
+                                    <span class="inline-flex items-center justify-end gap-1.5 text-amber-600">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>即將到期 (黃燈)
+                                    </span>
+                                </th>
+                                <th class="py-3 px-4 text-right whitespace-nowrap text-slate-800 bg-slate-100">需採購合計</th>
+                                <th class="py-3 px-4 text-right whitespace-nowrap text-slate-600 bg-slate-100">總卡套數</th>
+                                <th class="py-3 px-4 bg-slate-100 rounded-tr-xl">對應桌遊</th>
+                            </tr>
+                        </thead>
+                        <tbody id="size-stats-tbody" class="divide-y divide-slate-200/80 text-sm">
+                            <!-- 由 JavaScript 動態渲染 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="size-stats-empty" class="hidden text-center py-8 text-sm text-slate-500">
+                    <i data-lucide="check-circle-2" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></i>
+                    <p class="font-medium text-slate-700">目前沒有已到期或即將到期的卡套需要採購！</p>
+                    <p class="text-xs text-slate-400 mt-0.5">您可以切換至「顯示全部尺寸」檢視所有桌遊的卡套總數量統計。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 搜尋與篩選控制列 -->
+        <section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <!-- 狀態燈號篩選按鈕 -->
+            <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
+                <button onclick="setFilter('all')" data-filter="all" class="filter-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white">
+                    全部顯示
+                </button>
+                <button onclick="setFilter('red')" data-filter="red" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                    <span>亮紅燈 (需更換)</span>
+                </button>
+                <button onclick="setFilter('yellow')" data-filter="yellow" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                    <span>黃燈 (即將到期)</span>
+                </button>
+                <button onclick="setFilter('green')" data-filter="green" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    <span>綠燈 (狀態良好)</span>
+                </button>
+            </div>
+
+            <!-- 搜尋與排序 -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div class="relative flex-grow sm:w-64">
+                    <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="search-input" oninput="renderGames()" placeholder="搜尋桌遊名稱或卡套尺寸..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
+                </div>
+                <select id="sort-select" onchange="renderGames()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer">
+                    <option value="status">排序：急迫度 (紅燈優先)</option>
+                    <option value="dueDate">排序：下次更換日 (近到遠)</option>
+                    <option value="name">排序：桌遊名稱</option>
+                    <option value="count">排序：卡套數量 (多到少)</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- 桌遊卡片列表區 -->
+        <section id="games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- 由 JavaScript 動態渲染 -->
+        </section>
+
+        <!-- 空狀態提示 -->
+        <div id="empty-state" class="hidden bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center">
+            <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="package-open" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">找不到符合條件的桌遊</h3>
+            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">您可以點擊右上角的「新增桌遊」來建立您的第一筆卡套紀錄，或調整目前的篩選條件。</p>
+            <button onclick="openGameModal()" class="mt-5 inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-sm rounded-xl transition cursor-pointer">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>立即新增桌遊</span>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- 頁尾與 GitHub 部署小提示 -->
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 fill-current text-slate-700 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                </svg>
+                <span>專為 GitHub Pages 靜態託管設計 • 支援 Google 試算表雲端同步與 LocalStorage 離線保存</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="exportData()" class="hover:text-slate-800 underline cursor-pointer">匯出 JSON 備份</button>
+                <button onclick="openSettingsModal()" class="hover:text-slate-800 underline cursor-pointer">設定雲端試算表與 Email 通知</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- 彈窗 1：新增 / 編輯桌遊卡套 Modal -->
+    <!-- ========================================== -->
+    <div id="game-modal" onclick="handleBackdropClick(event, 'game-modal')" class="fixed inset-0 z-50 hidden items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 overflow-hidden my-auto max-h-[90vh] flex flex-col">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+                <h2 class="text-lg font-bold flex items-center gap-2" id="game-modal-title">
+                    <i data-lucide="layers" class="w-5 h-5 text-amber-400"></i>
+                    <span>新增桌遊卡套紀錄</span>
+                </h2>
+                <button onclick="closeGameModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form id="game-form" onsubmit="handleGameSubmit(event)" class="p-6 space-y-4 overflow-y-auto">
+                <input type="hidden" id="game-id">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">桌遊名稱 <span class="text-red-500">*</span></label>
+                    <input type="text" id="game-name" required placeholder="例如：璀璨寶石 Splendor" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="relative" id="size-combobox-wrapper">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">卡套尺寸規格 <span class="text-red-500">*</span></label>
+                        <div class="relative flex items-center">
+                            <input type="text" id="game-size" required autocomplete="off" onfocus="openSizeDropdown(true)" oninput="openSizeDropdown(false)" placeholder="選擇或輸入新尺寸..." class="w-full pl-3.5 pr-9 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                            <button type="button" onclick="toggleSizeDropdown(event)" class="absolute right-2 p-1.5 text-slate-400 hover:text-slate-700 rounded-lg transition cursor-pointer" title="展開所有卡套尺寸選單">
+                                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div id="size-dropdown-list" class="hidden absolute left-0 right-0 mt-1.5 max-h-56 overflow-y-auto bg-white border border-slate-200 rounded-xl shadow-xl z-50 divide-y divide-slate-100">
+                            <!-- 由 JavaScript 動態渲染所有預設與自訂尺寸 -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">所需卡套數量 (張) <span class="text-red-500">*</span></label>
+                        <input type="number" id="game-count" required min="1" placeholder="例如：90" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">上次更換日期 <span class="text-red-500">*</span></label>
+                        <input type="date" id="game-last-replaced" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">建議更換週期 (天) <span class="text-red-500">*</span></label>
+                        <select id="game-interval" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white cursor-pointer">
+                            <option value="30">每 30 天 (高頻率派對遊戲)</option>
+                            <option value="60">每 60 天 (2 個月)</option>
+                            <option value="90">每 90 天 (3 個月 / 季度)</option>
+                            <option value="180" selected>每 180 天 (6 個月 / 半年)</option>
+                            <option value="365">每 365 天 (1 年)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">卡套品牌 / 厚度款式 (選填)</label>
+                    <input type="text" id="game-brand" placeholder="例如：新天鵝堡厚套、Dragon Shield 磨砂" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">備註說明 (選填)</label>
+                    <textarea id="game-notes" rows="2" placeholder="例如：含擴充包總共 112 張，另有 10 張幫助卡不用包..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+                    <button type="button" onclick="closeGameModal()" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition cursor-pointer">取消</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-sm transition cursor-pointer">儲存紀錄</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 彈窗 2：雲端試算表、Email 提醒與備份設定 Modal -->
+    <!-- ========================================== -->
+    <div id="settings-modal" onclick="handleBackdropClick(event, 'settings-modal')" class="fixed inset-0 z-50 hidden items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl border border-slate-200 overflow-hidden my-auto max-h-[90vh] flex flex-col">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i data-lucide="settings" class="w-5 h-5 text-sky-400"></i>
+                    <span>雲端試算表、Email 通知與備份設定</span>
+                </h2>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-6 overflow-y-auto">
+                <!-- Google 試算表雲端同步設定區塊 -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="table" class="w-4 h-4 text-emerald-600"></i>
+                            <span>Google 試算表自動同步設定</span>
+                        </h3>
+                        <span id="gs-status-pill" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">未連接雲端</span>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        貼上您的 Google Apps Script 部署網址（<code class="px-1 py-0.5 bg-slate-100 rounded text-slate-700">https://script.google.com/macros/s/AKfycbyfEEfNR7SKHXSkgBRhSX8FAN7Jx4W20BRT-PBzc-YB6NmKq8ebgfjxd3YK-8AFsg1w/exec</code>），之後開啟網頁與每次新增、修改、刪除都會自動與試算表同步。
+                    </p>
+                    <div class="space-y-2 pt-1">
+                        <label class="block text-xs font-semibold text-slate-700">Google Apps Script 網頁應用程式網址 (Web App URL)</label>
+                        <input type="url" id="cfg-gs-url" placeholder="https://script.google.com/macros/s/xxxxxx/exec" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 pt-1">
+                        <button type="button" onclick="saveGoogleSheetSettings()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
+                            儲存並從試算表載入
+                        </button>
+                        <button type="button" onclick="pushLocalToGoogleSheet()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer">
+                            將目前網頁資料覆蓋寫入雲端
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- EmailJS 設定區塊 -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="mail-check" class="w-4 h-4 text-sky-600"></i>
+                            <span>EmailJS 自動寄信設定 (純前端支援 GitHub Pages)</span>
+                        </h3>
+                        <a href="https://www.emailjs.com/" target="_blank" class="text-xs text-sky-600 hover:underline font-medium">免費註冊 EmailJS ↗</a>
+                    </div>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        因為您的網頁將託管於純靜態的 GitHub Pages，透過免費的 <strong>EmailJS</strong> 服務，無需後端伺服器即可直接寄送過期提醒信到您的信箱。
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">收件人 Email 信箱</label>
+                            <input type="email" id="cfg-target-email" value="pws2966@gmail.com" placeholder="pws2966@gmail.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Public Key (公鑰)</label>
+                            <input type="text" id="cfg-public-key" placeholder="例如：user_xxxxxxxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Service ID</label>
+                            <input type="text" id="cfg-service-id" placeholder="例如：service_xxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Template ID</label>
+                            <input type="text" id="cfg-template-id" placeholder="例如：template_xxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-1">
+                        <input type="checkbox" id="cfg-auto-email" class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500 cursor-pointer">
+                        <label for="cfg-auto-email" class="text-xs font-medium text-slate-700 cursor-pointer">
+                            自動彙整寄送 Email 提醒（有到期桌遊時自動發信，若未更換則每滿 30 天再提醒一次）
+                        </label>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        💡 提示：信件會自動彙整「當月新到期」、「已過期滿 1 個月未更換」與「未來 1 個月內即將到期」三類桌遊於同一封信內。EmailJS Template 請設定收件人 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{to_email}}</code>、標題 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{subject}}</code>、內文 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{message}}</code>。
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-2 pt-2">
+                        <button type="button" onclick="saveEmailSettings()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
+                            儲存 Email 設定
+                        </button>
+                        <button type="button" onclick="sendTestEmail()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer">
+                            寄送測試信件
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- 安全密碼設定區塊 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i>
+                        <span>安全密碼設定 (刪除桌遊保護)</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">
+                        刪除桌遊卡片時需驗證此密碼，避免誤刪重要紀錄（系統預設密碼為 <code class="px-1.5 py-0.5 bg-slate-100 rounded font-mono text-slate-700">1234</code>）。
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
+                        <input type="text" id="cfg-delete-password" placeholder="請輸入自訂刪除密碼" class="flex-grow px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="button" onclick="saveDeletePassword()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-900 text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer shrink-0">
+                            更新刪除密碼
+                        </button>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- 常用卡套尺寸規格管理區塊 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="ruler" class="w-4 h-4 text-indigo-600"></i>
+                        <span>卡套尺寸規格選項管理</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">
+                        新增桌遊時輸入的新尺寸會自動記憶於此清單，您也可以在此手動新增或刪除不需要的規格選項。
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
+                        <input type="text" id="cfg-new-size-option" placeholder="例如：60 x 92 mm (特製尺寸)" class="flex-grow px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <button type="button" onclick="addCustomSizeFromSettings()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer shrink-0">
+                            新增規格選項
+                        </button>
+                    </div>
+                    <div id="cfg-size-options-list" class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-2.5 bg-slate-50 rounded-xl border border-slate-200/80">
+                        <!-- 由 JavaScript 動態渲染 -->
+                    </div>
+                </div>
+
+                <hr class="border-slate-200">
+
+                <!-- JSON 備份與還原區塊 -->
+                <div class="space-y-3">
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="database" class="w-4 h-4 text-emerald-600"></i>
+                        <span>資料備份與還原 (JSON)</span>
+                    </h3>
+                    <p class="text-xs text-slate-500">
+                        您可以定期匯出 JSON 檔案並一併存入您的 GitHub Repository 中作為雲端備份，更換電腦或手機時只要匯入即可還原所有紀錄。
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3 pt-1">
+                        <button type="button" onclick="exportData()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            <span>匯出備份 (.json)</span>
+                        </button>
+                        
+                        <label class="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer">
+                            <i data-lucide="upload" class="w-4 h-4"></i>
+                            <span>匯入還原 (.json)</span>
+                            <input type="file" id="import-file" accept=".json" onchange="importData(event)" class="hidden">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 彈窗 3：自訂確認對話框 (取代原生 confirm，含密碼驗證) -->
+    <!-- ========================================== -->
+    <div id="confirm-modal" onclick="handleBackdropClick(event, 'confirm-modal')" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm border border-slate-200 p-6 space-y-4">
+            <div class="flex items-center gap-3 text-red-600">
+                <div class="p-2 bg-red-100 rounded-xl">
+                    <i data-lucide="lock" class="w-5 h-5"></i>
+                </div>
+                <h3 class="text-base font-bold text-slate-800" id="confirm-title">安全驗證：確認刪除</h3>
+            </div>
+            <p class="text-sm text-slate-600" id="confirm-desc">確定要刪除這筆桌遊紀錄嗎？此動作無法復原。</p>
+            <div class="space-y-1.5 pt-1">
+                <label for="delete-password-input" class="block text-xs font-semibold text-slate-700">
+                    請輸入刪除密碼 <span class="text-slate-400 font-normal">(預設密碼：1234)</span>
+                </label>
+                <input type="password" id="delete-password-input" placeholder="請輸入密碼以確認刪除..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white">
+                <p id="delete-password-error" class="hidden text-xs font-medium text-red-600 flex items-center gap-1">
+                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                    <span>密碼錯誤，請重新輸入！</span>
+                </p>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 cursor-pointer">取消</button>
+                <button id="confirm-ok-btn" class="px-4 py-2 rounded-xl text-sm font-semibold bg-red-600 hover:bg-red-700 text-white cursor-pointer">驗證並刪除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- Toast 訊息提示框 (取代原生 alert) -->
+    <!-- ========================================== -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+    <!-- ========================================== -->
+    <!-- 全域浮動對應桌遊清單氣泡框 (避免被表格 overflow 裁切) -->
+    <!-- ========================================== -->
+    <div id="size-games-popover" onclick="event.stopPropagation()" class="hidden fixed z-50 w-72 max-w-[90vw] bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl border border-slate-700 transition-opacity duration-150"></div>
+
+    <script>
+        // ==========================================
+        // 1. 狀態與預設資料管理
+        // ==========================================
+        const STORAGE_KEY = 'boardgame_sleeves_data_v1';
+        const SETTINGS_KEY = 'boardgame_sleeves_settings_v1';
+        const GS_URL_KEY = 'boardgame_sleeves_gs_url_v1';
+        const DELETE_PWD_KEY = 'boardgame_sleeves_delete_pwd_v1';
+        const CUSTOM_SIZES_KEY = 'boardgame_sleeves_custom_sizes_v1';
+        const NOTIFIED_CYCLES_KEY = 'boardgame_sleeves_notified_cycles_v1';
+        const LAST_EMAIL_SENT_KEY = 'boardgame_sleeves_last_email_sent_v1';
+        const DEFAULT_DELETE_PASSWORD = '1234';
+        const DEFAULT_TARGET_EMAIL = 'pws2966@gmail.com';
+        const EMAIL_COOLDOWN_MS = 30 * 86400000; // 30 天（1 個月）冷卻週期
+        const BASE_SIZE_PRESETS = [
+            '43 x 65 mm (迷你歐規/Mini Euro)',
+            '45 x 68 mm (迷你美式/Mini USA)',
+            '56 x 87 mm (標準美式/Standard USA)',
+            '57.5 x 89 mm (標準歐規/Chimera)',
+            '59 x 92 mm (歐式標準/Euro)',
+            '63.5 x 88 mm (標準卡牌/TCG)',
+            '65 x 100 mm (7 Wonders / 碩大卡牌)',
+            '70 x 70 mm (方形卡牌)',
+            '70 x 110 mm (塔羅牌/Tarot)',
+            '80 x 120 mm (Dixit 說書人)'
+        ];
+        let games = [];
+        let currentFilter = 'all';
+        let sizeStatsMode = 'needed';
+        let deleteTargetId = null;
+        let currentSizeStatsMap = new Map();
+        let pinnedPopoverSizeKey = null;
+        let hoveredPopoverSizeKey = null;
+
+        // 輔助：取得相對今天天數的 YYYY-MM-DD 字串
+        function getRelativeDateStr(offsetDays) {
+            const d = new Date();
+            d.setDate(d.getDate() + offsetDays);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 初次開啟時的範例資料（展示綠燈、黃燈、紅燈三種狀態）
+        const DEFAULT_GAMES = [
+            {
+                id: 'demo-1',
+                name: '璀璨寶石 Splendor',
+                size: '65 x 90 mm (標準大卡)',
+                count: 90,
+                brand: '新天鵝堡厚套',
+                lastReplaced: getRelativeDateStr(-40),
+                intervalDays: 180,
+                notes: '主遊戲 90 張發展卡，貴族板塊不用包。'
+            },
+            {
+                id: 'demo-2',
+                name: '阿瓦隆 The Resistance: Avalon',
+                size: '56 x 87 mm (標準美式/Standard USA)',
+                count: 50,
+                brand: 'Dragon Shield 透明磨砂',
+                lastReplaced: getRelativeDateStr(-82),
+                intervalDays: 90,
+                notes: '高頻率派對遊戲，角色牌容易磨損辨識，每季定期更換。'
+            },
+            {
+                id: 'demo-3',
+                name: '瘟疫危機 Pandemic',
+                size: '57.5 x 89 mm (標準歐規/Chimera)',
+                count: 112,
+                brand: 'Mayday 加厚套',
+                lastReplaced: getRelativeDateStr(-200),
+                intervalDays: 180,
+                notes: '感染牌與玩家牌庫頻繁洗牌，邊角已出現白邊黏手。'
+            },
+            {
+                id: 'demo-4',
+                name: '說書人 Dixit',
+                size: '80 x 120 mm (Dixit 說書人)',
+                count: 84,
+                brand: '新天鵝堡大卡套',
+                lastReplaced: getRelativeDateStr(-15),
+                intervalDays: 365,
+                notes: '插畫大卡，去年剛全套換新。'
+            }
+        ];
+
+        // ==========================================
+        // 2. 初始化與 LocalStorage + Google 試算表同步
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadGamesFromStorage();
+            updateNotificationButtonState();
+            updateCloudSyncUI();
+            renderGames();
+            lucide.createIcons();
+
+            // 綁定刪除密碼輸入框的 Enter 鍵送出事件
+            const pwdInput = document.getElementById('delete-password-input');
+            if (pwdInput) {
+                pwdInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        verifyAndExecuteDelete();
+                    }
+                });
+            }
+
+            // 點擊畫面非桌遊清單與非省略按鈕的位置時，關閉釘選的清單
+            document.addEventListener('click', (e) => {
+                const popover = document.getElementById('size-games-popover');
+                if (popover && !popover.classList.contains('hidden')) {
+                    if (!popover.contains(e.target) && !e.target.closest('.ellipsis-games-trigger')) {
+                        pinnedPopoverSizeKey = null;
+                        hoveredPopoverSizeKey = null;
+                        hideSizeGamesPopover();
+                    }
+                }
+
+                // 點擊尺寸下拉選單外部時關閉選單
+                const sizeWrapper = document.getElementById('size-combobox-wrapper');
+                const sizeDropdown = document.getElementById('size-dropdown-list');
+                if (sizeWrapper && sizeDropdown && !sizeWrapper.contains(e.target)) {
+                    sizeDropdown.classList.add('hidden');
+                }
+            });
+
+            // 視窗縮放時重新定位已釘選的清單
+            window.addEventListener('resize', () => {
+                if (pinnedPopoverSizeKey) {
+                    const trigger = document.querySelector(`.ellipsis-games-trigger[data-size-key="${CSS.escape(pinnedPopoverSizeKey)}"]`);
+                    if (trigger) positionSizeGamesPopover(trigger);
+                }
+            });
+
+            // 若已設定 Google 試算表網址，開啟網頁時自動從雲端拉取最新資料
+            if (getGoogleSheetUrl()) {
+                await syncFromGoogleSheet(false);
+            }
+
+            checkAndTriggerAlerts();
+            // 若網頁保持開啟跨日，每小時背景自動檢查是否需寄送到期提醒信
+            setInterval(checkAndTriggerAlerts, 3600000);
+        });
+
+        function loadGamesFromStorage() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    games = Array.isArray(parsed) ? parsed : [...DEFAULT_GAMES];
+                } else {
+                    games = [...DEFAULT_GAMES];
+                    saveGamesToStorage(false);
+                }
+            } catch (e) {
+                console.error('讀取資料失敗:', e);
+                games = [...DEFAULT_GAMES];
+            }
+        }
+
+        function saveGamesToStorage(syncCloud = true) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
+            } catch (e) {
+                showToast('儲存資料至本機失敗，請檢查瀏覽器空間', 'error');
+            }
+            if (syncCloud && getGoogleSheetUrl()) {
+                syncToGoogleSheet(false);
+            }
+        }
+
+        function getGoogleSheetUrl() {
+            return (localStorage.getItem(GS_URL_KEY) || '').trim();
+        }
+
+        function updateCloudSyncUI(state = 'idle') {
+            const url = getGoogleSheetUrl();
+            const btn = document.getElementById('btn-cloud-sync');
+            const icon = document.getElementById('cloud-sync-icon');
+            const text = document.getElementById('cloud-sync-text');
+            const pill = document.getElementById('gs-status-pill');
+
+            if (!url) {
+                if (btn) btn.classList.add('hidden');
+                if (pill) {
+                    pill.textContent = '未連接雲端';
+                    pill.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+                }
+                return;
+            }
+
+            if (btn) btn.classList.remove('hidden');
+            if (pill) {
+                pill.textContent = '已連接試算表';
+                pill.className = 'text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+            }
+
+            if (!icon || !text) return;
+
+            if (state === 'syncing') {
+                icon.setAttribute('data-lucide', 'refresh-cw');
+                icon.classList.add('animate-spin');
+                text.textContent = '同步中...';
+            } else if (state === 'error') {
+                icon.setAttribute('data-lucide', 'cloud-off');
+                icon.classList.remove('animate-spin');
+                text.textContent = '同步失敗 (點此重試)';
+            } else {
+                icon.setAttribute('data-lucide', 'cloud-check');
+                icon.classList.remove('animate-spin');
+                text.textContent = '試算表已同步';
+            }
+            lucide.createIcons();
+        }
+
+        async function syncFromGoogleSheet(showFeedback = true) {
+            const url = getGoogleSheetUrl();
+            if (!url) return false;
+
+            updateCloudSyncUI('syncing');
+            try {
+                const res = await fetch(url, { method: 'GET' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const result = await res.json();
+
+                if (result && result.status === 'success' && Array.isArray(result.data)) {
+                    if (result.data.length > 0) {
+                        games = result.data.map(item => ({
+                            id: String(item.id || ('gs-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
+                            name: String(item.name || '未命名桌遊'),
+                            size: String(item.size || '未知尺寸'),
+                            count: Number(item.count) || 0,
+                            brand: String(item.brand || ''),
+                            lastReplaced: String(item.lastReplaced || getRelativeDateStr(0)),
+                            intervalDays: Number(item.intervalDays) || 180,
+                            notes: String(item.notes || '')
+                        }));
+                        saveGamesToStorage(false);
+                        renderGames();
+                        if (showFeedback) {
+                            showToast(`已從 Google 試算表同步 ${games.length} 筆最新資料！`, 'success');
+                        }
+                    } else if (showFeedback) {
+                        showToast('Google 試算表目前尚無資料（保留本機資料）', 'info');
+                    }
+                    updateCloudSyncUI('idle');
+                    return true;
+                } else {
+                    throw new Error(result?.message || '回傳格式不正確');
+                }
+            } catch (err) {
+                console.error('從試算表載入失敗:', err);
+                updateCloudSyncUI('error');
+                if (showFeedback) {
+                    showToast('讀取 Google 試算表失敗，請確認部署網址與權限設為「所有人」', 'error');
+                }
+                return false;
+            }
+        }
+
+        async function syncToGoogleSheet(showFeedback = false) {
+            const url = getGoogleSheetUrl();
+            if (!url) return false;
+
+            updateCloudSyncUI('syncing');
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ games })
+                });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const result = await res.json();
+                if (result && result.status === 'success') {
+                    updateCloudSyncUI('idle');
+                    if (showFeedback) {
+                        showToast(`已成功將 ${games.length} 筆資料寫入 Google 試算表！`, 'success');
+                    }
+                    return true;
+                } else {
+                    throw new Error(result?.message || '寫入失敗');
+                }
+            } catch (err) {
+                console.error('寫入試算表失敗:', err);
+                updateCloudSyncUI('error');
+                if (showFeedback) {
+                    showToast('寫入 Google 試算表失敗，請檢查網路或 Apps Script 部署狀態', 'error');
+                }
+                return false;
+            }
+        }
+
+        async function saveGoogleSheetSettings() {
+            const input = document.getElementById('cfg-gs-url');
+            const url = input ? input.value.trim() : '';
+
+            if (!url) {
+                localStorage.removeItem(GS_URL_KEY);
+                updateCloudSyncUI('idle');
+                showToast('已清除 Google 試算表連接設定，改為純本機模式', 'info');
+                return;
+            }
+
+            if (!url.startsWith('https://script.google.com/')) {
+                showToast('網址格式似乎不正確，請貼上 https://script.google.com/macros/s/.../exec 網址', 'warning');
+                return;
+            }
+
+            localStorage.setItem(GS_URL_KEY, url);
+            updateCloudSyncUI('syncing');
+            await syncFromGoogleSheet(true);
+        }
+
+        async function pushLocalToGoogleSheet() {
+            const input = document.getElementById('cfg-gs-url');
+            const url = input ? input.value.trim() : getGoogleSheetUrl();
+            if (!url) {
+                showToast('請先在上方輸入 Google Apps Script 部署網址！', 'warning');
+                return;
+            }
+            localStorage.setItem(GS_URL_KEY, url);
+            await syncToGoogleSheet(true);
+        }
+
+        // ==========================================
+        // 3. 日期與狀態燈號計算引擎
+        // ==========================================
+        function calculateGameStatus(game) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const lastDate = new Date(game.lastReplaced + 'T00:00:00');
+            if (isNaN(lastDate.getTime())) {
+                return {
+                    status: 'green',
+                    daysRemaining: game.intervalDays || 180,
+                    nextDateStr: '日期格式錯誤',
+                    progressPercent: 0
+                };
+            }
+
+            const interval = Number(game.intervalDays) || 180;
+            const nextDate = new Date(lastDate);
+            nextDate.setDate(lastDate.getDate() + interval);
+            nextDate.setHours(0, 0, 0, 0);
+
+            const diffTime = nextDate.getTime() - today.getTime();
+            const daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const nextDateStr = nextDate.toISOString().split('T')[0];
+
+            const elapsedDays = Math.max(0, interval - daysRemaining);
+            const progressPercent = Math.min(100, Math.max(0, Math.round((elapsedDays / interval) * 100)));
+
+            let status = 'green';
+            if (daysRemaining <= 0) {
+                status = 'red';
+            } else if (daysRemaining <= 14) {
+                status = 'yellow';
+            }
+
+            return { status, daysRemaining, nextDateStr, progressPercent };
+        }
+
+        // ==========================================
+        // 4. 卡套尺寸智慧合併與採購統計
+        // ==========================================
+        function normalizeSleeveSize(rawSize) {
+            const trimmed = String(rawSize || '未指定尺寸').trim();
+            const match = trimmed.match(/(\d+(?:\.\d+)?)\s*[xX×*]\s*(\d+(?:\.\d+)?)/);
+            if (match) {
+                const w = parseFloat(match[1]);
+                const h = parseFloat(match[2]);
+                const key = `${w}x${h}`;
+                const displayLabel = `${w} × ${h} mm`;
+                const aliasMatch = trimmed.match(/\(([^)]+)\)/);
+                const alias = aliasMatch ? aliasMatch[1].trim() : (trimmed !== displayLabel ? trimmed : '');
+                return { key, displayLabel, alias };
+            }
+            return {
+                key: trimmed.toLowerCase(),
+                displayLabel: trimmed,
+                alias: ''
+            };
+        }
+
+        function computeSizeStats() {
+            const map = new Map();
+
+            games.forEach(game => {
+                const info = calculateGameStatus(game);
+                const count = Number(game.count) || 0;
+                const norm = normalizeSleeveSize(game.size);
+
+                if (!map.has(norm.key)) {
+                    map.set(norm.key, {
+                        sizeKey: norm.key,
+                        size: norm.displayLabel,
+                        aliasSet: new Set(),
+                        redCount: 0,
+                        yellowCount: 0,
+                        neededCount: 0,
+                        totalCount: 0,
+                        games: []
+                    });
+                }
+
+                const entry = map.get(norm.key);
+                if (norm.alias) entry.aliasSet.add(norm.alias);
+                entry.totalCount += count;
+
+                if (info.status === 'red') {
+                    entry.redCount += count;
+                    entry.neededCount += count;
+                } else if (info.status === 'yellow') {
+                    entry.yellowCount += count;
+                    entry.neededCount += count;
+                }
+
+                entry.games.push({
+                    id: game.id,
+                    name: game.name,
+                    count: count,
+                    status: info.status
+                });
+            });
+
+            return Array.from(map.values())
+                .map(item => ({
+                    ...item,
+                    aliasList: Array.from(item.aliasSet)
+                }))
+                .sort((a, b) => {
+                    if (b.neededCount !== a.neededCount) return b.neededCount - a.neededCount;
+                    return b.totalCount - a.totalCount;
+                });
+        }
+
+        function setSizeStatsMode(mode) {
+            sizeStatsMode = mode;
+            pinnedPopoverSizeKey = null;
+            hoveredPopoverSizeKey = null;
+            hideSizeGamesPopover();
+
+            const btnNeeded = document.getElementById('btn-size-mode-needed');
+            const btnAll = document.getElementById('btn-size-mode-all');
+            if (mode === 'needed') {
+                btnNeeded.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-amber-400 text-slate-900 shadow-xs transition cursor-pointer';
+                btnAll.className = 'px-3 py-1 rounded-lg text-xs font-medium text-slate-200 hover:text-white transition cursor-pointer';
+            } else {
+                btnAll.className = 'px-3 py-1 rounded-lg text-xs font-semibold bg-amber-400 text-slate-900 shadow-xs transition cursor-pointer';
+                btnNeeded.className = 'px-3 py-1 rounded-lg text-xs font-medium text-slate-200 hover:text-white transition cursor-pointer';
+            }
+            renderSizeStats();
+        }
+
+        function renderSizeStats() {
+            const allStats = computeSizeStats();
+            const neededStats = allStats.filter(s => s.neededCount > 0);
+            const badge = document.getElementById('size-stats-badge');
+            const tbody = document.getElementById('size-stats-tbody');
+            const wrapper = document.getElementById('size-stats-table-wrapper');
+            const emptyBox = document.getElementById('size-stats-empty');
+
+            if (badge) {
+                badge.textContent = `${neededStats.length} 種尺寸需補貨`;
+            }
+
+            const displayList = sizeStatsMode === 'needed' ? neededStats : allStats;
+
+            if (displayList.length === 0) {
+                wrapper.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                lucide.createIcons();
+                return;
+            }
+
+            wrapper.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+            currentSizeStatsMap.clear();
+
+            tbody.innerHTML = displayList.map(item => {
+                const hasNeed = item.neededCount > 0;
+                const rowBg = item.redCount > 0 ? 'bg-red-50/35 hover:bg-red-50/70' : (item.yellowCount > 0 ? 'bg-amber-50/35 hover:bg-amber-50/70' : 'hover:bg-slate-50');
+                const sortedGames = [...item.games].sort((a, b) => {
+                    const weight = { red: 1, yellow: 2, green: 3 };
+                    return weight[a.status] - weight[b.status];
+                });
+
+                currentSizeStatsMap.set(item.sizeKey, {
+                    ...item,
+                    sortedGames
+                });
+
+                const MAX_VISIBLE = 3;
+                const visibleGames = sortedGames.slice(0, MAX_VISIBLE);
+                const hiddenCount = sortedGames.length - MAX_VISIBLE;
+                const isPinned = pinnedPopoverSizeKey === item.sizeKey;
+
+                const visibleTags = visibleGames.map(g => {
+                    const tagColor = g.status === 'red'
+                        ? 'bg-red-50 text-red-700 border-red-200'
+                        : (g.status === 'yellow' ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200');
+                    return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs border ${tagColor}">${escapeHTML(g.name)} <span class="opacity-75">(${g.count})</span></span>`;
+                }).join('');
+
+                const safeKeyAttr = escapeHTML(item.sizeKey);
+                const ellipsisBadge = hiddenCount > 0
+                    ? `<button type="button"
+                        data-size-key="${safeKeyAttr}"
+                        onmouseenter="handleEllipsisHover(event, '${safeKeyAttr}')"
+                        onmouseleave="handleEllipsisLeave('${safeKeyAttr}')"
+                        onclick="handleEllipsisClick(event, '${safeKeyAttr}')"
+                        class="ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer ${isPinned ? 'bg-slate-800 text-amber-400 border-slate-800 shadow-xs' : 'bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300'}"
+                        title="移入預覽或點擊釘選所有對應桌遊">+${hiddenCount} 項...</button>`
+                    : '';
+
+                const aliasSubtext = item.aliasList && item.aliasList.length > 0
+                    ? `<div class="text-[11px] text-slate-400 font-normal mt-0.5">含：${item.aliasList.map(a => escapeHTML(a)).join('、')}</div>`
+                    : '';
+
+                return `
+                    <tr class="${rowBg} transition">
+                        <td class="py-3.5 px-4 font-bold text-slate-800">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span>${escapeHTML(item.size)}</span>
+                                ${hasNeed ? '<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-700">需補貨</span>' : '<span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">充足</span>'}
+                            </div>
+                            ${aliasSubtext}
+                        </td>
+                        <td class="py-3.5 px-4 text-right font-semibold whitespace-nowrap ${item.redCount > 0 ? 'text-red-600' : 'text-slate-300'}">
+                            ${item.redCount > 0 ? item.redCount.toLocaleString() + ' 張' : '-'}
+                        </td>
+                        <td class="py-3.5 px-4 text-right font-semibold whitespace-nowrap ${item.yellowCount > 0 ? 'text-amber-600' : 'text-slate-300'}">
+                            ${item.yellowCount > 0 ? item.yellowCount.toLocaleString() + ' 張' : '-'}
+                        </td>
+                        <td class="py-3.5 px-4 text-right whitespace-nowrap">
+                            ${hasNeed
+                                ? `<span class="inline-block px-2.5 py-1 rounded-lg bg-red-100/90 text-red-700 font-bold text-sm">${item.neededCount.toLocaleString()} 張</span>`
+                                : '<span class="text-slate-400 font-medium">0 張</span>'}
+                        </td>
+                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700 whitespace-nowrap">
+                            ${item.totalCount.toLocaleString()} 張
+                        </td>
+                        <td class="py-3.5 px-4">
+                            <div class="inline-flex flex-wrap items-center gap-1.5">
+                                ${visibleTags}
+                                ${ellipsisBadge}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // 省略符號 (+N 項...) 移入預覽與點擊釘選控制
+        // ==========================================
+        function handleEllipsisHover(event, sizeKey) {
+            if (pinnedPopoverSizeKey && pinnedPopoverSizeKey !== sizeKey) return;
+            hoveredPopoverSizeKey = sizeKey;
+            showSizeGamesPopover(event.currentTarget, sizeKey, pinnedPopoverSizeKey === sizeKey);
+        }
+
+        function handleEllipsisLeave(sizeKey) {
+            if (hoveredPopoverSizeKey === sizeKey) {
+                hoveredPopoverSizeKey = null;
+            }
+            if (!pinnedPopoverSizeKey) {
+                hideSizeGamesPopover();
+            }
+        }
+
+        function handleEllipsisClick(event, sizeKey) {
+            event.stopPropagation();
+            if (pinnedPopoverSizeKey === sizeKey) {
+                pinnedPopoverSizeKey = null;
+                hoveredPopoverSizeKey = null;
+                hideSizeGamesPopover();
+            } else {
+                pinnedPopoverSizeKey = sizeKey;
+                hoveredPopoverSizeKey = sizeKey;
+                showSizeGamesPopover(event.currentTarget, sizeKey, true);
+            }
+            updateEllipsisButtonStyles();
+        }
+
+        function updateEllipsisButtonStyles() {
+            document.querySelectorAll('.ellipsis-games-trigger').forEach(btn => {
+                const key = btn.getAttribute('data-size-key');
+                if (key === pinnedPopoverSizeKey) {
+                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer bg-slate-800 text-amber-400 border-slate-800 shadow-xs';
+                } else {
+                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300';
+                }
+            });
+        }
+
+        function showSizeGamesPopover(triggerEl, sizeKey, isPinned) {
+            const data = currentSizeStatsMap.get(sizeKey);
+            const popover = document.getElementById('size-games-popover');
+            if (!data || !popover) return;
+
+            const needReplaceGames = data.sortedGames.filter(g => g.status === 'red' || g.status === 'yellow');
+            const healthyGames = data.sortedGames.filter(g => g.status === 'green');
+
+            const renderGameRow = (g) => {
+                const dotColor = g.status === 'red' ? 'bg-red-400' : (g.status === 'yellow' ? 'bg-amber-400' : 'bg-emerald-400');
+                const badgeText = g.status === 'red' ? '紅燈' : (g.status === 'yellow' ? '黃燈' : '綠燈');
+                const badgeClass = g.status === 'red'
+                    ? 'text-red-300 bg-red-950/80 border-red-800/70'
+                    : (g.status === 'yellow' ? 'text-amber-300 bg-amber-950/80 border-amber-800/70' : 'text-emerald-300 bg-emerald-950/80 border-emerald-800/70');
+                return `
+                    <li class="flex items-center justify-between gap-2 py-1 px-1.5 rounded-lg hover:bg-slate-800/80">
+                        <span class="flex items-center gap-1.5 min-w-0">
+                            <span class="w-2 h-2 rounded-full shrink-0 ${dotColor}"></span>
+                            <span class="truncate font-medium text-slate-100">${escapeHTML(g.name)}</span>
+                        </span>
+                        <span class="flex items-center gap-1.5 shrink-0">
+                            <span class="text-[10px] px-1.5 py-0.2 rounded border ${badgeClass}">${badgeText}</span>
+                            <span class="text-slate-300 font-mono">${g.count} 張</span>
+                        </span>
+                    </li>
+                `;
+            };
+
+            popover.innerHTML = `
+                <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-700/80">
+                    <div>
+                        <div class="font-bold text-amber-400 flex items-center gap-1.5">
+                            <span>${escapeHTML(data.size)}</span>
+                            ${isPinned ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">已釘選</span>' : ''}
+                        </div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">
+                            需更換 ${needReplaceGames.length} 款 (${data.neededCount} 張) / 全部 ${data.sortedGames.length} 款
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-slate-400 shrink-0">${isPinned ? '點外部關閉' : '點擊可釘選'}</span>
+                </div>
+                <div class="max-h-60 overflow-y-auto pr-1 space-y-2">
+                    ${needReplaceGames.length > 0 ? `
+                        <div>
+                            <div class="text-[11px] font-semibold text-red-300 mb-1">需更換桌遊 (${needReplaceGames.length} 款)</div>
+                            <ul class="space-y-0.5">${needReplaceGames.map(renderGameRow).join('')}</ul>
+                        </div>
+                    ` : ''}
+                    ${healthyGames.length > 0 ? `
+                        <div class="${needReplaceGames.length > 0 ? 'pt-1.5 border-t border-slate-800' : ''}">
+                            <div class="text-[11px] font-semibold text-slate-400 mb-1">狀態良好桌遊 (${healthyGames.length} 款)</div>
+                            <ul class="space-y-0.5">${healthyGames.map(renderGameRow).join('')}</ul>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+
+            popover.classList.remove('hidden');
+            positionSizeGamesPopover(triggerEl);
+        }
+
+        function positionSizeGamesPopover(triggerEl) {
+            const popover = document.getElementById('size-games-popover');
+            if (!popover || !triggerEl) return;
+
+            const rect = triggerEl.getBoundingClientRect();
+            const popRect = popover.getBoundingClientRect();
+            const margin = 10;
+
+            let top = rect.top - popRect.height - 8;
+            if (top < margin) {
+                top = rect.bottom + 8;
+            }
+            if (top + popRect.height > window.innerHeight - margin) {
+                top = Math.max(margin, window.innerHeight - popRect.height - margin);
+            }
+
+            let left = rect.left;
+            if (left + popRect.width > window.innerWidth - margin) {
+                left = window.innerWidth - popRect.width - margin;
+            }
+            left = Math.max(margin, left);
+
+            popover.style.top = `${top}px`;
+            popover.style.left = `${left}px`;
+        }
+
+        function hideSizeGamesPopover() {
+            const popover = document.getElementById('size-games-popover');
+            if (popover) popover.classList.add('hidden');
+            updateEllipsisButtonStyles();
+        }
+
+        function copyShoppingList() {
+            const allStats = computeSizeStats();
+            const neededStats = allStats.filter(s => s.neededCount > 0);
+            const targetList = sizeStatsMode === 'needed' ? neededStats : allStats;
+
+            if (targetList.length === 0) {
+                showToast('目前沒有可複製的卡套統計項目', 'info');
+                return;
+            }
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const title = sizeStatsMode === 'needed'
+                ? `【小船桌遊卡套】需補貨採購清單 (${todayStr})`
+                : `【小船桌遊卡套】全館卡套尺寸總統計 (${todayStr})`;
+
+            const detailLines = targetList.map((item, idx) => {
+                const gameNames = item.games.map(g => `${g.name}(${g.count})`).join('、');
+                if (sizeStatsMode === 'needed') {
+                    return `${idx + 1}. ${item.size}：需採購 ${item.neededCount} 張（已到期 ${item.redCount} / 即將到期 ${item.yellowCount}）｜對應：${gameNames}`;
+                } else {
+                    return `${idx + 1}. ${item.size}：總計 ${item.totalCount} 張（需補貨 ${item.neededCount} 張）｜對應：${gameNames}`;
+                }
+            });
+
+            const summaryLines = [
+                '----------------------------------------',
+                '【採購尺寸數量彙整】'
+            ];
+
+            if (neededStats.length > 0) {
+                neededStats.forEach((item, idx) => {
+                    summaryLines.push(`${idx + 1}. ${item.size}：需採購 ${item.neededCount} 張`);
+                });
+            } else {
+                summaryLines.push('目前無需補貨尺寸（0 張）');
+            }
+
+            const fullText = [title, '', detailLines.join('\n\n'), '', ...summaryLines].join('\n');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(fullText)
+                    .then(() => showToast('已複製採購清單到剪貼簿！', 'success'))
+                    .catch(() => fallbackCopyText(fullText));
+            } else {
+                fallbackCopyText(fullText);
+            }
+        }
+
+        function fallbackCopyText(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('已複製採購清單到剪貼簿！', 'success');
+            } catch (err) {
+                showToast('複製失敗，請手動選取複製', 'error');
+            }
+            document.body.removeChild(ta);
+        }
+
+        // ==========================================
+        // 5. 畫面渲染與統計更新
+        // ==========================================
+        function renderGames() {
+            const grid = document.getElementById('games-grid');
+            const emptyState = document.getElementById('empty-state');
+            const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+            const sortBy = document.getElementById('sort-select').value;
+
+            let totalSleeves = 0;
+            let healthyCount = 0;
+            let dueSoonCount = 0;
+            let overdueCount = 0;
+            const overdueGamesList = [];
+
+            const enrichedGames = games.map(game => {
+                const statusInfo = calculateGameStatus(game);
+                totalSleeves += (Number(game.count) || 0);
+                if (statusInfo.status === 'green') {
+                    healthyCount++;
+                } else if (statusInfo.status === 'yellow') {
+                    dueSoonCount++;
+                } else if (statusInfo.status === 'red') {
+                    overdueCount++;
+                    overdueGamesList.push({ ...game, ...statusInfo });
+                }
+                return { ...game, statusInfo };
+            });
+
+            document.getElementById('stat-total-games').textContent = games.length;
+            document.getElementById('stat-total-sleeves').textContent = totalSleeves.toLocaleString();
+            document.getElementById('stat-healthy-games').textContent = healthyCount;
+            document.getElementById('stat-due-soon').textContent = dueSoonCount;
+            document.getElementById('stat-overdue').textContent = overdueCount;
+
+            renderSizeStats();
+
+            const banner = document.getElementById('overdue-banner');
+            if (overdueCount > 0) {
+                banner.classList.remove('hidden');
+                document.getElementById('overdue-banner-title').textContent = `提醒：共有 ${overdueCount} 款桌遊的卡套已到達更換時間！`;
+                document.getElementById('overdue-banner-desc').textContent = '請準備對應尺寸的卡套進行更換，避免卡牌磨損或黏手。';
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            let filtered = enrichedGames.filter(item => {
+                const matchFilter = currentFilter === 'all' || item.statusInfo.status === currentFilter;
+                const matchSearch = !searchTerm ||
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.size.toLowerCase().includes(searchTerm) ||
+                    (item.brand && item.brand.toLowerCase().includes(searchTerm)) ||
+                    (item.notes && item.notes.toLowerCase().includes(searchTerm));
+                return matchFilter && matchSearch;
+            });
+
+            const statusWeight = { red: 1, yellow: 2, green: 3 };
+            filtered.sort((a, b) => {
+                if (sortBy === 'status') {
+                    if (statusWeight[a.statusInfo.status] !== statusWeight[b.statusInfo.status]) {
+                        return statusWeight[a.statusInfo.status] - statusWeight[b.statusInfo.status];
+                    }
+                    return a.statusInfo.daysRemaining - b.statusInfo.daysRemaining;
+                } else if (sortBy === 'dueDate') {
+                    return a.statusInfo.daysRemaining - b.statusInfo.daysRemaining;
+                } else if (sortBy === 'name') {
+                    return a.name.localeCompare(b.name, 'zh-Hant');
+                } else if (sortBy === 'count') {
+                    return (Number(b.count) || 0) - (Number(a.count) || 0);
+                }
+                return 0;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                grid.innerHTML = filtered.map(item => createGameCardHTML(item)).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function createGameCardHTML(game) {
+            const { status, daysRemaining, nextDateStr } = game.statusInfo;
+
+            let cardBorder = 'border-slate-200/90 hover:border-slate-300';
+            let headerBg = 'bg-slate-50/70 border-slate-100';
+            let ledClass = 'bg-emerald-500 led-green';
+            let badgeBg = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+            let statusText = `狀態良好 (剩餘 ${daysRemaining} 天)`;
+            let nextDateColor = 'text-slate-700';
+            let replaceBtnClass = 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs';
+
+            if (status === 'yellow') {
+                cardBorder = 'border-amber-300 hover:border-amber-400';
+                headerBg = 'bg-amber-50/50 border-amber-100';
+                ledClass = 'bg-amber-400 led-yellow';
+                badgeBg = 'bg-amber-50 text-amber-800 border-amber-200';
+                statusText = `即將到期 (剩餘 ${daysRemaining} 天)`;
+                nextDateColor = 'text-amber-600';
+                replaceBtnClass = 'bg-amber-500 hover:bg-amber-600 text-white shadow-xs';
+            } else if (status === 'red') {
+                cardBorder = 'border-red-300 hover:border-red-400 shadow-red-500/5';
+                headerBg = 'bg-red-50/60 border-red-100';
+                ledClass = 'bg-red-500 led-red';
+                badgeBg = 'bg-white text-red-600 border-red-200 font-semibold';
+                const overdueDays = Math.abs(daysRemaining);
+                statusText = overdueDays === 0 ? '今日到期' : `已過期 ${overdueDays} 天`;
+                nextDateColor = 'text-red-600';
+                replaceBtnClass = 'bg-red-600 hover:bg-red-700 text-white shadow-xs';
+            }
+
+            return `
+                <article id="game-card-${escapeHTML(game.id)}" class="bg-white rounded-2xl border ${cardBorder} shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
+                    <div>
+                        <!-- 卡片頂部狀態區 -->
+                        <div class="px-5 py-4 ${headerBg} border-b flex items-start justify-between gap-3">
+                            <div class="flex items-start gap-3 min-w-0">
+                                <span class="w-3.5 h-3.5 rounded-full ${ledClass} inline-block shrink-0 mt-1.5" title="${statusText}"></span>
+                                <div class="min-w-0">
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-snug line-clamp-2" title="${escapeHTML(game.name)}">
+                                        ${escapeHTML(game.name)}
+                                    </h3>
+                                    ${game.brand ? `
+                                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1 truncate" title="${escapeHTML(game.brand)}">
+                                        <i data-lucide="tag" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                                        <span class="truncate">${escapeHTML(game.brand)}</span>
+                                    </p>` : ''}
+                                </div>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs border ${badgeBg} shrink-0">
+                                ${statusText}
+                            </span>
+                        </div>
+
+                        <!-- 卡片中間規格與時間資訊區 -->
+                        <div class="p-5 space-y-3">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-slate-50/90 rounded-xl p-3 border border-slate-100">
+                                    <span class="block text-[11px] font-medium text-slate-400 mb-1">卡套尺寸</span>
+                                    <span class="block text-xs sm:text-sm font-bold text-slate-800 leading-snug">${escapeHTML(game.size)}</span>
+                                </div>
+                                <div class="bg-slate-50/90 rounded-xl p-3 border border-slate-100">
+                                    <span class="block text-[11px] font-medium text-slate-400 mb-1">所需數量</span>
+                                    <span class="block text-sm sm:text-base font-bold text-indigo-600">${Number(game.count).toLocaleString()} 張</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50/90 rounded-xl p-3 border border-slate-100 space-y-1.5 text-xs">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-500 flex items-center gap-1.5">
+                                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        上次更換時間
+                                    </span>
+                                    <span class="font-semibold text-slate-700 font-mono">${escapeHTML(game.lastReplaced)}</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-500 flex items-center gap-1.5">
+                                        <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        預計下次更換
+                                    </span>
+                                    <span class="font-bold ${nextDateColor} font-mono">${escapeHTML(nextDateStr)}</span>
+                                </div>
+                            </div>
+
+                            ${game.notes ? `
+                            <div class="text-xs text-slate-700 bg-amber-50/70 px-3 py-2.5 rounded-xl border border-amber-200/70 leading-relaxed">
+                                <span class="font-bold text-slate-800">備註：</span>${escapeHTML(game.notes)}
+                            </div>` : ''}
+                        </div>
+                    </div>
+
+                    <!-- 卡片底部操作列 -->
+                    <div class="px-5 py-3.5 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button onclick="markAsReplacedToday('${game.id}')" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold ${replaceBtnClass} transition cursor-pointer" title="將更換日期重設為今天，燈號恢復綠燈">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                            <span>今日已更換</span>
+                        </button>
+                        <div class="flex items-center gap-1">
+                            <button onclick="openGameModal('${game.id}')" class="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 transition cursor-pointer" title="編輯">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="confirmDeleteGame('${game.id}', '${escapeHTML(game.name).replace(/'/g, "\\'")}')" class="p-2 rounded-xl text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer" title="刪除">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.className = 'filter-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white flex items-center gap-2';
+                } else {
+                    btn.className = 'filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2';
+                }
+            });
+            renderGames();
+        }
+
+        function jumpToGameByStatus(status) {
+            const searchInput = document.getElementById('search-input');
+            if (searchInput && searchInput.value.trim() !== '') {
+                searchInput.value = '';
+            }
+
+            if (status === 'all') {
+                setFilter('all');
+                const grid = document.getElementById('games-grid');
+                if (grid) {
+                    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                return;
+            }
+
+            setFilter(status);
+
+            requestAnimationFrame(() => {
+                const grid = document.getElementById('games-grid');
+                const firstCard = grid ? grid.querySelector('article') : null;
+                if (firstCard) {
+                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstCard.classList.remove('card-highlight-flash');
+                    void firstCard.offsetWidth;
+                    firstCard.classList.add('card-highlight-flash');
+                } else {
+                    const statusLabel = status === 'red' ? '亮紅燈 (需更換)' : (status === 'yellow' ? '即將到期' : '綠燈 (狀態良好)');
+                    showToast(`目前沒有「${statusLabel}」的桌遊紀錄`, 'info');
+                }
+            });
+        }
+
+        // ==========================================
+        // 6. 新增、編輯、今日已更換與安全刪除
+        // ==========================================
+        function getAllSizeOptions() {
+            let savedCustom = [];
+            try {
+                const raw = localStorage.getItem(CUSTOM_SIZES_KEY);
+                savedCustom = raw ? JSON.parse(raw) : [...BASE_SIZE_PRESETS];
+                if (!Array.isArray(savedCustom)) savedCustom = [...BASE_SIZE_PRESETS];
+            } catch (e) {
+                savedCustom = [...BASE_SIZE_PRESETS];
+            }
+
+            const combined = [...savedCustom];
+            games.forEach(g => {
+                const s = String(g.size || '').trim();
+                if (s && !combined.includes(s)) {
+                    combined.push(s);
+                }
+            });
+            return combined;
+        }
+
+        function saveSizeOptionIfNew(sizeStr) {
+            const trimmed = String(sizeStr || '').trim();
+            if (!trimmed) return;
+            const current = getAllSizeOptions();
+            if (!current.includes(trimmed)) {
+                current.push(trimmed);
+            }
+            localStorage.setItem(CUSTOM_SIZES_KEY, JSON.stringify(current));
+        }
+
+        function openSizeDropdown(showAll = true) {
+            const dropdown = document.getElementById('size-dropdown-list');
+            const input = document.getElementById('game-size');
+            if (!dropdown || !input) return;
+
+            const allOptions = getAllSizeOptions();
+            const keyword = showAll ? '' : input.value.trim().toLowerCase();
+            const matched = keyword
+                ? allOptions.filter(opt => opt.toLowerCase().includes(keyword))
+                : allOptions;
+
+            if (matched.length === 0) {
+                dropdown.innerHTML = `<div class="px-3.5 py-2.5 text-xs text-slate-500">找不到相符規格，儲存後將自動把「<span class="font-bold text-slate-700">${escapeHTML(input.value.trim())}</span>」加入常用選單</div>`;
+            } else {
+                dropdown.innerHTML = matched.map(opt => {
+                    const isCurrent = opt === input.value.trim();
+                    return `
+                        <button type="button" onclick="selectSizeOption('${escapeHTML(opt).replace(/'/g, "\\'")}')" class="w-full text-left px-3.5 py-2.5 text-xs sm:text-sm flex items-center justify-between gap-2 transition cursor-pointer ${isCurrent ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-700 hover:bg-slate-50'}">
+                            <span>${escapeHTML(opt)}</span>
+                            ${isCurrent ? '<span class="text-[11px] text-amber-600 font-semibold">目前選用</span>' : ''}
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            dropdown.classList.remove('hidden');
+        }
+
+        function toggleSizeDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('size-dropdown-list');
+            if (!dropdown) return;
+            if (dropdown.classList.contains('hidden')) {
+                openSizeDropdown(true);
+            } else {
+                dropdown.classList.add('hidden');
+            }
+        }
+
+        function selectSizeOption(value) {
+            const input = document.getElementById('game-size');
+            const dropdown = document.getElementById('size-dropdown-list');
+            if (input) input.value = value;
+            if (dropdown) dropdown.classList.add('hidden');
+        }
+
+        function renderSettingsSizeOptions() {
+            const container = document.getElementById('cfg-size-options-list');
+            if (!container) return;
+            const options = getAllSizeOptions();
+            if (options.length === 0) {
+                container.innerHTML = '<span class="text-xs text-slate-400">目前尚無儲存任何尺寸規格</span>';
+                return;
+            }
+            container.innerHTML = options.map(opt => `
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-white text-slate-700 border border-slate-200 shadow-2xs">
+                    <span>${escapeHTML(opt)}</span>
+                    <button type="button" onclick="removeCustomSizeOption('${escapeHTML(opt).replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-red-600 transition cursor-pointer" title="從選單中移除此規格">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
+                </span>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function addCustomSizeFromSettings() {
+            const input = document.getElementById('cfg-new-size-option');
+            const val = input ? input.value.trim() : '';
+            if (!val) {
+                showToast('請先輸入欲新增的卡套尺寸規格', 'warning');
+                return;
+            }
+            saveSizeOptionIfNew(val);
+            input.value = '';
+            renderSettingsSizeOptions();
+            showToast(`已將「${val}」加入卡套規格選單！`, 'success');
+        }
+
+        function removeCustomSizeOption(sizeStr) {
+            const current = getAllSizeOptions().filter(s => s !== sizeStr);
+            localStorage.setItem(CUSTOM_SIZES_KEY, JSON.stringify(current));
+            renderSettingsSizeOptions();
+            showToast(`已從選單移除「${sizeStr}」`, 'info');
+        }
+
+        function openGameModal(gameId = null) {
+            const modal = document.getElementById('game-modal');
+            const titleEl = document.getElementById('game-modal-title');
+            const form = document.getElementById('game-form');
+            const sizeDropdown = document.getElementById('size-dropdown-list');
+            form.reset();
+            if (sizeDropdown) sizeDropdown.classList.add('hidden');
+
+            if (gameId) {
+                const game = games.find(g => g.id === gameId);
+                if (!game) return;
+                titleEl.innerHTML = '<i data-lucide="pencil" class="w-5 h-5 text-amber-400"></i><span>編輯桌遊卡套紀錄</span>';
+                document.getElementById('game-id').value = game.id;
+                document.getElementById('game-name').value = game.name;
+                document.getElementById('game-size').value = game.size;
+                document.getElementById('game-count').value = game.count;
+                document.getElementById('game-last-replaced').value = game.lastReplaced;
+                document.getElementById('game-interval').value = game.intervalDays;
+                document.getElementById('game-brand').value = game.brand || '';
+                document.getElementById('game-notes').value = game.notes || '';
+            } else {
+                titleEl.innerHTML = '<i data-lucide="layers" class="w-5 h-5 text-amber-400"></i><span>新增桌遊卡套紀錄</span>';
+                document.getElementById('game-id').value = '';
+                document.getElementById('game-last-replaced').value = getRelativeDateStr(0);
+                document.getElementById('game-interval').value = '180';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeGameModal() {
+            const modal = document.getElementById('game-modal');
+            const sizeDropdown = document.getElementById('size-dropdown-list');
+            if (sizeDropdown) sizeDropdown.classList.add('hidden');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function handleGameSubmit(event) {
+            event.preventDefault();
+            const id = document.getElementById('game-id').value;
+            const sizeVal = document.getElementById('game-size').value.trim();
+            saveSizeOptionIfNew(sizeVal);
+
+            const payload = {
+                id: id || ('game-' + Date.now()),
+                name: document.getElementById('game-name').value.trim(),
+                size: sizeVal,
+                count: Number(document.getElementById('game-count').value) || 0,
+                lastReplaced: document.getElementById('game-last-replaced').value,
+                intervalDays: Number(document.getElementById('game-interval').value) || 180,
+                brand: document.getElementById('game-brand').value.trim(),
+                notes: document.getElementById('game-notes').value.trim()
+            };
+
+            if (id) {
+                const idx = games.findIndex(g => g.id === id);
+                if (idx !== -1) games[idx] = payload;
+                showToast(`已更新「${payload.name}」的卡套紀錄`, 'success');
+            } else {
+                games.unshift(payload);
+                showToast(`已新增「${payload.name}」`, 'success');
+            }
+
+            saveGamesToStorage(true);
+            renderGames();
+            closeGameModal();
+        }
+
+        function markAsReplacedToday(id) {
+            const game = games.find(g => g.id === id);
+            if (!game) return;
+            game.lastReplaced = getRelativeDateStr(0);
+            saveGamesToStorage(true);
+            renderGames();
+            showToast(`「${game.name}」已重設為今日更換，燈號恢復綠燈！`, 'success');
+        }
+
+        function getDeletePassword() {
+            return localStorage.getItem(DELETE_PWD_KEY) || DEFAULT_DELETE_PASSWORD;
+        }
+
+        function saveDeletePassword() {
+            const input = document.getElementById('cfg-delete-password');
+            const newPwd = input ? input.value.trim() : '';
+            if (!newPwd) {
+                showToast('刪除密碼不能為空白！', 'warning');
+                return;
+            }
+            localStorage.setItem(DELETE_PWD_KEY, newPwd);
+            showToast('刪除驗證密碼已成功更新！', 'success');
+        }
+
+        function confirmDeleteGame(id, name) {
+            deleteTargetId = id;
+            document.getElementById('confirm-title').textContent = `安全驗證：刪除「${name}」`;
+            document.getElementById('confirm-desc').textContent = `確定要永久移除「${name}」的卡套追蹤紀錄嗎？`;
+
+            const pwdInput = document.getElementById('delete-password-input');
+            const errText = document.getElementById('delete-password-error');
+            pwdInput.value = '';
+            errText.classList.add('hidden');
+            pwdInput.classList.remove('border-red-500');
+
+            const modal = document.getElementById('confirm-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+
+            setTimeout(() => pwdInput.focus(), 50);
+
+            document.getElementById('confirm-ok-btn').onclick = verifyAndExecuteDelete;
+        }
+
+        function verifyAndExecuteDelete() {
+            if (!deleteTargetId) return;
+            const pwdInput = document.getElementById('delete-password-input');
+            const errText = document.getElementById('delete-password-error');
+            const enteredPwd = pwdInput.value;
+            const correctPwd = getDeletePassword();
+
+            if (enteredPwd !== correctPwd) {
+                errText.classList.remove('hidden');
+                pwdInput.classList.add('border-red-500');
+                pwdInput.focus();
+                pwdInput.select();
+                return;
+            }
+
+            games = games.filter(g => g.id !== deleteTargetId);
+            saveGamesToStorage(true);
+            renderGames();
+            showToast('驗證成功，已刪除該桌遊紀錄', 'info');
+            closeConfirmModal();
+        }
+
+        function closeConfirmModal() {
+            deleteTargetId = null;
+            const modal = document.getElementById('confirm-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ==========================================
+        // 7. 桌面通知與 EmailJS 自動提醒系統
+        // ==========================================
+        function updateNotificationButtonState() {
+            const btnText = document.getElementById('notify-perm-text');
+            if (!('Notification' in window)) {
+                btnText.textContent = '瀏覽器不支援通知';
+                return;
+            }
+            if (Notification.permission === 'granted') {
+                btnText.textContent = '桌面提醒已開啟';
+            } else if (Notification.permission === 'denied') {
+                btnText.textContent = '桌面通知已封鎖';
+            } else {
+                btnText.textContent = '開啟桌面提醒';
+            }
+        }
+
+        function requestBrowserNotification() {
+            if (!('Notification' in window)) {
+                showToast('您的瀏覽器不支援桌面推播通知', 'error');
+                return;
+            }
+            if (Notification.permission === 'granted') {
+                showToast('桌面通知功能已啟用！有桌遊到期時會自動提醒您。', 'success');
+                return;
+            }
+            Notification.requestPermission().then(permission => {
+                updateNotificationButtonState();
+                if (permission === 'granted') {
+                    showToast('已成功開啟桌面通知提醒！', 'success');
+                    new Notification('小船桌遊卡套', {
+                        body: '桌面提醒已啟用！當桌遊卡套到達更換週期時將第一時間通知您。'
+                    });
+                } else {
+                    showToast('您拒絕了桌面通知權限，仍可透過頁面紅燈與 Email 接收提醒。', 'warning');
+                }
+            });
+        }
+
+        function checkAndTriggerAlerts() {
+            const overdueItems = games
+                .map(g => ({ ...g, statusInfo: calculateGameStatus(g) }))
+                .filter(g => g.statusInfo.status === 'red');
+
+            if (overdueItems.length === 0) return;
+
+            let notifiedMap = {};
+            try {
+                notifiedMap = JSON.parse(localStorage.getItem(NOTIFIED_CYCLES_KEY) || '{}');
+            } catch (e) { notifiedMap = {}; }
+
+            const newlyOverdue = overdueItems.filter(g => notifiedMap[g.id] !== g.lastReplaced);
+
+            if (newlyOverdue.length > 0 && 'Notification' in window && Notification.permission === 'granted') {
+                const names = newlyOverdue.map(g => g.name).join('、');
+                new Notification('🔴 桌遊卡套更換提醒！', {
+                    body: `「${names}」的卡套已到達更換時間，請準備對應尺寸進行更換。`
+                });
+                newlyOverdue.forEach(g => {
+                    notifiedMap[g.id] = g.lastReplaced;
+                });
+                localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
+            }
+
+            const emailCfg = getEmailSettings();
+            if (emailCfg.autoEmail && emailCfg.publicKey && emailCfg.serviceId && emailCfg.templateId && emailCfg.targetEmail) {
+                const lastSentTimestamp = Number(localStorage.getItem(LAST_EMAIL_SENT_KEY) || 0);
+                const now = Date.now();
+                const isFirstTimeOrMonthlyDue = (now - lastSentTimestamp) >= EMAIL_COOLDOWN_MS;
+
+                if (newlyOverdue.length > 0 || isFirstTimeOrMonthlyDue) {
+                    sendOverdueEmailReport(true);
+                }
+            }
+        }
+
+        function getEmailSettings() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+                return {
+                    targetEmail: saved.targetEmail || DEFAULT_TARGET_EMAIL,
+                    publicKey: saved.publicKey || '',
+                    serviceId: saved.serviceId || '',
+                    templateId: saved.templateId || '',
+                    autoEmail: Boolean(saved.autoEmail)
+                };
+            } catch (e) {
+                return { targetEmail: DEFAULT_TARGET_EMAIL };
+            }
+        }
+
+        function saveEmailSettings() {
+            const cfg = {
+                targetEmail: document.getElementById('cfg-target-email').value.trim() || DEFAULT_TARGET_EMAIL,
+                publicKey: document.getElementById('cfg-public-key').value.trim(),
+                serviceId: document.getElementById('cfg-service-id').value.trim(),
+                templateId: document.getElementById('cfg-template-id').value.trim(),
+                autoEmail: document.getElementById('cfg-auto-email').checked
+            };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(cfg));
+            showToast('EmailJS 通知設定已儲存！', 'success');
+        }
+
+        async function sendOverdueEmailReport(isAuto = false) {
+            const cfg = getEmailSettings();
+            if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId || !cfg.targetEmail) {
+                if (!isAuto) {
+                    showToast('請先在「雲端與通知設定」中填寫完整的 EmailJS 金鑰與收件人信箱！', 'warning');
+                    openSettingsModal();
+                }
+                return;
+            }
+
+            const enriched = games.map(g => ({ ...g, statusInfo: calculateGameStatus(g) }));
+            const overdueItems = enriched.filter(g => g.statusInfo.status === 'red');
+            const upcoming30DaysItems = enriched.filter(g => g.statusInfo.daysRemaining > 0 && g.statusInfo.daysRemaining <= 30);
+
+            if (overdueItems.length === 0 && upcoming30DaysItems.length === 0 && !isAuto) {
+                showToast('目前沒有已到期或未來 30 天內即將到期的桌遊，無需發送提醒信！', 'info');
+                return;
+            }
+
+            const newThisMonth = overdueItems.filter(g => Math.abs(g.statusInfo.daysRemaining) < 30);
+            const overdueOverMonth = overdueItems.filter(g => Math.abs(g.statusInfo.daysRemaining) >= 30);
+
+            const formatLine = (g) => {
+                const days = g.statusInfo.daysRemaining;
+                const statusDesc = days <= 0 ? `已過期 ${Math.abs(days)} 天` : `剩餘 ${days} 天到期`;
+                return `• ${g.name}｜尺寸：${g.size}｜數量：${g.count} 張｜預計更換日：${g.statusInfo.nextDateStr}（${statusDesc}）`;
+            };
+
+            const sections = [
+                '您好，這是來自【小船桌遊卡套管理系統】的定期卡套更換彙整提醒：\n'
+            ];
+
+            if (newThisMonth.length > 0) {
+                sections.push(`【🔴 本月新到期需更換 (${newThisMonth.length} 款)】\n${newThisMonth.map(formatLine).join('\n')}\n`);
+            }
+            if (overdueOverMonth.length > 0) {
+                sections.push(`【⚠️ 已過期滿 1 個月以上仍未更換 (${overdueOverMonth.length} 款)】\n${overdueOverMonth.map(formatLine).join('\n')}\n`);
+            }
+            if (upcoming30DaysItems.length > 0) {
+                sections.push(`【🟡 未來 1 個月內即將到期預告 (${upcoming30DaysItems.length} 款)】\n${upcoming30DaysItems.map(formatLine).join('\n')}\n`);
+            }
+
+            const sizeSummaryMap = new Map();
+            [...overdueItems, ...upcoming30DaysItems].forEach(g => {
+                const norm = normalizeSleeveSize(g.size);
+                sizeSummaryMap.set(norm.displayLabel, (sizeSummaryMap.get(norm.displayLabel) || 0) + (Number(g.count) || 0));
+            });
+
+            if (sizeSummaryMap.size > 0) {
+                const summaryLines = Array.from(sizeSummaryMap.entries())
+                    .map(([size, total]) => `  - ${size}：共 ${total} 張`)
+                    .join('\n');
+                sections.push(`【🛒 建議備貨尺寸數量小計】\n${summaryLines}\n`);
+            }
+
+            sections.push('請準備對應尺寸卡套進行更換，完成後別忘了回網頁點擊「今日已更換」重新計時喔！');
+
+            const messageBody = sections.join('\n');
+            const totalUrgent = overdueItems.length;
+            const subjectLine = totalUrgent > 0
+                ? `【小船桌遊卡套】提醒：共有 ${totalUrgent} 款桌遊卡套已到期需更換${upcoming30DaysItems.length > 0 ? `（另有 ${upcoming30DaysItems.length} 款即將到期）` : ''}`
+                : `【小船桌遊卡套】預告：未來 1 個月內有 ${upcoming30DaysItems.length} 款桌遊卡套即將到期`;
+
+            try {
+                if (!isAuto) showToast('正在透過 EmailJS 寄送彙整提醒信...', 'info');
+                emailjs.init({ publicKey: cfg.publicKey });
+                await emailjs.send(cfg.serviceId, cfg.templateId, {
+                    to_email: cfg.targetEmail,
+                    subject: subjectLine,
+                    message: messageBody
+                });
+
+                localStorage.setItem(LAST_EMAIL_SENT_KEY, String(Date.now()));
+                let notifiedMap = {};
+                try { notifiedMap = JSON.parse(localStorage.getItem(NOTIFIED_CYCLES_KEY) || '{}'); } catch (e) {}
+                overdueItems.forEach(g => { notifiedMap[g.id] = g.lastReplaced; });
+                localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
+
+                if (!isAuto) {
+                    showToast(`已成功將彙整提醒信寄送至 ${cfg.targetEmail}！`, 'success');
+                }
+            } catch (err) {
+                console.error('EmailJS 發送失敗:', err);
+                if (!isAuto) {
+                    showToast('Email 寄送失敗，請檢查 EmailJS 金鑰與 Template 變數設定', 'error');
+                }
+            }
+        }
+
+        async function sendTestEmail() {
+            const cfg = {
+                targetEmail: document.getElementById('cfg-target-email').value.trim() || DEFAULT_TARGET_EMAIL,
+                publicKey: document.getElementById('cfg-public-key').value.trim(),
+                serviceId: document.getElementById('cfg-service-id').value.trim(),
+                templateId: document.getElementById('cfg-template-id').value.trim()
+            };
+            if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId || !cfg.targetEmail) {
+                showToast('請先填寫完整四個欄位再寄送測試信！', 'warning');
+                return;
+            }
+            try {
+                showToast('正在寄送測試信件...', 'info');
+                emailjs.init({ publicKey: cfg.publicKey });
+                await emailjs.send(cfg.serviceId, cfg.templateId, {
+                    to_email: cfg.targetEmail,
+                    subject: '【小船桌遊卡套】EmailJS 通知測試成功！',
+                    message: '恭喜！您的【小船桌遊卡套管理系統】已成功連接 EmailJS。當桌遊卡套到期時，系統將會自動寄發通知信至此信箱。'
+                });
+                showToast('測試信件已成功寄出，請檢查您的信箱！', 'success');
+            } catch (err) {
+                console.error('測試信失敗:', err);
+                showToast('測試信發送失敗，請確認 Service ID / Template ID / Public Key 是否正確', 'error');
+            }
+        }
+
+        // ==========================================
+        // 8. JSON 備份匯出與匯入、設定視窗與工具函式
+        // ==========================================
+        function openSettingsModal() {
+            document.getElementById('cfg-gs-url').value = getGoogleSheetUrl();
+            updateCloudSyncUI();
+
+            const emailCfg = getEmailSettings();
+            document.getElementById('cfg-target-email').value = emailCfg.targetEmail || DEFAULT_TARGET_EMAIL;
+            document.getElementById('cfg-public-key').value = emailCfg.publicKey || '';
+            document.getElementById('cfg-service-id').value = emailCfg.serviceId || '';
+            document.getElementById('cfg-template-id').value = emailCfg.templateId || '';
+            document.getElementById('cfg-auto-email').checked = Boolean(emailCfg.autoEmail);
+            document.getElementById('cfg-delete-password').value = getDeletePassword();
+            renderSettingsSizeOptions();
+
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function exportData() {
+            const blob = new Blob([JSON.stringify(games, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const dateStr = new Date().toISOString().split('T')[0];
+            a.href = url;
+            a.download = `boat-boardgame-sleeves-backup-${dateStr}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('已匯出 JSON 備份檔案！', 'success');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!Array.isArray(imported)) throw new Error('格式錯誤');
+                    games = imported;
+                    saveGamesToStorage(true);
+                    renderGames();
+                    closeSettingsModal();
+                    showToast(`成功匯入 ${games.length} 筆桌遊卡套資料！`, 'success');
+                } catch (err) {
+                    showToast('匯入失敗：檔案格式不正確，請選擇正確的 JSON 備份檔', 'error');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function handleBackdropClick(event, modalId) {
+            if (event.target.id === modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const styles = {
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                error: 'bg-red-600 text-white border-red-500',
+                warning: 'bg-amber-500 text-slate-900 border-amber-400 font-semibold',
+                info: 'bg-slate-800 text-white border-slate-700'
+            };
+
+            const icons = {
+                success: 'check-circle',
+                error: 'alert-circle',
+                warning: 'alert-triangle',
+                info: 'info'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm transition-all duration-300 transform translate-y-2 opacity-0 ${styles[type] || styles.info}`;
+            toast.innerHTML = `
+                <i data-lucide="${icons[type] || 'info'}" class="w-4 h-4 shrink-0"></i>
+                <span class="leading-snug">${escapeHTML(message)}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
