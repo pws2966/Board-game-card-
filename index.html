@@ -89,17 +89,17 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
-    <!-- 頂部導覽列 (維持原本沉穩深灰與琥珀金) -->
+    <!-- 頂部導覽列（與參考檔案完全一致的大小比例） -->
     <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <!-- Logo 與標題 -->
                 <div class="flex items-center gap-3">
-                    <div class="bg-amber-500 text-slate-900 p-2 rounded-xl shadow-md">
-                        <i data-lucide="anchor" class="w-5 h-5 stroke-[2.5]"></i>
+                    <div class="bg-amber-500 text-slate-900 p-2.5 rounded-xl shadow-md">
+                        <i data-lucide="anchor" class="w-6 h-6 stroke-[2.5]"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg sm:text-xl font-bold tracking-tight flex items-center gap-2">
+                        <h1 class="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
                             小船桌遊
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 hover:border-amber-400 px-2.5 py-0.5 rounded-full transition cursor-pointer" title="前往 GitHub">
                                 <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
@@ -108,28 +108,28 @@
                                 <span>GitHub</span>
                             </a>
                         </h1>
-                        <p class="text-[11px] text-slate-400">訓練目標分類檢索 • 桌遊配件與卡套更換追蹤</p>
+                        <p class="text-xs text-slate-400 mt-0.5">訓練目標分類檢索 • 桌遊配件與卡套更換追蹤</p>
                     </div>
                 </div>
 
                 <!-- 頂部操作按鈕群 -->
                 <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
-                        <i data-lucide="bell" class="w-3.5 h-3.5 text-amber-400"></i>
+                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
+                        <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
                         <span id="notify-perm-text">開啟桌面提醒</span>
                     </button>
 
-                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="設定 Google 試算表同步與備份">
-                        <i data-lucide="settings" class="w-3.5 h-3.5 text-sky-400"></i>
+                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="設定 Google 試算表同步與備份">
+                        <i data-lucide="settings" class="w-4 h-4 text-sky-400"></i>
                         <span>雲端與系統設定</span>
                     </button>
 
-                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer" title="點擊立即從 Google 試算表重新同步最新資料">
-                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer" title="點擊立即從 Google 試算表重新同步最新資料">
+                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-4 h-4 text-emerald-400"></i>
                         <span id="cloud-sync-text">試算表已同步</span>
                     </button>
 
-                    <button onclick="openGameModal()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer">
+                    <button onclick="openGameModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer">
                         <i data-lucide="plus" class="w-4 h-4 stroke-[2.5]"></i>
                         <span>新增桌遊</span>
                     </button>
@@ -222,7 +222,7 @@
             </div>
         </section>
 
-        <!-- 卡套尺寸採購統計區塊 (維持原本石板灰與琥珀金) -->
+        <!-- 卡套尺寸採購統計區塊 -->
         <section class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-visible">
             <div class="p-3.5 sm:px-5 sm:py-3.5 bg-slate-700 border-b border-slate-600/80 text-white rounded-t-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5">
@@ -350,7 +350,7 @@
             </div>
         </section>
 
-        <!-- 桌遊卡片列表區 (4 欄精簡清爽排版) -->
+        <!-- 桌遊卡片列表區 (4 欄精簡清爽排版 ＋ 捲動分批延遲載入防卡頓) -->
         <section id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- 由 JavaScript 動態渲染 -->
         </section>
@@ -376,6 +376,11 @@
 
     </main>
 
+    <!-- 回到頂部懸浮按鈕 -->
+    <button id="backToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 left-6 p-3 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 rounded-full shadow-lg transition-all opacity-0 pointer-events-none z-40 cursor-pointer" title="回到頂部">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
     <!-- 頁尾 -->
     <footer class="bg-white border-t border-slate-200 mt-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
@@ -383,7 +388,7 @@
                 <svg class="w-4 h-4 fill-current text-slate-700 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
                 </svg>
-                <span>小船桌遊管理系統 • 支援 Google 試算表雲端同步與 LocalStorage 離線保存</span>
+                <span>小船桌遊管理系統 • 支援 Google 試算表與 Google 雲端硬碟圖片自動同步</span>
             </div>
             <div class="flex items-center gap-4">
                 <button onclick="exportData()" class="hover:text-slate-800 underline cursor-pointer">匯出 JSON 備份</button>
@@ -424,11 +429,11 @@
                     </div>
                 </div>
 
-                <!-- 桌遊圖片設定區 -->
+                <!-- 桌遊圖片設定區（支援 Google 雲端硬碟連結自動轉換） -->
                 <div class="space-y-2">
-                    <label class="block text-xs font-bold text-slate-700">桌遊圖片 <span class="text-slate-400 font-normal">(可貼上圖片網址，或直接選擇本機圖片自動壓縮)</span></label>
+                    <label class="block text-xs font-bold text-slate-700">桌遊圖片 <span class="text-slate-400 font-normal">(支援直接貼上 Google 雲端硬碟分享連結、一般網址或上傳本機圖片)</span></label>
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <input type="text" id="game-image-url" oninput="updateModalImagePreview()" placeholder="貼上圖片網址 (https://...) 或點擊右側上傳" class="flex-grow px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                        <input type="text" id="game-image-url" oninput="updateModalImagePreview()" placeholder="貼上 Google 雲端硬碟連結 (https://drive.google.com/...) 或圖片網址" class="flex-grow px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
                         <label class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-[#EEF5F9] hover:bg-[#E1EEF5] text-[#3B6884] border border-[#C5DCE8] rounded-xl text-xs font-semibold transition cursor-pointer shrink-0">
                             <i data-lucide="image-plus" class="w-4 h-4"></i>
                             <span>上傳圖片</span>
@@ -524,11 +529,11 @@
                         <span id="gs-status-pill" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">未連接雲端</span>
                     </div>
                     <p class="text-xs text-slate-500 leading-relaxed">
-                        貼上您的 Google Apps Script 部署網址，開啟網頁與每次新增、修改、刪除都會自動與試算表同步（包含訓練目標、桌遊配件、圖片、卡套尺寸與數量）。
+                        貼上您的 Google Apps Script 部署網址，開啟網頁與每次新增、修改、刪除都會自動與試算表同步。您在試算表「圖片網址」欄位直接貼上 <b>Google 雲端硬碟分享連結</b>（設為知道連結的任何人均可檢視），網頁也會自動顯示圖片！
                     </p>
                     <div class="space-y-2 pt-1">
                         <label class="block text-xs font-semibold text-slate-700">Google Apps Script 網頁應用程式網址 (Web App URL)</label>
-                        <input type="url" id="cfg-gs-url" placeholder="https://script.google.com/macros/s/xxxxxx/exec" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="url" id="cfg-gs-url" placeholder="https://script.google.com/macros/s/AKfycbyfEEfNR7SKHXSkgBRhSX8FAN7Jx4W20BRT-PBzc-YB6NmKq8ebgfjxd3YK-8AFsg1w/exec" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex flex-wrap items-center gap-2 pt-1">
                         <button type="button" onclick="saveGoogleSheetSettings()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
@@ -688,14 +693,31 @@
         ];
 
         let games = [];
+        let filteredGamesList = [];
+        let currentPage = 1;
+        const PAGE_SIZE = 24;
+
         let currentFilter = 'all';
-        let selectedGoals = new Set(); // 多選訓練目標篩選集合
-        let modalSelectedGoals = new Set(); // 新增/編輯視窗內已選訓練目標
+        let selectedGoals = new Set();
+        let modalSelectedGoals = new Set();
         let sizeStatsMode = 'needed';
         let deleteTargetId = null;
         let currentSizeStatsMap = new Map();
         let pinnedPopoverSizeKey = null;
         let hoveredPopoverSizeKey = null;
+
+        // 將 Google 雲端硬碟分享連結自動轉換為可直接顯示的圖片網址
+        function fixGoogleDriveUrl(url) {
+            if (!url) return '';
+            const trimmed = String(url).trim();
+            if (trimmed.includes('drive.google.com')) {
+                const idMatch = trimmed.match(/\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                if (idMatch && idMatch[1]) {
+                    return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
+                }
+            }
+            return trimmed;
+        }
 
         // 輔助：取得相對今天天數的 YYYY-MM-DD 字串
         function getRelativeDateStr(offsetDays) {
@@ -808,6 +830,23 @@
                 }
             });
 
+            window.addEventListener('scroll', () => {
+                const btn = document.getElementById('backToTopBtn');
+                if (btn) {
+                    if (window.scrollY > 300) {
+                        btn.classList.remove('opacity-0', 'pointer-events-none');
+                        btn.classList.add('opacity-100');
+                    } else {
+                        btn.classList.add('opacity-0', 'pointer-events-none');
+                        btn.classList.remove('opacity-100');
+                    }
+                }
+
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 250) {
+                    renderNextBatch();
+                }
+            });
+
             if (getGoogleSheetUrl()) {
                 await syncFromGoogleSheet(false);
             }
@@ -824,12 +863,14 @@
                 goalsArr = item.goals.split(/[、,，]+/).map(s => s.trim()).filter(Boolean);
             }
 
+            const rawImg = String(item.imageUrl || item.image || item.photo || item.img || '').trim();
+
             return {
                 id: String(item.id || ('game-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
                 name: String(item.name || '未命名桌遊'),
                 goals: goalsArr,
                 accessories: String(item.accessories || ''),
-                imageUrl: String(item.imageUrl || ''),
+                imageUrl: rawImg,
                 size: String(item.size || '未知尺寸'),
                 count: Number(item.count) || 0,
                 brand: String(item.brand || ''),
@@ -859,7 +900,7 @@
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
             } catch (e) {
-                showToast('儲存資料至本機失敗（可能是圖片過大），請改用圖片網址', 'error');
+                showToast('儲存資料至本機失敗（可能是圖片過大），請改用 Google 雲端硬碟圖片連結', 'error');
             }
             if (syncCloud && getGoogleSheetUrl()) {
                 syncToGoogleSheet(false);
@@ -920,9 +961,13 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const result = await res.json();
 
-                if (result && result.status === 'success' && Array.isArray(result.data)) {
-                    if (result.data.length > 0) {
-                        games = result.data.map(normalizeGameItem);
+                const rawList = Array.isArray(result)
+                    ? result
+                    : (Array.isArray(result?.data) ? result.data : (Array.isArray(result?.items) ? result.items : null));
+
+                if (rawList !== null) {
+                    if (rawList.length > 0) {
+                        games = rawList.map(normalizeGameItem);
                         saveGamesToStorage(false);
                         renderGames();
                         if (showFeedback) {
@@ -1515,7 +1560,7 @@
         }
 
         // ==========================================
-        // 6. 畫面渲染與統計更新 (文青霧藍標籤 ＋ 極簡清爽版卡片)
+        // 6. 畫面渲染與分批延遲載入
         // ==========================================
         function renderGames() {
             const grid = document.getElementById('games-grid');
@@ -1608,15 +1653,32 @@
                 countEl.textContent = `顯示 ${filtered.length} / ${games.length} 款桌遊`;
             }
 
-            if (filtered.length === 0) {
-                grid.innerHTML = '';
+            filteredGamesList = filtered;
+            currentPage = 1;
+            grid.innerHTML = '';
+
+            if (filteredGamesList.length === 0) {
                 emptyState.classList.remove('hidden');
             } else {
                 emptyState.classList.add('hidden');
-                grid.innerHTML = filtered.map(item => createGameCardHTML(item)).join('');
+                renderNextBatch();
             }
+        }
 
-            lucide.createIcons();
+        function renderNextBatch() {
+            const grid = document.getElementById('games-grid');
+            if (!grid) return;
+
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = currentPage * PAGE_SIZE;
+            const batch = filteredGamesList.slice(start, end);
+
+            if (batch.length > 0) {
+                const html = batch.map(item => createGameCardHTML(item)).join('');
+                grid.insertAdjacentHTML('beforeend', html);
+                currentPage++;
+                lucide.createIcons();
+            }
         }
 
         function createGameCardHTML(game) {
@@ -1646,7 +1708,6 @@
                 replaceBtnClass = 'bg-red-600 hover:bg-red-700 text-white';
             }
 
-            // 訓練目標放在桌遊名稱正下方（文青霧藍色系）
             const goalsList = Array.isArray(game.goals) ? game.goals : [];
             const goalsUnderTitleHTML = goalsList.length > 0
                 ? `<div class="mt-1.5 flex items-center gap-1 flex-wrap">
@@ -1664,13 +1725,12 @@
                     <span>未設定訓練目標</span>
                 </div>`;
 
-            // 精簡尺寸顯示（去掉括號內冗長別名，讓單行圓框更俐落）
             const shortSizeText = String(game.size || '').replace(/\s*\([^)]*\)\s*/g, '').trim() || game.size;
+            const resolvedImageUrl = fixGoogleDriveUrl(game.imageUrl);
 
-            // 桌遊圖片區塊
-            const imageBlockHTML = game.imageUrl
+            const imageBlockHTML = resolvedImageUrl
                 ? `<div class="relative w-full h-36 bg-slate-100/70 overflow-hidden group">
-                    <img src="${escapeHTML(game.imageUrl)}" alt="${escapeHTML(game.name)}" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-400 text-[11px] gap-1\\'><i data-lucide=\\'image-off\\' class=\\'w-5 h-5\\'></i><span>圖片無法載入</span></div>'; lucide.createIcons();" class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105">
+                    <img src="${escapeHTML(resolvedImageUrl)}" alt="${escapeHTML(game.name)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-400 text-[11px] gap-1\\'><i data-lucide=\\'image-off\\' class=\\'w-5 h-5\\'></i><span>圖片載入失敗（請確認雲端硬碟權限設為公開）</span></div>'; lucide.createIcons();" class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105">
                     <span class="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] border shadow-2xs backdrop-blur-xs ${badgeBg}">
                         <span class="w-2 h-2 rounded-full ${ledClass}"></span>
                         ${statusText}
@@ -1693,7 +1753,7 @@
                         <!-- 1. 桌遊圖片與狀態徽章 -->
                         ${imageBlockHTML}
 
-                        <!-- 2. 卡片內容主體（去框簡潔排版，減少視覺干擾） -->
+                        <!-- 2. 卡片內容主體 -->
                         <div class="p-3.5 space-y-2.5">
                             <!-- 標題與訓練目標 -->
                             <div>
@@ -1703,13 +1763,13 @@
                                 ${goalsUnderTitleHTML}
                             </div>
 
-                            <!-- 桌遊配件（純文字無多餘底框，最多 2 行保持卡片整齊） -->
+                            <!-- 桌遊配件 -->
                             ${game.accessories ? `
                             <p class="text-[11px] text-slate-500 leading-relaxed line-clamp-2" title="配件：${escapeHTML(game.accessories)}">
                                 <span class="font-semibold text-slate-600">配件：</span>${escapeHTML(game.accessories)}
                             </p>` : ''}
 
-                            <!-- 卡套尺寸與數量：精巧小圓框且同一行顯示（數量使用文青霧藍） -->
+                            <!-- 卡套尺寸與數量 -->
                             <div class="flex items-center gap-1.5 pt-0.5">
                                 <div class="flex-1 min-w-0 bg-slate-100 border border-slate-200/70 rounded-full px-2.5 py-1 flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden" title="${escapeHTML(game.size)}">
                                     <span class="text-[10px] text-slate-500 shrink-0">尺寸</span>
@@ -1721,7 +1781,7 @@
                                 </div>
                             </div>
 
-                            <!-- 精簡單行更換日期（滑鼠移入可檢視上次更換日） -->
+                            <!-- 精簡單行更換日期 -->
                             <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100" title="上次更換：${escapeHTML(game.lastReplaced)}">
                                 <span class="inline-flex items-center gap-1">
                                     <i data-lucide="calendar-clock" class="w-3 h-3 text-slate-400"></i>
@@ -1833,10 +1893,10 @@
             const previewBox = document.getElementById('modal-image-preview-box');
             const previewImg = document.getElementById('modal-image-preview');
             const clearBtn = document.getElementById('btn-clear-modal-img');
-            const val = urlInput ? urlInput.value.trim() : '';
+            const rawVal = urlInput ? urlInput.value.trim() : '';
 
-            if (val) {
-                previewImg.src = val;
+            if (rawVal) {
+                previewImg.src = fixGoogleDriveUrl(rawVal);
                 previewBox.classList.remove('hidden');
                 if (clearBtn) clearBtn.classList.remove('hidden');
             } else {
@@ -1886,7 +1946,7 @@
 
                     const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.72);
                     if (compressedDataUrl.length > 45000) {
-                        showToast('圖片檔案較大，建議改用網路圖片網址以獲得最佳試算表同步速度', 'warning');
+                        showToast('圖片檔案較大，建議改用 Google 雲端硬碟分享連結以獲得最佳同步速度', 'warning');
                     } else {
                         showToast('已成功載入並最佳化桌遊圖片！', 'success');
                     }
