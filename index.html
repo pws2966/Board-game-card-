@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>小船桌遊卡套 | Boat Boardgame Sleeves</title>
+    <title>小船桌遊 | Boat Boardgames</title>
     <!-- 載入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 載入 Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- 載入 EmailJS SDK (用於純前端寄送 Email 提醒) -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <!-- Google Fonts: Noto Sans TC & Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
@@ -102,7 +100,7 @@
                     </div>
                     <div>
                         <h1 class="text-xl sm:text-2xl font-bold tracking-tight flex items-center gap-2">
-                            小船桌遊卡套
+                            小船桌遊
                             <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 hover:border-amber-400 px-2.5 py-0.5 rounded-full transition cursor-pointer" title="前往 GitHub">
                                 <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
@@ -110,20 +108,20 @@
                                 <span>GitHub</span>
                             </a>
                         </h1>
-                        <p class="text-xs text-slate-400 mt-0.5">精準追蹤卡套尺寸、數量與定期更換提醒</p>
+                        <p class="text-xs text-slate-400 mt-0.5">訓練目標分類檢索 • 桌遊配件與卡套更換追蹤</p>
                     </div>
                 </div>
 
                 <!-- 頂部操作按鈕群 -->
                 <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知">
+                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
                         <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
                         <span id="notify-perm-text">開啟桌面提醒</span>
                     </button>
 
-                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="設定 Google 試算表同步、Email 通知與備份">
+                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="設定 Google 試算表同步與備份">
                         <i data-lucide="settings" class="w-4 h-4 text-sky-400"></i>
-                        <span>雲端與通知設定</span>
+                        <span>雲端與系統設定</span>
                     </button>
 
                     <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer" title="點擊立即從 Google 試算表重新同步最新資料">
@@ -155,9 +153,9 @@
                 </div>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-                <button onclick="sendOverdueEmailReport(false)" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-xl shadow-sm transition cursor-pointer">
-                    <i data-lucide="send" class="w-4 h-4"></i>
-                    <span>立即寄送 Email 提醒</span>
+                <button onclick="jumpToGameByStatus('red')" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-medium rounded-xl shadow-sm transition cursor-pointer">
+                    <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
+                    <span>檢視需更換桌遊</span>
                 </button>
             </div>
         </div>
@@ -290,39 +288,65 @@
             </div>
         </section>
 
-        <!-- 搜尋與篩選控制列 -->
-        <section class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <!-- 狀態燈號篩選按鈕 -->
-            <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
-                <button onclick="setFilter('all')" data-filter="all" class="filter-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white">
-                    全部顯示
-                </button>
-                <button onclick="setFilter('red')" data-filter="red" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-                    <span>亮紅燈 (需更換)</span>
-                </button>
-                <button onclick="setFilter('yellow')" data-filter="yellow" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                    <span>黃燈 (即將到期)</span>
-                </button>
-                <button onclick="setFilter('green')" data-filter="green" class="filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <span>綠燈 (狀態良好)</span>
-                </button>
-            </div>
-
-            <!-- 搜尋與排序 -->
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                <div class="relative flex-grow sm:w-64">
+        <!-- 搜尋、訓練目標多選與燈號篩選控制區 -->
+        <section class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
+            <!-- 第一排：搜尋框與排序 -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div class="relative flex-grow">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                    <input type="text" id="search-input" oninput="renderGames()" placeholder="搜尋桌遊名稱或卡套尺寸..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
+                    <input type="text" id="search-input" oninput="renderGames()" placeholder="搜尋桌遊名字、訓練目標、配件、卡套尺寸或關鍵字..." class="w-full pl-10 pr-9 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    <button type="button" id="btn-clear-search" onclick="clearSearchInput()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer" title="清除搜尋字詞">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
                 </div>
-                <select id="sort-select" onchange="renderGames()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 cursor-pointer">
+                <select id="sort-select" onchange="renderGames()" class="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shrink-0">
                     <option value="status">排序：急迫度 (紅燈優先)</option>
                     <option value="dueDate">排序：下次更換日 (近到遠)</option>
                     <option value="name">排序：桌遊名稱</option>
                     <option value="count">排序：卡套數量 (多到少)</option>
                 </select>
+            </div>
+
+            <!-- 第二排：訓練目標多選標籤區 (參考圖片膠囊標籤設計) -->
+            <div class="space-y-2 pt-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-600 flex items-center gap-1.5">
+                        <i data-lucide="target" class="w-3.5 h-3.5 text-indigo-600"></i>
+                        訓練目標 <span class="font-normal text-slate-400">(可同時點選多個目標進行交叉篩選)</span>
+                    </span>
+                    <span id="selected-goals-hint" class="text-xs font-medium text-indigo-600 hidden"></span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2" id="training-goal-pills">
+                    <!-- 由 JavaScript 動態渲染 10 大訓練目標膠囊按鈕 -->
+                </div>
+            </div>
+
+            <hr class="border-slate-100">
+
+            <!-- 第三排：卡套更換狀態燈號篩選 -->
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex flex-wrap items-center gap-2" id="filter-buttons">
+                    <span class="text-xs font-bold text-slate-500 mr-1">卡套狀態：</span>
+                    <button onclick="setFilter('all')" data-filter="all" class="filter-btn active px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white">
+                        全部顯示
+                    </button>
+                    <button onclick="setFilter('red')" data-filter="red" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                        <span>亮紅燈 (需更換)</span>
+                    </button>
+                    <button onclick="setFilter('yellow')" data-filter="yellow" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                        <span>黃燈 (即將到期)</span>
+                    </button>
+                    <button onclick="setFilter('green')" data-filter="green" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <span>綠燈 (狀態良好)</span>
+                    </button>
+                </div>
+
+                <div class="text-xs text-slate-500" id="filter-result-count">
+                    顯示 0 款桌遊
+                </div>
             </div>
         </section>
 
@@ -337,11 +361,17 @@
                 <i data-lucide="package-open" class="w-8 h-8"></i>
             </div>
             <h3 class="text-lg font-bold text-slate-800">找不到符合條件的桌遊</h3>
-            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">您可以點擊右上角的「新增桌遊」來建立您的第一筆卡套紀錄，或調整目前的篩選條件。</p>
-            <button onclick="openGameModal()" class="mt-5 inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-sm rounded-xl transition cursor-pointer">
-                <i data-lucide="plus" class="w-4 h-4"></i>
-                <span>立即新增桌遊</span>
-            </button>
+            <p class="text-sm text-slate-500 mt-1 max-w-md mx-auto">您可以點擊「清除所有篩選條件」檢視全部桌遊，或點擊右上角「新增桌遊」建立新紀錄。</p>
+            <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+                <button onclick="resetAllFilters()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition cursor-pointer">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span>清除所有篩選條件</span>
+                </button>
+                <button onclick="openGameModal()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-900 font-semibold text-sm rounded-xl transition cursor-pointer">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>立即新增桌遊</span>
+                </button>
+            </div>
         </div>
 
     </main>
@@ -353,24 +383,24 @@
                 <svg class="w-4 h-4 fill-current text-slate-700 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
                 </svg>
-                <span>專為 GitHub Pages 靜態託管設計 • 支援 Google 試算表雲端同步與 LocalStorage 離線保存</span>
+                <span>小船桌遊管理系統 • 支援 Google 試算表雲端同步與 LocalStorage 離線保存</span>
             </div>
             <div class="flex items-center gap-4">
                 <button onclick="exportData()" class="hover:text-slate-800 underline cursor-pointer">匯出 JSON 備份</button>
-                <button onclick="openSettingsModal()" class="hover:text-slate-800 underline cursor-pointer">設定雲端試算表與 Email 通知</button>
+                <button onclick="openSettingsModal()" class="hover:text-slate-800 underline cursor-pointer">設定雲端試算表</button>
             </div>
         </div>
     </footer>
 
     <!-- ========================================== -->
-    <!-- 彈窗 1：新增 / 編輯桌遊卡套 Modal -->
+    <!-- 彈窗 1：新增 / 編輯桌遊 Modal -->
     <!-- ========================================== -->
     <div id="game-modal" onclick="handleBackdropClick(event, 'game-modal')" class="fixed inset-0 z-50 hidden items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 overflow-hidden my-auto max-h-[90vh] flex flex-col">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl border border-slate-200 overflow-hidden my-auto max-h-[92vh] flex flex-col">
             <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
                 <h2 class="text-lg font-bold flex items-center gap-2" id="game-modal-title">
                     <i data-lucide="layers" class="w-5 h-5 text-amber-400"></i>
-                    <span>新增桌遊卡套紀錄</span>
+                    <span>新增桌遊紀錄</span>
                 </h2>
                 <button onclick="closeGameModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -380,11 +410,47 @@
             <form id="game-form" onsubmit="handleGameSubmit(event)" class="p-6 space-y-4 overflow-y-auto">
                 <input type="hidden" id="game-id">
 
+                <!-- 桌遊名稱 -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">桌遊名稱 <span class="text-red-500">*</span></label>
                     <input type="text" id="game-name" required placeholder="例如：璀璨寶石 Splendor" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
                 </div>
 
+                <!-- 訓練目標複選區 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">訓練目標 <span class="text-slate-400 font-normal">(可複選多個類別)</span></label>
+                    <div id="modal-goals-selector" class="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <!-- 由 JavaScript 動態渲染 10 個可複選訓練目標按鈕 -->
+                    </div>
+                </div>
+
+                <!-- 桌遊圖片設定區 -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-700">桌遊圖片 <span class="text-slate-400 font-normal">(可貼上圖片網址，或直接選擇本機圖片自動壓縮)</span></label>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="game-image-url" oninput="updateModalImagePreview()" placeholder="貼上圖片網址 (https://...) 或點擊右側上傳" class="flex-grow px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                        <label class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-semibold transition cursor-pointer shrink-0">
+                            <i data-lucide="image-plus" class="w-4 h-4"></i>
+                            <span>上傳圖片</span>
+                            <input type="file" id="game-image-file" accept="image/*" onchange="handleImageFileUpload(event)" class="hidden">
+                        </label>
+                        <button type="button" onclick="clearModalImage()" id="btn-clear-modal-img" class="hidden px-2.5 py-2 bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 rounded-xl text-xs transition cursor-pointer shrink-0" title="移除圖片">
+                            清除
+                        </button>
+                    </div>
+                    <!-- 圖片即時預覽框 -->
+                    <div id="modal-image-preview-box" class="hidden mt-2 relative w-full h-36 bg-slate-100 rounded-xl border border-slate-200 overflow-hidden flex items-center justify-center">
+                        <img id="modal-image-preview" src="" alt="桌遊預覽圖" class="max-h-full max-w-full object-contain">
+                    </div>
+                </div>
+
+                <!-- 桌遊配件說明 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">桌遊配件內容 <span class="text-slate-400 font-normal">(選填，會同步顯示於卡片與試算表)</span></label>
+                    <input type="text" id="game-accessories" placeholder="例如：發展卡 90 張、貴族板塊 10 片、寶石籌碼 40 枚" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                </div>
+
+                <!-- 卡套尺寸與數量 -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="relative" id="size-combobox-wrapper">
                         <label class="block text-xs font-bold text-slate-700 mb-1">卡套尺寸規格 <span class="text-red-500">*</span></label>
@@ -401,10 +467,11 @@
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">所需卡套數量 (張) <span class="text-red-500">*</span></label>
-                        <input type="number" id="game-count" required min="1" placeholder="例如：90" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
+                        <input type="number" id="game-count" required min="0" placeholder="例如：90" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
                     </div>
                 </div>
 
+                <!-- 上次更換日期與週期 -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">上次更換日期 <span class="text-red-500">*</span></label>
@@ -423,14 +490,16 @@
                     </div>
                 </div>
 
+                <!-- 卡套品牌 -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">卡套品牌 / 厚度款式 (選填)</label>
                     <input type="text" id="game-brand" placeholder="例如：新天鵝堡厚套、Dragon Shield 磨砂" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
                 </div>
 
+                <!-- 備註說明 -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1">備註說明 (選填)</label>
-                    <textarea id="game-notes" rows="2" placeholder="例如：含擴充包總共 112 張，另有 10 張幫助卡不用包..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"></textarea>
+                    <textarea id="game-notes" rows="2" placeholder="例如：收納位置 A1 櫃上層、含擴充包..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white"></textarea>
                 </div>
 
                 <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
@@ -442,14 +511,14 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 彈窗 2：雲端試算表、Email 提醒與備份設定 Modal -->
+    <!-- 彈窗 2：雲端試算表與系統設定 Modal -->
     <!-- ========================================== -->
     <div id="settings-modal" onclick="handleBackdropClick(event, 'settings-modal')" class="fixed inset-0 z-50 hidden items-start sm:items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl border border-slate-200 overflow-hidden my-auto max-h-[90vh] flex flex-col">
             <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
                 <h2 class="text-lg font-bold flex items-center gap-2">
                     <i data-lucide="settings" class="w-5 h-5 text-sky-400"></i>
-                    <span>雲端試算表、Email 通知與備份設定</span>
+                    <span>雲端試算表與系統設定</span>
                 </h2>
                 <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -467,11 +536,11 @@
                         <span id="gs-status-pill" class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">未連接雲端</span>
                     </div>
                     <p class="text-xs text-slate-500 leading-relaxed">
-                        貼上您的 Google Apps Script 部署網址（<code class="px-1 py-0.5 bg-slate-100 rounded text-slate-700">https://script.google.com/macros/s/AKfycbyfEEfNR7SKHXSkgBRhSX8FAN7Jx4W20BRT-PBzc-YB6NmKq8ebgfjxd3YK-8AFsg1w/exec</code>），之後開啟網頁與每次新增、修改、刪除都會自動與試算表同步。
+                        貼上您的 Google Apps Script 部署網址，開啟網頁與每次新增、修改、刪除都會自動與試算表同步（包含訓練目標、桌遊配件、圖片、卡套尺寸與數量）。
                     </p>
                     <div class="space-y-2 pt-1">
                         <label class="block text-xs font-semibold text-slate-700">Google Apps Script 網頁應用程式網址 (Web App URL)</label>
-                        <input type="url" id="cfg-gs-url" placeholder="https://script.google.com/macros/s/xxxxxx/exec" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <input type="url" id="https://script.google.com/macros/s/AKfycbyfEEfNR7SKHXSkgBRhSX8FAN7Jx4W20BRT-PBzc-YB6NmKq8ebgfjxd3YK-8AFsg1w/exec" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     </div>
                     <div class="flex flex-wrap items-center gap-2 pt-1">
                         <button type="button" onclick="saveGoogleSheetSettings()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
@@ -479,60 +548,6 @@
                         </button>
                         <button type="button" onclick="pushLocalToGoogleSheet()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer">
                             將目前網頁資料覆蓋寫入雲端
-                        </button>
-                    </div>
-                </div>
-
-                <hr class="border-slate-200">
-
-                <!-- EmailJS 設定區塊 -->
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                            <i data-lucide="mail-check" class="w-4 h-4 text-sky-600"></i>
-                            <span>EmailJS 自動寄信設定 (純前端支援 GitHub Pages)</span>
-                        </h3>
-                        <a href="https://www.emailjs.com/" target="_blank" class="text-xs text-sky-600 hover:underline font-medium">免費註冊 EmailJS ↗</a>
-                    </div>
-                    <p class="text-xs text-slate-500 leading-relaxed">
-                        因為您的網頁將託管於純靜態的 GitHub Pages，透過免費的 <strong>EmailJS</strong> 服務，無需後端伺服器即可直接寄送過期提醒信到您的信箱。
-                    </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">收件人 Email 信箱</label>
-                            <input type="email" id="cfg-target-email" value="pws2966@gmail.com" placeholder="pws2966@gmail.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Public Key (公鑰)</label>
-                            <input type="text" id="cfg-public-key" placeholder="例如：user_xxxxxxxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Service ID</label>
-                            <input type="text" id="cfg-service-id" placeholder="例如：service_xxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Template ID</label>
-                            <input type="text" id="cfg-template-id" placeholder="例如：template_xxxxxxx" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-2 pt-1">
-                        <input type="checkbox" id="cfg-auto-email" class="w-4 h-4 text-sky-600 rounded border-slate-300 focus:ring-sky-500 cursor-pointer">
-                        <label for="cfg-auto-email" class="text-xs font-medium text-slate-700 cursor-pointer">
-                            自動彙整寄送 Email 提醒（有到期桌遊時自動發信，若未更換則每滿 30 天再提醒一次）
-                        </label>
-                    </div>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">
-                        💡 提示：信件會自動彙整「當月新到期」、「已過期滿 1 個月未更換」與「未來 1 個月內即將到期」三類桌遊於同一封信內。EmailJS Template 請設定收件人 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{to_email}}</code>、標題 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{subject}}</code>、內文 <code class="px-1 py-0.5 bg-slate-100 rounded text-slate-600">{{message}}</code>。
-                    </p>
-
-                    <div class="flex flex-wrap items-center gap-2 pt-2">
-                        <button type="button" onclick="saveEmailSettings()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
-                            儲存 Email 設定
-                        </button>
-                        <button type="button" onclick="sendTestEmail()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-medium rounded-xl transition cursor-pointer">
-                            寄送測試信件
                         </button>
                     </div>
                 </div>
@@ -587,7 +602,7 @@
                         <span>資料備份與還原 (JSON)</span>
                     </h3>
                     <p class="text-xs text-slate-500">
-                        您可以定期匯出 JSON 檔案並一併存入您的 GitHub Repository 中作為雲端備份，更換電腦或手機時只要匯入即可還原所有紀錄。
+                        您可以定期匯出 JSON 檔案作為本地備份，更換電腦或瀏覽器時只要匯入即可還原所有紀錄。
                     </p>
                     <div class="flex flex-wrap items-center gap-3 pt-1">
                         <button type="button" onclick="exportData()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer">
@@ -607,7 +622,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- 彈窗 3：自訂確認對話框 (取代原生 confirm，含密碼驗證) -->
+    <!-- 彈窗 3：自訂確認對話框 (含密碼驗證) -->
     <!-- ========================================== -->
     <div id="confirm-modal" onclick="handleBackdropClick(event, 'confirm-modal')" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
         <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm border border-slate-200 p-6 space-y-4">
@@ -636,12 +651,12 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- Toast 訊息提示框 (取代原生 alert) -->
+    <!-- Toast 訊息提示框 -->
     <!-- ========================================== -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
     <!-- ========================================== -->
-    <!-- 全域浮動對應桌遊清單氣泡框 (避免被表格 overflow 裁切) -->
+    <!-- 全域浮動對應桌遊清單氣泡框 -->
     <!-- ========================================== -->
     <div id="size-games-popover" onclick="event.stopPropagation()" class="hidden fixed z-50 w-72 max-w-[90vw] bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl border border-slate-700 transition-opacity duration-150"></div>
 
@@ -649,16 +664,28 @@
         // ==========================================
         // 1. 狀態與預設資料管理
         // ==========================================
-        const STORAGE_KEY = 'boardgame_sleeves_data_v1';
-        const SETTINGS_KEY = 'boardgame_sleeves_settings_v1';
+        const STORAGE_KEY = 'boardgame_sleeves_data_v2';
+        const LEGACY_STORAGE_KEY = 'boardgame_sleeves_data_v1';
         const GS_URL_KEY = 'boardgame_sleeves_gs_url_v1';
         const DELETE_PWD_KEY = 'boardgame_sleeves_delete_pwd_v1';
         const CUSTOM_SIZES_KEY = 'boardgame_sleeves_custom_sizes_v1';
         const NOTIFIED_CYCLES_KEY = 'boardgame_sleeves_notified_cycles_v1';
-        const LAST_EMAIL_SENT_KEY = 'boardgame_sleeves_last_email_sent_v1';
         const DEFAULT_DELETE_PASSWORD = '1234';
-        const DEFAULT_TARGET_EMAIL = 'pws2966@gmail.com';
-        const EMAIL_COOLDOWN_MS = 30 * 86400000; // 30 天（1 個月）冷卻週期
+
+        // 10 大訓練目標固定選項
+        const TRAINING_GOALS = [
+            '心智理論',
+            '注意力',
+            '記憶力',
+            '反應速度',
+            '情緒',
+            '執行功能',
+            '語言邏輯',
+            '視覺搜尋',
+            '衝動控制',
+            '生涯'
+        ];
+
         const BASE_SIZE_PRESETS = [
             '43 x 65 mm (迷你歐規/Mini Euro)',
             '45 x 68 mm (迷你美式/Mini USA)',
@@ -671,8 +698,11 @@
             '70 x 110 mm (塔羅牌/Tarot)',
             '80 x 120 mm (Dixit 說書人)'
         ];
+
         let games = [];
         let currentFilter = 'all';
+        let selectedGoals = new Set(); // 多選訓練目標篩選集合
+        let modalSelectedGoals = new Set(); // 新增/編輯視窗內已選訓練目標
         let sizeStatsMode = 'needed';
         let deleteTargetId = null;
         let currentSizeStatsMap = new Map();
@@ -689,11 +719,14 @@
             return `${year}-${month}-${day}`;
         }
 
-        // 初次開啟時的範例資料（展示綠燈、黃燈、紅燈三種狀態）
+        // 初次開啟時的範例資料
         const DEFAULT_GAMES = [
             {
                 id: 'demo-1',
                 name: '璀璨寶石 Splendor',
+                goals: ['執行功能', '注意力'],
+                accessories: '發展卡 90 張、貴族板塊 10 片、寶石籌碼 40 枚',
+                imageUrl: '',
                 size: '65 x 90 mm (標準大卡)',
                 count: 90,
                 brand: '新天鵝堡厚套',
@@ -704,26 +737,35 @@
             {
                 id: 'demo-2',
                 name: '阿瓦隆 The Resistance: Avalon',
+                goals: ['心智理論', '語言邏輯', '情緒'],
+                accessories: '角色牌 14 張、任務牌 10 張、投票指示物 20 個、計分板 3 張',
+                imageUrl: '',
                 size: '56 x 87 mm (標準美式/Standard USA)',
                 count: 50,
                 brand: 'Dragon Shield 透明磨砂',
                 lastReplaced: getRelativeDateStr(-82),
                 intervalDays: 90,
-                notes: '高頻率派對遊戲，角色牌容易磨損辨識，每季定期更換。'
+                notes: '角色牌容易磨損辨識，每季定期更換。'
             },
             {
                 id: 'demo-3',
-                name: '瘟疫危機 Pandemic',
-                size: '57.5 x 89 mm (標準歐規/Chimera)',
-                count: 112,
-                brand: 'Mayday 加厚套',
+                name: '閃靈快手 Geistesblitz',
+                goals: ['反應速度', '視覺搜尋', '衝動控制'],
+                accessories: '題目卡牌 60 張、木製指示物 5 個（白鬼、紅椅、藍書、綠瓶、灰鼠）',
+                imageUrl: '',
+                size: '59 x 92 mm (歐式標準/Euro)',
+                count: 60,
+                brand: '新天鵝堡厚套',
                 lastReplaced: getRelativeDateStr(-200),
                 intervalDays: 180,
-                notes: '感染牌與玩家牌庫頻繁洗牌，邊角已出現白邊黏手。'
+                notes: '高頻率搶拍遊戲，卡套邊角磨損較快。'
             },
             {
                 id: 'demo-4',
                 name: '說書人 Dixit',
+                goals: ['心智理論', '語言邏輯', '情緒'],
+                accessories: '插畫大卡 84 張、投票指示物 36 個、兔子計分棋 6 隻',
+                imageUrl: '',
                 size: '80 x 120 mm (Dixit 說書人)',
                 count: 84,
                 brand: '新天鵝堡大卡套',
@@ -738,6 +780,7 @@
         // ==========================================
         document.addEventListener('DOMContentLoaded', async () => {
             loadGamesFromStorage();
+            renderTrainingGoalPills();
             updateNotificationButtonState();
             updateCloudSyncUI();
             renderGames();
@@ -754,7 +797,7 @@
                 });
             }
 
-            // 點擊畫面非桌遊清單與非省略按鈕的位置時，關閉釘選的清單
+            // 點擊畫面外部關閉浮動視窗與下拉選單
             document.addEventListener('click', (e) => {
                 const popover = document.getElementById('size-games-popover');
                 if (popover && !popover.classList.contains('hidden')) {
@@ -765,7 +808,6 @@
                     }
                 }
 
-                // 點擊尺寸下拉選單外部時關閉選單
                 const sizeWrapper = document.getElementById('size-combobox-wrapper');
                 const sizeDropdown = document.getElementById('size-dropdown-list');
                 if (sizeWrapper && sizeDropdown && !sizeWrapper.contains(e.target)) {
@@ -773,7 +815,6 @@
                 }
             });
 
-            // 視窗縮放時重新定位已釘選的清單
             window.addEventListener('resize', () => {
                 if (pinnedPopoverSizeKey) {
                     const trigger = document.querySelector(`.ellipsis-games-trigger[data-size-key="${CSS.escape(pinnedPopoverSizeKey)}"]`);
@@ -787,16 +828,38 @@
             }
 
             checkAndTriggerAlerts();
-            // 若網頁保持開啟跨日，每小時背景自動檢查是否需寄送到期提醒信
             setInterval(checkAndTriggerAlerts, 3600000);
         });
 
+        function normalizeGameItem(item) {
+            let goalsArr = [];
+            if (Array.isArray(item.goals)) {
+                goalsArr = item.goals.map(s => String(s).trim()).filter(Boolean);
+            } else if (typeof item.goals === 'string' && item.goals.trim()) {
+                goalsArr = item.goals.split(/[、,，]+/).map(s => s.trim()).filter(Boolean);
+            }
+
+            return {
+                id: String(item.id || ('game-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
+                name: String(item.name || '未命名桌遊'),
+                goals: goalsArr,
+                accessories: String(item.accessories || ''),
+                imageUrl: String(item.imageUrl || ''),
+                size: String(item.size || '未知尺寸'),
+                count: Number(item.count) || 0,
+                brand: String(item.brand || ''),
+                lastReplaced: String(item.lastReplaced || getRelativeDateStr(0)),
+                intervalDays: Number(item.intervalDays) || 180,
+                notes: String(item.notes || '')
+            };
+        }
+
         function loadGamesFromStorage() {
             try {
-                const raw = localStorage.getItem(STORAGE_KEY);
+                const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    games = Array.isArray(parsed) ? parsed : [...DEFAULT_GAMES];
+                    games = Array.isArray(parsed) ? parsed.map(normalizeGameItem) : [...DEFAULT_GAMES];
                 } else {
                     games = [...DEFAULT_GAMES];
                     saveGamesToStorage(false);
@@ -811,7 +874,7 @@
             try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
             } catch (e) {
-                showToast('儲存資料至本機失敗，請檢查瀏覽器空間', 'error');
+                showToast('儲存資料至本機失敗（可能是圖片過大），請改用圖片網址', 'error');
             }
             if (syncCloud && getGoogleSheetUrl()) {
                 syncToGoogleSheet(false);
@@ -874,16 +937,7 @@
 
                 if (result && result.status === 'success' && Array.isArray(result.data)) {
                     if (result.data.length > 0) {
-                        games = result.data.map(item => ({
-                            id: String(item.id || ('gs-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
-                            name: String(item.name || '未命名桌遊'),
-                            size: String(item.size || '未知尺寸'),
-                            count: Number(item.count) || 0,
-                            brand: String(item.brand || ''),
-                            lastReplaced: String(item.lastReplaced || getRelativeDateStr(0)),
-                            intervalDays: Number(item.intervalDays) || 180,
-                            notes: String(item.notes || '')
-                        }));
+                        games = result.data.map(normalizeGameItem);
                         saveGamesToStorage(false);
                         renderGames();
                         if (showFeedback) {
@@ -972,7 +1026,83 @@
         }
 
         // ==========================================
-        // 3. 日期與狀態燈號計算引擎
+        // 3. 訓練目標多選篩選列渲染與控制
+        // ==========================================
+        function renderTrainingGoalPills() {
+            const container = document.getElementById('training-goal-pills');
+            const hint = document.getElementById('selected-goals-hint');
+            if (!container) return;
+
+            const isAll = selectedGoals.size === 0;
+            const allBtnClass = isAll
+                ? 'bg-indigo-600 text-white shadow-xs ring-2 ring-indigo-600/20 font-semibold'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium';
+
+            let html = `
+                <button type="button" onclick="clearGoalFilter()" class="px-3.5 py-1.5 rounded-full text-xs sm:text-sm transition cursor-pointer ${allBtnClass}">
+                    全部目標
+                </button>
+            `;
+
+            html += TRAINING_GOALS.map(goal => {
+                const isActive = selectedGoals.has(goal);
+                const btnClass = isActive
+                    ? 'bg-indigo-600 text-white shadow-xs ring-2 ring-indigo-600/20 font-semibold'
+                    : 'bg-slate-100/90 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 font-medium';
+                const checkIcon = isActive ? '<span class="mr-1">✓</span>' : '';
+                return `
+                    <button type="button" onclick="toggleGoalFilter('${escapeHTML(goal)}')" class="px-3.5 py-1.5 rounded-full text-xs sm:text-sm transition cursor-pointer ${btnClass}">
+                        ${checkIcon}${escapeHTML(goal)}
+                    </button>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
+
+            if (hint) {
+                if (selectedGoals.size > 0) {
+                    hint.textContent = `已選 ${selectedGoals.size} 項：${Array.from(selectedGoals).join(' + ')}`;
+                    hint.classList.remove('hidden');
+                } else {
+                    hint.classList.add('hidden');
+                }
+            }
+        }
+
+        function toggleGoalFilter(goal) {
+            if (selectedGoals.has(goal)) {
+                selectedGoals.delete(goal);
+            } else {
+                selectedGoals.add(goal);
+            }
+            renderTrainingGoalPills();
+            renderGames();
+        }
+
+        function clearGoalFilter() {
+            selectedGoals.clear();
+            renderTrainingGoalPills();
+            renderGames();
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('search-input');
+            if (input) {
+                input.value = '';
+                renderGames();
+            }
+        }
+
+        function resetAllFilters() {
+            selectedGoals.clear();
+            renderTrainingGoalPills();
+            const input = document.getElementById('search-input');
+            if (input) input.value = '';
+            setFilter('all');
+        }
+
+        // ==========================================
+        // 4. 日期與狀態燈號計算引擎
         // ==========================================
         function calculateGameStatus(game) {
             const today = new Date();
@@ -1011,7 +1141,7 @@
         }
 
         // ==========================================
-        // 4. 卡套尺寸智慧合併與採購統計
+        // 5. 卡套尺寸智慧合併與採購統計
         // ==========================================
         function normalizeSleeveSize(rawSize) {
             const trimmed = String(rawSize || '未指定尺寸').trim();
@@ -1349,8 +1479,8 @@
 
             const todayStr = new Date().toISOString().split('T')[0];
             const title = sizeStatsMode === 'needed'
-                ? `【小船桌遊卡套】需補貨採購清單 (${todayStr})`
-                : `【小船桌遊卡套】全館卡套尺寸總統計 (${todayStr})`;
+                ? `【小船桌遊】需補貨卡套採購清單 (${todayStr})`
+                : `【小船桌遊】全館卡套尺寸總統計 (${todayStr})`;
 
             const detailLines = targetList.map((item, idx) => {
                 const gameNames = item.games.map(g => `${g.name}(${g.count})`).join('、');
@@ -1400,19 +1530,25 @@
         }
 
         // ==========================================
-        // 5. 畫面渲染與統計更新
+        // 6. 畫面渲染與統計更新
         // ==========================================
         function renderGames() {
             const grid = document.getElementById('games-grid');
             const emptyState = document.getElementById('empty-state');
-            const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+            const searchInput = document.getElementById('search-input');
+            const clearSearchBtn = document.getElementById('btn-clear-search');
+            const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : '';
             const sortBy = document.getElementById('sort-select').value;
+
+            if (clearSearchBtn) {
+                if (searchTerm) clearSearchBtn.classList.remove('hidden');
+                else clearSearchBtn.classList.add('hidden');
+            }
 
             let totalSleeves = 0;
             let healthyCount = 0;
             let dueSoonCount = 0;
             let overdueCount = 0;
-            const overdueGamesList = [];
 
             const enrichedGames = games.map(game => {
                 const statusInfo = calculateGameStatus(game);
@@ -1423,7 +1559,6 @@
                     dueSoonCount++;
                 } else if (statusInfo.status === 'red') {
                     overdueCount++;
-                    overdueGamesList.push({ ...game, ...statusInfo });
                 }
                 return { ...game, statusInfo };
             });
@@ -1445,14 +1580,28 @@
                 banner.classList.add('hidden');
             }
 
+            // 篩選條件：1.燈號狀態 2.訓練目標多選(交集:需包含所有已選目標) 3.搜尋關鍵字(支援空格多關鍵字)
+            const keywords = searchTerm ? searchTerm.split(/\s+/).filter(Boolean) : [];
+            const activeGoalsArr = Array.from(selectedGoals);
+
             let filtered = enrichedGames.filter(item => {
                 const matchFilter = currentFilter === 'all' || item.statusInfo.status === currentFilter;
-                const matchSearch = !searchTerm ||
-                    item.name.toLowerCase().includes(searchTerm) ||
-                    item.size.toLowerCase().includes(searchTerm) ||
-                    (item.brand && item.brand.toLowerCase().includes(searchTerm)) ||
-                    (item.notes && item.notes.toLowerCase().includes(searchTerm));
-                return matchFilter && matchSearch;
+
+                const gameGoals = Array.isArray(item.goals) ? item.goals : [];
+                const matchGoals = activeGoalsArr.length === 0 || activeGoalsArr.every(g => gameGoals.includes(g));
+
+                const searchableBlob = [
+                    item.name,
+                    gameGoals.join(' '),
+                    item.accessories || '',
+                    item.size || '',
+                    item.brand || '',
+                    item.notes || ''
+                ].join(' ').toLowerCase();
+
+                const matchSearch = keywords.length === 0 || keywords.every(kw => searchableBlob.includes(kw));
+
+                return matchFilter && matchGoals && matchSearch;
             });
 
             const statusWeight = { red: 1, yellow: 2, green: 3 };
@@ -1471,6 +1620,11 @@
                 }
                 return 0;
             });
+
+            const countEl = document.getElementById('filter-result-count');
+            if (countEl) {
+                countEl.textContent = `顯示 ${filtered.length} / ${games.length} 款桌遊`;
+            }
 
             if (filtered.length === 0) {
                 grid.innerHTML = '';
@@ -1513,38 +1667,82 @@
                 replaceBtnClass = 'bg-red-600 hover:bg-red-700 text-white shadow-xs';
             }
 
+            const goalsList = Array.isArray(game.goals) ? game.goals : [];
+            const goalsHTML = goalsList.length > 0
+                ? `<div class="space-y-1">
+                    <span class="block text-[11px] font-semibold text-slate-400">訓練目標</span>
+                    <div class="flex flex-wrap gap-1.5">
+                        ${goalsList.map(g => {
+                            const isSelected = selectedGoals.has(g);
+                            const tagStyle = isSelected
+                                ? 'bg-indigo-600 text-white border-indigo-600 font-semibold'
+                                : 'bg-indigo-50/90 text-indigo-700 border-indigo-200/80 font-medium';
+                            return `<button type="button" onclick="toggleGoalFilter('${escapeHTML(g)}')" class="px-2 py-0.5 rounded-md text-xs border transition cursor-pointer hover:opacity-85 ${tagStyle}" title="點擊篩選「${escapeHTML(g)}」">${escapeHTML(g)}</button>`;
+                        }).join('')}
+                    </div>
+                </div>`
+                : '';
+
+            // 桌遊圖片區塊（有圖片顯示圖片，無圖片顯示簡潔佔位框並可點擊編輯新增）
+            const imageBlockHTML = game.imageUrl
+                ? `<div class="relative w-full h-44 bg-slate-100 border-b border-slate-100 overflow-hidden group">
+                    <img src="${escapeHTML(game.imageUrl)}" alt="${escapeHTML(game.name)}" onerror="this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs gap-1\\'><i data-lucide=\\'image-off\\' class=\\'w-6 h-6\\'></i><span>圖片無法載入</span></div>'; lucide.createIcons();" class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105">
+                    <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs border shadow-xs backdrop-blur-xs ${badgeBg}">
+                        <span class="w-2 h-2 rounded-full ${ledClass}"></span>
+                        ${statusText}
+                    </span>
+                </div>`
+                : `<div onclick="openGameModal('${escapeHTML(game.id)}')" class="relative w-full h-24 bg-gradient-to-br from-slate-100 to-slate-50 border-b border-slate-100 flex items-center justify-center text-slate-400 hover:text-indigo-600 transition cursor-pointer group" title="點擊為此桌遊新增封面圖片">
+                    <div class="flex items-center gap-2 text-xs font-medium">
+                        <i data-lucide="image-plus" class="w-4 h-4 group-hover:scale-110 transition"></i>
+                        <span>尚未設定桌遊圖片（點擊新增）</span>
+                    </div>
+                    <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs border ${badgeBg}">
+                        <span class="w-2 h-2 rounded-full ${ledClass}"></span>
+                        ${statusText}
+                    </span>
+                </div>`;
+
             return `
                 <article id="game-card-${escapeHTML(game.id)}" class="bg-white rounded-2xl border ${cardBorder} shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
                     <div>
-                        <!-- 卡片頂部狀態區 -->
-                        <div class="px-5 py-4 ${headerBg} border-b flex items-start justify-between gap-3">
-                            <div class="flex items-start gap-3 min-w-0">
-                                <span class="w-3.5 h-3.5 rounded-full ${ledClass} inline-block shrink-0 mt-1.5" title="${statusText}"></span>
-                                <div class="min-w-0">
-                                    <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-snug line-clamp-2" title="${escapeHTML(game.name)}">
-                                        ${escapeHTML(game.name)}
-                                    </h3>
-                                    ${game.brand ? `
-                                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1 truncate" title="${escapeHTML(game.brand)}">
-                                        <i data-lucide="tag" class="w-3 h-3 text-slate-400 shrink-0"></i>
-                                        <span class="truncate">${escapeHTML(game.brand)}</span>
-                                    </p>` : ''}
-                                </div>
+                        <!-- 桌遊圖片與狀態徽章 -->
+                        ${imageBlockHTML}
+
+                        <!-- 卡片標題區 -->
+                        <div class="px-5 py-3.5 ${headerBg} border-b flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <h3 class="text-base sm:text-lg font-bold text-slate-800 leading-snug line-clamp-2" title="${escapeHTML(game.name)}">
+                                    ${escapeHTML(game.name)}
+                                </h3>
+                                ${game.brand ? `
+                                <p class="text-xs text-slate-500 mt-1 flex items-center gap-1 truncate" title="${escapeHTML(game.brand)}">
+                                    <i data-lucide="tag" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                                    <span class="truncate">${escapeHTML(game.brand)}</span>
+                                </p>` : ''}
                             </div>
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs border ${badgeBg} shrink-0">
-                                ${statusText}
-                            </span>
                         </div>
 
-                        <!-- 卡片中間規格與時間資訊區 -->
-                        <div class="p-5 space-y-3">
+                        <!-- 卡片中間：訓練目標、桌遊配件、卡套尺寸與更換時間 -->
+                        <div class="p-5 space-y-3.5">
+                            ${goalsHTML}
+
+                            ${game.accessories ? `
+                            <div class="bg-indigo-50/50 rounded-xl p-3 border border-indigo-100/80 text-xs">
+                                <span class="font-bold text-indigo-900 flex items-center gap-1 mb-1">
+                                    <i data-lucide="package" class="w-3.5 h-3.5 text-indigo-600"></i>
+                                    桌遊配件
+                                </span>
+                                <p class="text-slate-700 leading-relaxed">${escapeHTML(game.accessories)}</p>
+                            </div>` : ''}
+
                             <div class="grid grid-cols-2 gap-3">
                                 <div class="bg-slate-50/90 rounded-xl p-3 border border-slate-100">
                                     <span class="block text-[11px] font-medium text-slate-400 mb-1">卡套尺寸</span>
                                     <span class="block text-xs sm:text-sm font-bold text-slate-800 leading-snug">${escapeHTML(game.size)}</span>
                                 </div>
                                 <div class="bg-slate-50/90 rounded-xl p-3 border border-slate-100">
-                                    <span class="block text-[11px] font-medium text-slate-400 mb-1">所需數量</span>
+                                    <span class="block text-[11px] font-medium text-slate-400 mb-1">卡套數量</span>
                                     <span class="block text-sm sm:text-base font-bold text-indigo-600">${Number(game.count).toLocaleString()} 張</span>
                                 </div>
                             </div>
@@ -1596,9 +1794,9 @@
             currentFilter = filter;
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 if (btn.dataset.filter === filter) {
-                    btn.className = 'filter-btn active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white flex items-center gap-2';
+                    btn.className = 'filter-btn active px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-800 text-white flex items-center gap-2';
                 } else {
-                    btn.className = 'filter-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2';
+                    btn.className = 'filter-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center gap-2';
                 }
             });
             renderGames();
@@ -1608,6 +1806,10 @@
             const searchInput = document.getElementById('search-input');
             if (searchInput && searchInput.value.trim() !== '') {
                 searchInput.value = '';
+            }
+            if (selectedGoals.size > 0) {
+                selectedGoals.clear();
+                renderTrainingGoalPills();
             }
 
             if (status === 'all') {
@@ -1637,8 +1839,106 @@
         }
 
         // ==========================================
-        // 6. 新增、編輯、今日已更換與安全刪除
+        // 7. 新增、編輯、圖片處理、今日已更換與安全刪除
         // ==========================================
+        function renderModalGoalsSelector() {
+            const container = document.getElementById('modal-goals-selector');
+            if (!container) return;
+
+            container.innerHTML = TRAINING_GOALS.map(goal => {
+                const isSelected = modalSelectedGoals.has(goal);
+                const style = isSelected
+                    ? 'bg-indigo-600 text-white border-indigo-600 font-semibold shadow-2xs'
+                    : 'bg-white hover:bg-indigo-50 text-slate-700 border-slate-200 font-medium';
+                return `
+                    <button type="button" onclick="toggleModalGoal('${escapeHTML(goal)}')" class="px-3 py-1.5 rounded-full text-xs border transition cursor-pointer ${style}">
+                        ${isSelected ? '✓ ' : ''}${escapeHTML(goal)}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function toggleModalGoal(goal) {
+            if (modalSelectedGoals.has(goal)) {
+                modalSelectedGoals.delete(goal);
+            } else {
+                modalSelectedGoals.add(goal);
+            }
+            renderModalGoalsSelector();
+        }
+
+        function updateModalImagePreview() {
+            const urlInput = document.getElementById('game-image-url');
+            const previewBox = document.getElementById('modal-image-preview-box');
+            const previewImg = document.getElementById('modal-image-preview');
+            const clearBtn = document.getElementById('btn-clear-modal-img');
+            const val = urlInput ? urlInput.value.trim() : '';
+
+            if (val) {
+                previewImg.src = val;
+                previewBox.classList.remove('hidden');
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            } else {
+                previewImg.src = '';
+                previewBox.classList.add('hidden');
+                if (clearBtn) clearBtn.classList.add('hidden');
+            }
+        }
+
+        function clearModalImage() {
+            const urlInput = document.getElementById('game-image-url');
+            const fileInput = document.getElementById('game-image-file');
+            if (urlInput) urlInput.value = '';
+            if (fileInput) fileInput.value = '';
+            updateModalImagePreview();
+        }
+
+        // 本機圖片自動等比例縮圖與壓縮（確保可順利存入 Google 試算表儲存格）
+        function handleImageFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIDE = 360;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_SIDE) {
+                            height = Math.round((height * MAX_SIDE) / width);
+                            width = MAX_SIDE;
+                        }
+                    } else {
+                        if (height > MAX_SIDE) {
+                            width = Math.round((width * MAX_SIDE) / height);
+                            height = MAX_SIDE;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.72);
+                    if (compressedDataUrl.length > 45000) {
+                        showToast('圖片檔案較大，建議改用網路圖片網址以獲得最佳試算表同步速度', 'warning');
+                    } else {
+                        showToast('已成功載入並最佳化桌遊圖片！', 'success');
+                    }
+
+                    document.getElementById('game-image-url').value = compressedDataUrl;
+                    updateModalImagePreview();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
         function getAllSizeOptions() {
             let savedCustom = [];
             try {
@@ -1761,13 +2061,17 @@
             const sizeDropdown = document.getElementById('size-dropdown-list');
             form.reset();
             if (sizeDropdown) sizeDropdown.classList.add('hidden');
+            modalSelectedGoals.clear();
 
             if (gameId) {
                 const game = games.find(g => g.id === gameId);
                 if (!game) return;
-                titleEl.innerHTML = '<i data-lucide="pencil" class="w-5 h-5 text-amber-400"></i><span>編輯桌遊卡套紀錄</span>';
+                titleEl.innerHTML = '<i data-lucide="pencil" class="w-5 h-5 text-amber-400"></i><span>編輯桌遊紀錄</span>';
                 document.getElementById('game-id').value = game.id;
                 document.getElementById('game-name').value = game.name;
+                (game.goals || []).forEach(g => modalSelectedGoals.add(g));
+                document.getElementById('game-image-url').value = game.imageUrl || '';
+                document.getElementById('game-accessories').value = game.accessories || '';
                 document.getElementById('game-size').value = game.size;
                 document.getElementById('game-count').value = game.count;
                 document.getElementById('game-last-replaced').value = game.lastReplaced;
@@ -1775,11 +2079,16 @@
                 document.getElementById('game-brand').value = game.brand || '';
                 document.getElementById('game-notes').value = game.notes || '';
             } else {
-                titleEl.innerHTML = '<i data-lucide="layers" class="w-5 h-5 text-amber-400"></i><span>新增桌遊卡套紀錄</span>';
+                titleEl.innerHTML = '<i data-lucide="layers" class="w-5 h-5 text-amber-400"></i><span>新增桌遊紀錄</span>';
                 document.getElementById('game-id').value = '';
+                document.getElementById('game-image-url').value = '';
+                document.getElementById('game-accessories').value = '';
                 document.getElementById('game-last-replaced').value = getRelativeDateStr(0);
                 document.getElementById('game-interval').value = '180';
             }
+
+            renderModalGoalsSelector();
+            updateModalImagePreview();
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1800,9 +2109,15 @@
             const sizeVal = document.getElementById('game-size').value.trim();
             saveSizeOptionIfNew(sizeVal);
 
+            // 依照 TRAINING_GOALS 固定順序排列訓練目標
+            const orderedGoals = TRAINING_GOALS.filter(g => modalSelectedGoals.has(g));
+
             const payload = {
                 id: id || ('game-' + Date.now()),
                 name: document.getElementById('game-name').value.trim(),
+                goals: orderedGoals,
+                accessories: document.getElementById('game-accessories').value.trim(),
+                imageUrl: document.getElementById('game-image-url').value.trim(),
                 size: sizeVal,
                 count: Number(document.getElementById('game-count').value) || 0,
                 lastReplaced: document.getElementById('game-last-replaced').value,
@@ -1814,7 +2129,7 @@
             if (id) {
                 const idx = games.findIndex(g => g.id === id);
                 if (idx !== -1) games[idx] = payload;
-                showToast(`已更新「${payload.name}」的卡套紀錄`, 'success');
+                showToast(`已更新「${payload.name}」的紀錄`, 'success');
             } else {
                 games.unshift(payload);
                 showToast(`已新增「${payload.name}」`, 'success');
@@ -1852,7 +2167,7 @@
         function confirmDeleteGame(id, name) {
             deleteTargetId = id;
             document.getElementById('confirm-title').textContent = `安全驗證：刪除「${name}」`;
-            document.getElementById('confirm-desc').textContent = `確定要永久移除「${name}」的卡套追蹤紀錄嗎？`;
+            document.getElementById('confirm-desc').textContent = `確定要永久移除「${name}」的桌遊紀錄嗎？`;
 
             const pwdInput = document.getElementById('delete-password-input');
             const errText = document.getElementById('delete-password-error');
@@ -1900,7 +2215,7 @@
         }
 
         // ==========================================
-        // 7. 桌面通知與 EmailJS 自動提醒系統
+        // 8. 瀏覽器桌面通知提醒系統
         // ==========================================
         function updateNotificationButtonState() {
             const btnText = document.getElementById('notify-perm-text');
@@ -1923,18 +2238,18 @@
                 return;
             }
             if (Notification.permission === 'granted') {
-                showToast('桌面通知功能已啟用！有桌遊到期時會自動提醒您。', 'success');
+                showToast('桌面通知功能已啟用！當您在筆電開啟此分頁且有桌遊到期時會自動提醒。', 'success');
                 return;
             }
             Notification.requestPermission().then(permission => {
                 updateNotificationButtonState();
                 if (permission === 'granted') {
                     showToast('已成功開啟桌面通知提醒！', 'success');
-                    new Notification('小船桌遊卡套', {
-                        body: '桌面提醒已啟用！當桌遊卡套到達更換週期時將第一時間通知您。'
+                    new Notification('小船桌遊', {
+                        body: '桌面提醒已啟用！開啟此分頁時，若卡套到達更換週期將第一時間通知您。'
                     });
                 } else {
-                    showToast('您拒絕了桌面通知權限，仍可透過頁面紅燈與 Email 接收提醒。', 'warning');
+                    showToast('您拒絕了桌面通知權限，仍可透過頁面紅燈提示檢視到期項目。', 'warning');
                 }
             });
         }
@@ -1955,7 +2270,7 @@
 
             if (newlyOverdue.length > 0 && 'Notification' in window && Notification.permission === 'granted') {
                 const names = newlyOverdue.map(g => g.name).join('、');
-                new Notification('🔴 桌遊卡套更換提醒！', {
+                new Notification('🔴 小船桌遊：卡套更換提醒！', {
                     body: `「${names}」的卡套已到達更換時間，請準備對應尺寸進行更換。`
                 });
                 newlyOverdue.forEach(g => {
@@ -1963,174 +2278,14 @@
                 });
                 localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
             }
-
-            const emailCfg = getEmailSettings();
-            if (emailCfg.autoEmail && emailCfg.publicKey && emailCfg.serviceId && emailCfg.templateId && emailCfg.targetEmail) {
-                const lastSentTimestamp = Number(localStorage.getItem(LAST_EMAIL_SENT_KEY) || 0);
-                const now = Date.now();
-                const isFirstTimeOrMonthlyDue = (now - lastSentTimestamp) >= EMAIL_COOLDOWN_MS;
-
-                if (newlyOverdue.length > 0 || isFirstTimeOrMonthlyDue) {
-                    sendOverdueEmailReport(true);
-                }
-            }
-        }
-
-        function getEmailSettings() {
-            try {
-                const saved = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
-                return {
-                    targetEmail: saved.targetEmail || DEFAULT_TARGET_EMAIL,
-                    publicKey: saved.publicKey || '',
-                    serviceId: saved.serviceId || '',
-                    templateId: saved.templateId || '',
-                    autoEmail: Boolean(saved.autoEmail)
-                };
-            } catch (e) {
-                return { targetEmail: DEFAULT_TARGET_EMAIL };
-            }
-        }
-
-        function saveEmailSettings() {
-            const cfg = {
-                targetEmail: document.getElementById('cfg-target-email').value.trim() || DEFAULT_TARGET_EMAIL,
-                publicKey: document.getElementById('cfg-public-key').value.trim(),
-                serviceId: document.getElementById('cfg-service-id').value.trim(),
-                templateId: document.getElementById('cfg-template-id').value.trim(),
-                autoEmail: document.getElementById('cfg-auto-email').checked
-            };
-            localStorage.setItem(SETTINGS_KEY, JSON.stringify(cfg));
-            showToast('EmailJS 通知設定已儲存！', 'success');
-        }
-
-        async function sendOverdueEmailReport(isAuto = false) {
-            const cfg = getEmailSettings();
-            if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId || !cfg.targetEmail) {
-                if (!isAuto) {
-                    showToast('請先在「雲端與通知設定」中填寫完整的 EmailJS 金鑰與收件人信箱！', 'warning');
-                    openSettingsModal();
-                }
-                return;
-            }
-
-            const enriched = games.map(g => ({ ...g, statusInfo: calculateGameStatus(g) }));
-            const overdueItems = enriched.filter(g => g.statusInfo.status === 'red');
-            const upcoming30DaysItems = enriched.filter(g => g.statusInfo.daysRemaining > 0 && g.statusInfo.daysRemaining <= 30);
-
-            if (overdueItems.length === 0 && upcoming30DaysItems.length === 0 && !isAuto) {
-                showToast('目前沒有已到期或未來 30 天內即將到期的桌遊，無需發送提醒信！', 'info');
-                return;
-            }
-
-            const newThisMonth = overdueItems.filter(g => Math.abs(g.statusInfo.daysRemaining) < 30);
-            const overdueOverMonth = overdueItems.filter(g => Math.abs(g.statusInfo.daysRemaining) >= 30);
-
-            const formatLine = (g) => {
-                const days = g.statusInfo.daysRemaining;
-                const statusDesc = days <= 0 ? `已過期 ${Math.abs(days)} 天` : `剩餘 ${days} 天到期`;
-                return `• ${g.name}｜尺寸：${g.size}｜數量：${g.count} 張｜預計更換日：${g.statusInfo.nextDateStr}（${statusDesc}）`;
-            };
-
-            const sections = [
-                '您好，這是來自【小船桌遊卡套管理系統】的定期卡套更換彙整提醒：\n'
-            ];
-
-            if (newThisMonth.length > 0) {
-                sections.push(`【🔴 本月新到期需更換 (${newThisMonth.length} 款)】\n${newThisMonth.map(formatLine).join('\n')}\n`);
-            }
-            if (overdueOverMonth.length > 0) {
-                sections.push(`【⚠️ 已過期滿 1 個月以上仍未更換 (${overdueOverMonth.length} 款)】\n${overdueOverMonth.map(formatLine).join('\n')}\n`);
-            }
-            if (upcoming30DaysItems.length > 0) {
-                sections.push(`【🟡 未來 1 個月內即將到期預告 (${upcoming30DaysItems.length} 款)】\n${upcoming30DaysItems.map(formatLine).join('\n')}\n`);
-            }
-
-            const sizeSummaryMap = new Map();
-            [...overdueItems, ...upcoming30DaysItems].forEach(g => {
-                const norm = normalizeSleeveSize(g.size);
-                sizeSummaryMap.set(norm.displayLabel, (sizeSummaryMap.get(norm.displayLabel) || 0) + (Number(g.count) || 0));
-            });
-
-            if (sizeSummaryMap.size > 0) {
-                const summaryLines = Array.from(sizeSummaryMap.entries())
-                    .map(([size, total]) => `  - ${size}：共 ${total} 張`)
-                    .join('\n');
-                sections.push(`【🛒 建議備貨尺寸數量小計】\n${summaryLines}\n`);
-            }
-
-            sections.push('請準備對應尺寸卡套進行更換，完成後別忘了回網頁點擊「今日已更換」重新計時喔！');
-
-            const messageBody = sections.join('\n');
-            const totalUrgent = overdueItems.length;
-            const subjectLine = totalUrgent > 0
-                ? `【小船桌遊卡套】提醒：共有 ${totalUrgent} 款桌遊卡套已到期需更換${upcoming30DaysItems.length > 0 ? `（另有 ${upcoming30DaysItems.length} 款即將到期）` : ''}`
-                : `【小船桌遊卡套】預告：未來 1 個月內有 ${upcoming30DaysItems.length} 款桌遊卡套即將到期`;
-
-            try {
-                if (!isAuto) showToast('正在透過 EmailJS 寄送彙整提醒信...', 'info');
-                emailjs.init({ publicKey: cfg.publicKey });
-                await emailjs.send(cfg.serviceId, cfg.templateId, {
-                    to_email: cfg.targetEmail,
-                    subject: subjectLine,
-                    message: messageBody
-                });
-
-                localStorage.setItem(LAST_EMAIL_SENT_KEY, String(Date.now()));
-                let notifiedMap = {};
-                try { notifiedMap = JSON.parse(localStorage.getItem(NOTIFIED_CYCLES_KEY) || '{}'); } catch (e) {}
-                overdueItems.forEach(g => { notifiedMap[g.id] = g.lastReplaced; });
-                localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
-
-                if (!isAuto) {
-                    showToast(`已成功將彙整提醒信寄送至 ${cfg.targetEmail}！`, 'success');
-                }
-            } catch (err) {
-                console.error('EmailJS 發送失敗:', err);
-                if (!isAuto) {
-                    showToast('Email 寄送失敗，請檢查 EmailJS 金鑰與 Template 變數設定', 'error');
-                }
-            }
-        }
-
-        async function sendTestEmail() {
-            const cfg = {
-                targetEmail: document.getElementById('cfg-target-email').value.trim() || DEFAULT_TARGET_EMAIL,
-                publicKey: document.getElementById('cfg-public-key').value.trim(),
-                serviceId: document.getElementById('cfg-service-id').value.trim(),
-                templateId: document.getElementById('cfg-template-id').value.trim()
-            };
-            if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId || !cfg.targetEmail) {
-                showToast('請先填寫完整四個欄位再寄送測試信！', 'warning');
-                return;
-            }
-            try {
-                showToast('正在寄送測試信件...', 'info');
-                emailjs.init({ publicKey: cfg.publicKey });
-                await emailjs.send(cfg.serviceId, cfg.templateId, {
-                    to_email: cfg.targetEmail,
-                    subject: '【小船桌遊卡套】EmailJS 通知測試成功！',
-                    message: '恭喜！您的【小船桌遊卡套管理系統】已成功連接 EmailJS。當桌遊卡套到期時，系統將會自動寄發通知信至此信箱。'
-                });
-                showToast('測試信件已成功寄出，請檢查您的信箱！', 'success');
-            } catch (err) {
-                console.error('測試信失敗:', err);
-                showToast('測試信發送失敗，請確認 Service ID / Template ID / Public Key 是否正確', 'error');
-            }
         }
 
         // ==========================================
-        // 8. JSON 備份匯出與匯入、設定視窗與工具函式
+        // 9. JSON 備份匯出與匯入、設定視窗與工具函式
         // ==========================================
         function openSettingsModal() {
             document.getElementById('cfg-gs-url').value = getGoogleSheetUrl();
             updateCloudSyncUI();
-
-            const emailCfg = getEmailSettings();
-            document.getElementById('cfg-target-email').value = emailCfg.targetEmail || DEFAULT_TARGET_EMAIL;
-            document.getElementById('cfg-public-key').value = emailCfg.publicKey || '';
-            document.getElementById('cfg-service-id').value = emailCfg.serviceId || '';
-            document.getElementById('cfg-template-id').value = emailCfg.templateId || '';
-            document.getElementById('cfg-auto-email').checked = Boolean(emailCfg.autoEmail);
             document.getElementById('cfg-delete-password').value = getDeletePassword();
             renderSettingsSizeOptions();
 
@@ -2152,7 +2307,7 @@
             const a = document.createElement('a');
             const dateStr = new Date().toISOString().split('T')[0];
             a.href = url;
-            a.download = `boat-boardgame-sleeves-backup-${dateStr}.json`;
+            a.download = `boat-boardgames-backup-${dateStr}.json`;
             a.click();
             URL.revokeObjectURL(url);
             showToast('已匯出 JSON 備份檔案！', 'success');
@@ -2166,11 +2321,11 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (!Array.isArray(imported)) throw new Error('格式錯誤');
-                    games = imported;
+                    games = imported.map(normalizeGameItem);
                     saveGamesToStorage(true);
                     renderGames();
                     closeSettingsModal();
-                    showToast(`成功匯入 ${games.length} 筆桌遊卡套資料！`, 'success');
+                    showToast(`成功匯入 ${games.length} 筆桌遊資料！`, 'success');
                 } catch (err) {
                     showToast('匯入失敗：檔案格式不正確，請選擇正確的 JSON 備份檔', 'error');
                 }
