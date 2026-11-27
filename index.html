@@ -100,55 +100,49 @@
 
     <!-- 頂部導覽列 -->
     <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3.5 sm:py-4">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
-                <!-- 第一列：Logo、標題與手機版右上角「試算表已同步」 -->
-                <div class="flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                        <div class="bg-amber-500 text-slate-900 p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
-                            <i data-lucide="anchor" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <h1 class="text-lg sm:text-2xl font-bold tracking-tight flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                                <span>小船桌遊</span>
-                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 hover:border-amber-400 px-2 py-0.5 rounded-full transition cursor-pointer" title="前往 GitHub">
-                                    <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
-                                    </svg>
-                                    <span>GitHub</span>
-                                </a>
-                            </h1>
-                            <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 truncate">訓練目標分類檢索 • 桌遊配件與卡套更換追蹤</p>
-                        </div>
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 sm:gap-4">
+                <!-- 第一列：Logo 與標題 -->
+                <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <div class="bg-amber-500 text-slate-900 p-2 sm:p-2.5 rounded-xl shadow-md shrink-0">
+                        <i data-lucide="anchor" class="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]"></i>
                     </div>
-
-                    <!-- 手機版：最右上角「試算表已同步」按鈕 -->
-                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync-mobile" class="sm:hidden hidden inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-[11px] font-medium bg-emerald-950/90 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer shrink-0" title="點擊立即從 Google 試算表重新同步最新資料">
-                        <i data-lucide="cloud-check" id="cloud-sync-icon-mobile" class="w-3.5 h-3.5 text-emerald-400"></i>
-                        <span id="cloud-sync-text-mobile">試算表已同步</span>
-                    </button>
+                    <div class="min-w-0">
+                        <h1 class="text-lg sm:text-2xl font-bold tracking-tight flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                            <span>小船桌遊</span>
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 hover:border-amber-400 px-2 py-0.5 rounded-full transition cursor-pointer" title="前往 GitHub">
+                                <svg class="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+                                </svg>
+                                <span>GitHub</span>
+                            </a>
+                        </h1>
+                        <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5 truncate">訓練目標分類檢索 • 桌遊配件與卡套更換追蹤</p>
+                    </div>
                 </div>
 
-                <!-- 第二列（手機版）／右側（電腦版）：操作按鈕群 -->
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
-                        <i data-lucide="bell" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400"></i>
+                <!-- 第二列（手機版同一橫排）／右側（電腦版）：操作按鈕群 -->
+                <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 flex-nowrap">
+                    <!-- 桌面提醒按鈕（手機版隱藏，僅電腦版顯示） -->
+                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
+                        <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
                         <span id="notify-perm-text">開啟桌面提醒</span>
                     </button>
 
-                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer" title="系統與備份設定">
+                    <!-- 試算表已同步 -->
+                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer whitespace-nowrap shrink-0" title="點擊立即從 Google 試算表重新同步最新資料">
+                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
+                        <span id="cloud-sync-text">試算表已同步</span>
+                    </button>
+
+                    <!-- 系統設定 -->
+                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap shrink-0" title="系統與備份設定">
                         <i data-lucide="settings" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400"></i>
                         <span>系統設定</span>
                     </button>
 
-                    <!-- 電腦版「試算表已同步」按鈕 -->
-                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer" title="點擊立即從 Google 試算表重新同步最新資料">
-                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-4 h-4 text-emerald-400"></i>
-                        <span id="cloud-sync-text">試算表已同步</span>
-                    </button>
-
-                    <!-- 新增桌遊（手機版緊接在系統設定右邊） -->
-                    <button onclick="openGameModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer">
+                    <!-- 新增桌遊 -->
+                    <button onclick="openGameModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer whitespace-nowrap shrink-0">
                         <i data-lucide="plus" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]"></i>
                         <span>新增桌遊</span>
                     </button>
@@ -160,7 +154,7 @@
     <!-- 主要內容區 -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5 sm:space-y-6">
 
-        <!-- 紅色提醒橫幅 (有過期桌遊時自動顯示，已移除副標說明文字) -->
+        <!-- 紅色提醒橫幅 (有過期桌遊時自動顯示) -->
         <div id="overdue-banner" class="hidden bg-red-50 border-l-4 border-red-500 rounded-r-2xl p-3.5 sm:p-4 shadow-sm flex items-center justify-between gap-3">
             <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <div class="p-1.5 sm:p-2 bg-red-100 rounded-xl text-red-600 shrink-0">
@@ -169,7 +163,7 @@
                 <h3 class="text-xs sm:text-base font-bold text-red-800 leading-snug" id="overdue-banner-title">提醒：有桌遊的卡套已到達更換時間！</h3>
             </div>
             <div class="flex items-center gap-2 shrink-0">
-                <button onclick="jumpToGameByStatus('red')" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] sm:text-sm font-medium rounded-xl shadow-sm transition cursor-pointer">
+                <button onclick="jumpToGameByStatus('red')" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-red-600 hover:bg-red-700 text-white text-[11px] sm:text-sm font-medium rounded-xl shadow-sm transition cursor-pointer whitespace-nowrap">
                     <i data-lucide="arrow-down-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
                     <span>檢視需更換桌遊</span>
                 </button>
@@ -709,6 +703,7 @@
         let pinnedPopoverSizeKey = null;
         let hoveredPopoverSizeKey = null;
         let lastCloudSyncTime = 0;
+        let lastIsMobileView = window.innerWidth < 640;
 
         // 將 Google 雲端硬碟分享連結自動轉換為可直接顯示的圖片網址
         function fixGoogleDriveUrl(url) {
@@ -775,6 +770,11 @@
             });
 
             window.addEventListener('resize', () => {
+                const isNowMobile = window.innerWidth < 640;
+                if (isNowMobile !== lastIsMobileView) {
+                    lastIsMobileView = isNowMobile;
+                    renderSizeStats();
+                }
                 if (pinnedPopoverSizeKey) {
                     const trigger = document.querySelector(`.ellipsis-games-trigger[data-size-key="${CSS.escape(pinnedPopoverSizeKey)}"]`);
                     if (trigger) positionSizeGamesPopover(trigger);
@@ -798,7 +798,7 @@
                 }
             });
 
-            // 只要停留在網頁畫面，每 30 秒自動在背景檢查試算表是否有資料更新
+            // 只要停留在網頁畫面，每 30 秒在背景靜默檢查試算表是否有資料更新（不跳右下角通知）
             setInterval(() => {
                 if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
                     const isModalOpen = !document.getElementById('game-modal').classList.contains('hidden') ||
@@ -813,7 +813,7 @@
                 if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
                     const now = Date.now();
                     if (now - lastCloudSyncTime > 5000) {
-                        syncFromGoogleSheet(false);
+                        syncFromGoogleSheet(false, true);
                     }
                 }
             });
@@ -826,6 +826,39 @@
             setInterval(checkAndTriggerAlerts, 3600000);
         });
 
+        // 智慧解析試算表的更換週期欄位（相容各種欄位名稱、字串「365天」或「1年」）
+        function parseIntervalDays(item) {
+            const rawVal = item.intervalDays ?? item.interval ?? item.cycle ?? item['更換週期'] ?? item['建議更換週期'] ?? item['週期'] ?? item['天數'] ?? '';
+            const strVal = String(rawVal).trim();
+            if (!strVal) return 180;
+            if (strVal.includes('365') || strVal.includes('一年') || strVal.includes('1年') || strVal.includes('1 年')) {
+                return 365;
+            }
+            const numMatch = strVal.match(/\d+/);
+            if (numMatch && Number(numMatch[0]) === 365) {
+                return 365;
+            }
+            return 180;
+        }
+
+        // 智慧解析日期格式（相容 YYYY/MM/DD、YYYY-MM-DD、ISO 時間字串）
+        function normalizeDateString(rawDate) {
+            if (!rawDate) return getRelativeDateStr(0);
+            const str = String(rawDate).trim();
+            const isoMatch = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+            if (isoMatch) {
+                const y = isoMatch[1];
+                const m = isoMatch[2].padStart(2, '0');
+                const d = isoMatch[3].padStart(2, '0');
+                return `${y}-${m}-${d}`;
+            }
+            const parsed = new Date(str);
+            if (!isNaN(parsed.getTime())) {
+                return formatLocalDate(parsed);
+            }
+            return str;
+        }
+
         function normalizeGameItem(item) {
             let goalsArr = [];
             if (Array.isArray(item.goals)) {
@@ -835,8 +868,7 @@
             }
 
             const rawImg = String(item.imageUrl || item.image || item.photo || item.img || '').trim();
-            const parsedInterval = Number(item.intervalDays);
-            const normalizedInterval = (parsedInterval === 365) ? 365 : 180;
+            const normalizedInterval = parseIntervalDays(item);
 
             return {
                 id: String(item.id || ('game-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
@@ -847,7 +879,7 @@
                 size: String(item.size || '未知尺寸'),
                 count: Number(item.count) || 0,
                 brand: String(item.brand || ''),
-                lastReplaced: String(item.lastReplaced || getRelativeDateStr(0)),
+                lastReplaced: normalizeDateString(item.lastReplaced),
                 intervalDays: normalizedInterval,
                 notes: String(item.notes || '')
             };
@@ -888,52 +920,33 @@
 
         function updateCloudSyncUI(state = 'idle') {
             const url = getGoogleSheetUrl();
-            const targets = [
-                {
-                    btn: document.getElementById('btn-cloud-sync'),
-                    icon: document.getElementById('cloud-sync-icon'),
-                    text: document.getElementById('cloud-sync-text'),
-                    showClass: 'sm:inline-flex'
-                },
-                {
-                    btn: document.getElementById('btn-cloud-sync-mobile'),
-                    icon: document.getElementById('cloud-sync-icon-mobile'),
-                    text: document.getElementById('cloud-sync-text-mobile'),
-                    showClass: 'inline-flex'
-                }
-            ];
+            const btn = document.getElementById('btn-cloud-sync');
+            const icon = document.getElementById('cloud-sync-icon');
+            const text = document.getElementById('cloud-sync-text');
 
-            targets.forEach(t => {
-                if (!t.btn) return;
-                if (!url) {
-                    t.btn.classList.add('hidden');
-                    t.btn.classList.remove(t.showClass);
-                    return;
-                }
+            if (!btn) return;
+            if (!url) {
+                btn.classList.add('hidden');
+                return;
+            }
 
-                if (t.showClass === 'sm:inline-flex') {
-                    t.btn.classList.add('hidden', 'sm:inline-flex');
-                } else {
-                    t.btn.classList.remove('hidden');
-                    t.btn.classList.add('inline-flex');
-                }
+            btn.classList.remove('hidden');
 
-                if (!t.icon || !t.text) return;
+            if (!icon || !text) return;
 
-                if (state === 'syncing') {
-                    t.icon.setAttribute('data-lucide', 'refresh-cw');
-                    t.icon.classList.add('animate-spin');
-                    t.text.textContent = '同步中...';
-                } else if (state === 'error') {
-                    t.icon.setAttribute('data-lucide', 'cloud-off');
-                    t.icon.classList.remove('animate-spin');
-                    t.text.textContent = '同步失敗';
-                } else {
-                    t.icon.setAttribute('data-lucide', 'cloud-check');
-                    t.icon.classList.remove('animate-spin');
-                    t.text.textContent = '試算表已同步';
-                }
-            });
+            if (state === 'syncing') {
+                icon.setAttribute('data-lucide', 'refresh-cw');
+                icon.classList.add('animate-spin');
+                text.textContent = '同步中...';
+            } else if (state === 'error') {
+                icon.setAttribute('data-lucide', 'cloud-off');
+                icon.classList.remove('animate-spin');
+                text.textContent = '同步失敗';
+            } else {
+                icon.setAttribute('data-lucide', 'cloud-check');
+                icon.classList.remove('animate-spin');
+                text.textContent = '試算表已同步';
+            }
             lucide.createIcons();
         }
 
@@ -963,9 +976,6 @@
                         games.forEach(g => saveSizeOptionIfNew(g.size));
                         saveGamesToStorage(false);
                         renderGames();
-                        if (silentMode && isChanged) {
-                            showToast('偵測到雲端資料更新，已自動同步！', 'info');
-                        }
                     }
 
                     if (showFeedback) {
@@ -1255,6 +1265,10 @@
             emptyBox.classList.add('hidden');
             currentSizeStatsMap.clear();
 
+            // 手機版最多顯示 2 項桌遊，第 3 項起收納進「+N 項...」；電腦版維持最多 3 項
+            const isMobile = window.innerWidth < 640;
+            const MAX_VISIBLE = isMobile ? 2 : 3;
+
             tbody.innerHTML = displayList.map(item => {
                 const hasNeed = item.neededCount > 0;
                 const rowBg = item.redCount > 0 ? 'bg-red-50/35 hover:bg-red-50/70' : (item.yellowCount > 0 ? 'bg-amber-50/35 hover:bg-amber-50/70' : 'hover:bg-slate-50');
@@ -1268,7 +1282,6 @@
                     sortedGames
                 });
 
-                const MAX_VISIBLE = 3;
                 const visibleGames = sortedGames.slice(0, MAX_VISIBLE);
                 const hiddenCount = sortedGames.length - MAX_VISIBLE;
                 const isPinned = pinnedPopoverSizeKey === item.sizeKey;
@@ -1277,7 +1290,7 @@
                     const tagColor = g.status === 'red'
                         ? 'bg-red-50 text-red-700 border-red-200'
                         : (g.status === 'yellow' ? 'bg-amber-50 text-amber-800 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200');
-                    return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs border ${tagColor}">${escapeHTML(g.name)} <span class="opacity-75">(${g.count})</span></span>`;
+                    return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs border whitespace-nowrap ${tagColor}">${escapeHTML(g.name)} <span class="opacity-75">(${g.count})</span></span>`;
                 }).join('');
 
                 const safeKeyAttr = escapeHTML(item.sizeKey);
@@ -1287,7 +1300,7 @@
                         onmouseenter="handleEllipsisHover(event, '${safeKeyAttr}')"
                         onmouseleave="handleEllipsisLeave('${safeKeyAttr}')"
                         onclick="handleEllipsisClick(event, '${safeKeyAttr}')"
-                        class="ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer ${isPinned ? 'bg-slate-800 text-amber-400 border-slate-800 shadow-xs' : 'bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300'}"
+                        class="ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer whitespace-nowrap ${isPinned ? 'bg-slate-800 text-amber-400 border-slate-800 shadow-xs' : 'bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300'}"
                         title="移入預覽或點擊釘選所有對應桌遊">+${hiddenCount} 項...</button>`
                     : '';
 
@@ -1319,7 +1332,7 @@
                             ${item.totalCount.toLocaleString()} 張
                         </td>
                         <td class="py-3.5 px-4">
-                            <div class="inline-flex flex-wrap items-center gap-1.5">
+                            <div class="inline-flex flex-nowrap sm:flex-wrap items-center gap-1.5">
                                 ${visibleTags}
                                 ${ellipsisBadge}
                             </div>
@@ -1365,9 +1378,9 @@
             document.querySelectorAll('.ellipsis-games-trigger').forEach(btn => {
                 const key = btn.getAttribute('data-size-key');
                 if (key === pinnedPopoverSizeKey) {
-                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer bg-slate-800 text-amber-400 border-slate-800 shadow-xs';
+                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer whitespace-nowrap bg-slate-800 text-amber-400 border-slate-800 shadow-xs';
                 } else {
-                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300';
+                    btn.className = 'ellipsis-games-trigger inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold border transition cursor-pointer whitespace-nowrap bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300';
                 }
             });
         }
@@ -2208,6 +2221,7 @@
         // ==========================================
         function updateNotificationButtonState() {
             const btnText = document.getElementById('notify-perm-text');
+            if (!btnText) return;
             if (!('Notification' in window)) {
                 btnText.textContent = '瀏覽器不支援通知';
                 return;
@@ -2238,144 +2252,3 @@
                         body: '桌面提醒已啟用！開啟此分頁時，若卡套到達更換週期將第一時間通知您。'
                     });
                 } else {
-                    showToast('您拒絕了桌面通知權限，仍可透過頁面紅燈提示檢視到期項目。', 'warning');
-                }
-            });
-        }
-
-        function checkAndTriggerAlerts() {
-            const overdueItems = games
-                .map(g => ({ ...g, statusInfo: calculateGameStatus(g) }))
-                .filter(g => g.statusInfo.status === 'red');
-
-            if (overdueItems.length === 0) return;
-
-            let notifiedMap = {};
-            try {
-                notifiedMap = JSON.parse(localStorage.getItem(NOTIFIED_CYCLES_KEY) || '{}');
-            } catch (e) { notifiedMap = {}; }
-
-            const newlyOverdue = overdueItems.filter(g => notifiedMap[g.id] !== g.lastReplaced);
-
-            if (newlyOverdue.length > 0 && 'Notification' in window && Notification.permission === 'granted') {
-                const names = newlyOverdue.map(g => g.name).join('、');
-                new Notification('🔴 小船桌遊：卡套更換提醒！', {
-                    body: `「${names}」的卡套已到達更換時間，請準備對應尺寸進行更換。`
-                });
-                newlyOverdue.forEach(g => {
-                    notifiedMap[g.id] = g.lastReplaced;
-                });
-                localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
-            }
-        }
-
-        // ==========================================
-        // 9. JSON 備份匯出與匯入、設定視窗與工具函式
-        // ==========================================
-        function openSettingsModal() {
-            document.getElementById('cfg-delete-password').value = getDeletePassword();
-            renderSettingsSizeOptions();
-
-            const modal = document.getElementById('settings-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            lucide.createIcons();
-        }
-
-        function closeSettingsModal() {
-            const modal = document.getElementById('settings-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function exportData() {
-            const blob = new Blob([JSON.stringify(games, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            const dateStr = formatLocalDate(new Date());
-            a.href = url;
-            a.download = `boat-boardgames-backup-${dateStr}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('已匯出 JSON 備份檔案！', 'success');
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (!Array.isArray(imported)) throw new Error('格式錯誤');
-                    games = imported.map(normalizeGameItem);
-                    games.forEach(g => saveSizeOptionIfNew(g.size));
-                    saveGamesToStorage(true);
-                    renderGames();
-                    closeSettingsModal();
-                    showToast(`成功匯入 ${games.length} 筆桌遊資料！`, 'success');
-                } catch (err) {
-                    showToast('匯入失敗：檔案格式不正確，請選擇正確的 JSON 備份檔', 'error');
-                }
-                event.target.value = '';
-            };
-            reader.readAsText(file);
-        }
-
-        function handleBackdropClick(event, modalId) {
-            if (event.target.id === modalId) {
-                const modal = document.getElementById(modalId);
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        }
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-
-            const styles = {
-                success: 'bg-emerald-600 text-white border-emerald-500',
-                error: 'bg-red-600 text-white border-red-500',
-                warning: 'bg-amber-500 text-slate-900 border-amber-400 font-semibold',
-                info: 'bg-slate-800 text-white border-slate-700'
-            };
-
-            const icons = {
-                success: 'check-circle',
-                error: 'alert-circle',
-                warning: 'alert-triangle',
-                info: 'info'
-            };
-
-            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm transition-all duration-300 transform translate-y-2 opacity-0 ${styles[type] || styles.info}`;
-            toast.innerHTML = `
-                <i data-lucide="${icons[type] || 'info'}" class="w-4 h-4 shrink-0"></i>
-                <span class="leading-snug">${escapeHTML(message)}</span>
-            `;
-
-            container.appendChild(toast);
-            lucide.createIcons();
-
-            requestAnimationFrame(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            });
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
-        }
-    </script>
-</body>
-</html>
