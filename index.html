@@ -123,13 +123,13 @@
 
                 <!-- 第二列（手機版同一橫排）／右側（電腦版）：操作按鈕群 -->
                 <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 flex-nowrap">
-                    <!-- 桌面提醒按鈕（手機版隱藏，僅電腦版顯示） -->
+                    <!-- 桌面提醒按鈕（手機版直接隱藏，僅電腦版顯示） -->
                     <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
                         <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
                         <span id="notify-perm-text">開啟桌面提醒</span>
                     </button>
 
-                    <!-- 試算表已同步 -->
+                    <!-- 試算表已同步（手機版與系統設定、新增桌遊同一橫排） -->
                     <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer whitespace-nowrap shrink-0" title="點擊立即從 Google 試算表重新同步最新資料">
                         <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
                         <span id="cloud-sync-text">試算表已同步</span>
@@ -798,7 +798,7 @@
                 }
             });
 
-            // 只要停留在網頁畫面，每 30 秒在背景靜默檢查試算表是否有資料更新（不跳右下角通知）
+            // 只要停留在網頁畫面，每 30 秒自動在背景無聲檢查試算表是否有資料更新
             setInterval(() => {
                 if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
                     const isModalOpen = !document.getElementById('game-modal').classList.contains('hidden') ||
@@ -826,37 +826,21 @@
             setInterval(checkAndTriggerAlerts, 3600000);
         });
 
-        // 智慧解析試算表的更換週期欄位（相容各種欄位名稱、字串「365天」或「1年」）
-        function parseIntervalDays(item) {
-            const rawVal = item.intervalDays ?? item.interval ?? item.cycle ?? item['更換週期'] ?? item['建議更換週期'] ?? item['週期'] ?? item['天數'] ?? '';
-            const strVal = String(rawVal).trim();
-            if (!strVal) return 180;
-            if (strVal.includes('365') || strVal.includes('一年') || strVal.includes('1年') || strVal.includes('1 年')) {
-                return 365;
-            }
-            const numMatch = strVal.match(/\d+/);
-            if (numMatch && Number(numMatch[0]) === 365) {
-                return 365;
-            }
-            return 180;
-        }
+        // 智慧解析更換週期（支援數字、字串 "365天"、"1年" 及不同試算表欄位命名）
+        function parseIntervalDaysValue(item) {
+            const rawVal = item.intervalDays !== undefined && item.intervalDays !== ''
+                ? item.intervalDays
+                : (item.interval ?? item.cycle ?? item.days ?? item['建議更換週期'] ?? item['更換週期'] ?? 180);
 
-        // 智慧解析日期格式（相容 YYYY/MM/DD、YYYY-MM-DD、ISO 時間字串）
-        function normalizeDateString(rawDate) {
-            if (!rawDate) return getRelativeDateStr(0);
-            const str = String(rawDate).trim();
-            const isoMatch = str.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-            if (isoMatch) {
-                const y = isoMatch[1];
-                const m = isoMatch[2].padStart(2, '0');
-                const d = isoMatch[3].padStart(2, '0');
-                return `${y}-${m}-${d}`;
+            if (typeof rawVal === 'number') {
+                return rawVal === 365 ? 365 : 180;
             }
-            const parsed = new Date(str);
-            if (!isNaN(parsed.getTime())) {
-                return formatLocalDate(parsed);
+            const strVal = String(rawVal).trim();
+            if (strVal.includes('365') || strVal.includes('1年') || strVal.includes('一年')) {
+                return 365;
             }
-            return str;
+            const parsedNum = parseInt(strVal, 10);
+            return parsedNum === 365 ? 365 : 180;
         }
 
         function normalizeGameItem(item) {
@@ -868,7 +852,7 @@
             }
 
             const rawImg = String(item.imageUrl || item.image || item.photo || item.img || '').trim();
-            const normalizedInterval = parseIntervalDays(item);
+            const normalizedInterval = parseIntervalDaysValue(item);
 
             return {
                 id: String(item.id || ('game-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6))),
@@ -879,7 +863,7 @@
                 size: String(item.size || '未知尺寸'),
                 count: Number(item.count) || 0,
                 brand: String(item.brand || ''),
-                lastReplaced: normalizeDateString(item.lastReplaced),
+                lastReplaced: String(item.lastReplaced || getRelativeDateStr(0)),
                 intervalDays: normalizedInterval,
                 notes: String(item.notes || '')
             };
@@ -1120,13 +1104,13 @@
             if (isNaN(lastDate.getTime())) {
                 return {
                     status: 'green',
-                    daysRemaining: game.intervalDays || 180,
+                    daysRemaining: parseIntervalDaysValue(game),
                     nextDateStr: '日期格式錯誤',
                     progressPercent: 0
                 };
             }
 
-            const interval = Number(game.intervalDays) || 180;
+            const interval = parseIntervalDaysValue(game);
             const nextDate = new Date(lastDate);
             nextDate.setDate(lastDate.getDate() + interval);
             nextDate.setHours(0, 0, 0, 0);
@@ -2079,7 +2063,7 @@
                 document.getElementById('game-size').value = game.size;
                 document.getElementById('game-count').value = game.count;
                 document.getElementById('game-last-replaced').value = game.lastReplaced;
-                document.getElementById('game-interval').value = (Number(game.intervalDays) === 365) ? '365' : '180';
+                document.getElementById('game-interval').value = (parseIntervalDaysValue(game) === 365) ? '365' : '180';
             } else {
                 titleEl.innerHTML = '<i data-lucide="layers" class="w-5 h-5 text-amber-400"></i><span>新增桌遊</span>';
                 document.getElementById('game-id').value = '';
@@ -2252,3 +2236,144 @@
                         body: '桌面提醒已啟用！開啟此分頁時，若卡套到達更換週期將第一時間通知您。'
                     });
                 } else {
+                    showToast('您拒絕了桌面通知權限，仍可透過頁面紅燈提示檢視到期項目。', 'warning');
+                }
+            });
+        }
+
+        function checkAndTriggerAlerts() {
+            const overdueItems = games
+                .map(g => ({ ...g, statusInfo: calculateGameStatus(g) }))
+                .filter(g => g.statusInfo.status === 'red');
+
+            if (overdueItems.length === 0) return;
+
+            let notifiedMap = {};
+            try {
+                notifiedMap = JSON.parse(localStorage.getItem(NOTIFIED_CYCLES_KEY) || '{}');
+            } catch (e) { notifiedMap = {}; }
+
+            const newlyOverdue = overdueItems.filter(g => notifiedMap[g.id] !== g.lastReplaced);
+
+            if (newlyOverdue.length > 0 && 'Notification' in window && Notification.permission === 'granted') {
+                const names = newlyOverdue.map(g => g.name).join('、');
+                new Notification('🔴 小船桌遊：卡套更換提醒！', {
+                    body: `「${names}」的卡套已到達更換時間，請準備對應尺寸進行更換。`
+                });
+                newlyOverdue.forEach(g => {
+                    notifiedMap[g.id] = g.lastReplaced;
+                });
+                localStorage.setItem(NOTIFIED_CYCLES_KEY, JSON.stringify(notifiedMap));
+            }
+        }
+
+        // ==========================================
+        // 9. JSON 備份匯出與匯入、設定視窗與工具函式
+        // ==========================================
+        function openSettingsModal() {
+            document.getElementById('cfg-delete-password').value = getDeletePassword();
+            renderSettingsSizeOptions();
+
+            const modal = document.getElementById('settings-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settings-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function exportData() {
+            const blob = new Blob([JSON.stringify(games, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const dateStr = formatLocalDate(new Date());
+            a.href = url;
+            a.download = `boat-boardgames-backup-${dateStr}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('已匯出 JSON 備份檔案！', 'success');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!Array.isArray(imported)) throw new Error('格式錯誤');
+                    games = imported.map(normalizeGameItem);
+                    games.forEach(g => saveSizeOptionIfNew(g.size));
+                    saveGamesToStorage(true);
+                    renderGames();
+                    closeSettingsModal();
+                    showToast(`成功匯入 ${games.length} 筆桌遊資料！`, 'success');
+                } catch (err) {
+                    showToast('匯入失敗：檔案格式不正確，請選擇正確的 JSON 備份檔', 'error');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function handleBackdropClick(event, modalId) {
+            if (event.target.id === modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const styles = {
+                success: 'bg-emerald-600 text-white border-emerald-500',
+                error: 'bg-red-600 text-white border-red-500',
+                warning: 'bg-amber-500 text-slate-900 border-amber-400 font-semibold',
+                info: 'bg-slate-800 text-white border-slate-700'
+            };
+
+            const icons = {
+                success: 'check-circle',
+                error: 'alert-circle',
+                warning: 'alert-triangle',
+                info: 'info'
+            };
+
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-lg border text-xs sm:text-sm transition-all duration-300 transform translate-y-2 opacity-0 ${styles[type] || styles.info}`;
+            toast.innerHTML = `
+                <i data-lucide="${icons[type] || 'info'}" class="w-4 h-4 shrink-0"></i>
+                <span class="leading-snug">${escapeHTML(message)}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
