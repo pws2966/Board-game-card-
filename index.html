@@ -848,8 +848,11 @@
             }
         }
 
+        // 將您的專屬網址設為預設值，任何裝置打開都會自動同步
+        const DEFAULT_GS_URL = 'https://script.google.com/macros/s/AKfycbx37sDKIaM80cMim8AaSQDKi2c_xwnexkYliQMtbDGJQ_mrq5s_eVwKX3ZXqPFwMo26/exec';
+
         function getGoogleSheetUrl() {
-            return (localStorage.getItem(GS_URL_KEY) || '').trim();
+            return (localStorage.getItem(GS_URL_KEY) || DEFAULT_GS_URL).trim();
         }
 
         function updateCloudSyncUI(state = 'idle') {
