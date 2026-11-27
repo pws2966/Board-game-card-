@@ -647,6 +647,22 @@
             '生涯'
         ];
 
+        // 自動合併「預設 10 項訓練目標」與「目前試算表/桌遊中出現的所有新目標」
+        function getAllTrainingGoals() {
+            const combined = [...TRAINING_GOALS];
+            games.forEach(g => {
+                if (Array.isArray(g.goals)) {
+                    g.goals.forEach(goal => {
+                        const trimmed = String(goal || '').trim();
+                        if (trimmed && !combined.includes(trimmed)) {
+                            combined.push(trimmed);
+                        }
+                    });
+                }
+            });
+            return combined;
+        }
+
         // 預設卡套選項已清空，由使用者新增後自動記憶累積
         const BASE_SIZE_PRESETS = [];
 
@@ -758,6 +774,18 @@
                 }
             });
 
+            // 只要停留在網頁畫面，每 30 秒自動在背景檢查試算表是否有資料更新
+            setInterval(() => {
+                if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
+                    const isModalOpen = !document.getElementById('game-modal').classList.contains('hidden') ||
+                                        !document.getElementById('confirm-modal').classList.contains('hidden');
+                    // 若正在新增/編輯或刪除驗證中則暫緩，避免干擾操作
+                    if (!isModalOpen) {
+                        syncFromGoogleSheet(false, true);
+                    }
+                }
+            }, 30000);
+
             // 當從背景切換回手機或電腦分頁時，自動在背景靜默同步最新資料（含 5 秒防抖冷卻）
             document.addEventListener('visibilitychange', () => {
                 if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
@@ -832,7 +860,7 @@
         }
 
         // 將您的專屬網址設為預設值，任何裝置打開都會自動同步
-        const DEFAULT_GS_URL = 'https://script.google.com/macros/s/AKfycbx37sDKIaM80cMim8AaSQDKi2c_xwnexkYliQMtbDGJQ_mrq5s_eVwKX3ZXqPFwMo26/exec';
+        const DEFAULT_GS_URL = 'https://script.google.com/macros/s/AKfycbxzK09xG7buP5GbqpA65IetMUFsWIsuXregPuQTKwNMDJyjaFNtK2zOcHSv4OyWyLgT/exec';
 
         function getGoogleSheetUrl() {
             return (localStorage.getItem(GS_URL_KEY) || DEFAULT_GS_URL).trim();
@@ -869,12 +897,14 @@
             lucide.createIcons();
         }
 
-        async function syncFromGoogleSheet(showFeedback = true) {
+        async function syncFromGoogleSheet(showFeedback = true, silentMode = false) {
             const url = getGoogleSheetUrl();
             if (!url) return false;
 
             lastCloudSyncTime = Date.now();
-            updateCloudSyncUI('syncing');
+            if (!silentMode) {
+                updateCloudSyncUI('syncing');
+            }
             try {
                 const res = await fetch(url, { method: 'GET' });
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -885,22 +915,35 @@
                     : (Array.isArray(result?.data) ? result.data : (Array.isArray(result?.items) ? result.items : null));
 
                 if (rawList !== null) {
-                    games = rawList.map(normalizeGameItem);
-                    // 自動把雲端試算表中的所有卡套規格也記憶進本地選單
-                    games.forEach(g => saveSizeOptionIfNew(g.size));
-                    saveGamesToStorage(false);
-                    renderGames();
+                    const normalizedNewList = rawList.map(normalizeGameItem);
+                    const isChanged = JSON.stringify(normalizedNewList) !== JSON.stringify(games);
+
+                    if (isChanged || !silentMode) {
+                        games = normalizedNewList;
+                        // 自動把雲端試算表中的所有卡套規格也記憶進本地選單
+                        games.forEach(g => saveSizeOptionIfNew(g.size));
+                        saveGamesToStorage(false);
+                        renderGames();
+                        if (silentMode && isChanged) {
+                            showToast('偵測到雲端資料更新，已自動同步！', 'info');
+                        }
+                    }
+
                     if (showFeedback) {
                         showToast(`已從 Google 試算表同步 ${games.length} 筆最新資料！`, 'success');
                     }
-                    updateCloudSyncUI('idle');
+                    if (!silentMode) {
+                        updateCloudSyncUI('idle');
+                    }
                     return true;
                 } else {
                     throw new Error(result?.message || '回傳格式不正確');
                 }
             } catch (err) {
                 console.error('從試算表載入失敗:', err);
-                updateCloudSyncUI('error');
+                if (!silentMode) {
+                    updateCloudSyncUI('error');
+                }
                 if (showFeedback) {
                     showToast('讀取 Google 試算表失敗，請確認部署網址與權限設為「所有人」', 'error');
                 }
@@ -960,7 +1003,7 @@
                 </button>
             `;
 
-            html += TRAINING_GOALS.map(goal => {
+            html += getAllTrainingGoals().map(goal => {
                 const isActive = selectedGoals.has(goal);
                 const btnClass = isActive
                     ? 'bg-[#4A7C9B] text-white shadow-2xs ring-2 ring-[#4A7C9B]/20 font-semibold'
@@ -1449,6 +1492,9 @@
         // 6. 畫面渲染與分批延遲載入
         // ==========================================
         function renderGames() {
+            renderTrainingGoalPills();
+            const grid = document.getElementById('games-grid');
+        function renderGames() {
             const grid = document.getElementById('games-grid');
             const emptyState = document.getElementById('empty-state');
             const searchInput = document.getElementById('search-input');
@@ -1752,7 +1798,7 @@
             const container = document.getElementById('modal-goals-selector');
             if (!container) return;
 
-            container.innerHTML = TRAINING_GOALS.map(goal => {
+            container.innerHTML = getAllTrainingGoals().map(goal => {
                 const isSelected = modalSelectedGoals.has(goal);
                 const style = isSelected
                     ? 'bg-[#4A7C9B] text-white border-[#4A7C9B] font-semibold shadow-2xs'
@@ -2017,7 +2063,7 @@
             // 新增或編輯後，立即把該卡套尺寸儲存為之後的常用選項
             saveSizeOptionIfNew(sizeVal);
 
-            const orderedGoals = TRAINING_GOALS.filter(g => modalSelectedGoals.has(g));
+            const orderedGoals = getAllTrainingGoals().filter(g => modalSelectedGoals.has(g));
             const existingGame = id ? games.find(g => g.id === id) : null;
 
             const payload = {
