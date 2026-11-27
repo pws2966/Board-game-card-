@@ -121,30 +121,30 @@
                     </div>
                 </div>
 
-                <!-- 第二列（手機版同一橫排）／右側（電腦版）：操作按鈕群 -->
-                <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 flex-nowrap">
-                    <!-- 桌面提醒按鈕（手機版直接隱藏，僅電腦版顯示） -->
-                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
-                        <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
+                <!-- 第二列（手機版三顆膠囊等寬排滿一列）／右側（電腦版：試算表同步與桌面提醒對調位置） -->
+                <div id="header-actions-bar" class="grid grid-cols-3 sm:flex sm:items-center sm:justify-end gap-1.5 sm:gap-2 w-full sm:w-auto">
+                    <!-- 1. 試算表同步按鈕（電腦版與桌面提醒對調至最左側；手機版佔第一格） -->
+                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="w-full sm:w-auto inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-500/40 transition cursor-pointer whitespace-nowrap" title="點擊立即從 Google 試算表同步最新資料">
+                        <i data-lucide="refresh-cw" id="cloud-sync-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0"></i>
+                        <span id="cloud-sync-text" class="truncate">試算表同步</span>
+                    </button>
+
+                    <!-- 2. 桌面提醒按鈕（手機版隱藏，電腦版位於試算表同步右側） -->
+                    <button onclick="requestBrowserNotification()" id="btn-notify-perm" class="hidden sm:inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap" title="開啟瀏覽器桌面通知（需在筆電開啟此分頁時觸發）">
+                        <i data-lucide="bell" class="w-4 h-4 text-amber-400 shrink-0"></i>
                         <span id="notify-perm-text">開啟桌面提醒</span>
                     </button>
 
-                    <!-- 試算表已同步（手機版與系統設定、新增桌遊同一橫排） -->
-                    <button onclick="syncFromGoogleSheet(true)" id="btn-cloud-sync" class="hidden inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70 transition cursor-pointer whitespace-nowrap shrink-0" title="點擊立即從 Google 試算表重新同步最新資料">
-                        <i data-lucide="cloud-check" id="cloud-sync-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
-                        <span id="cloud-sync-text">試算表已同步</span>
+                    <!-- 3. 系統設定（手機版佔第二格） -->
+                    <button onclick="openSettingsModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap" title="系統與備份設定">
+                        <i data-lucide="settings" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0"></i>
+                        <span class="truncate">系統設定</span>
                     </button>
 
-                    <!-- 系統設定 -->
-                    <button onclick="openSettingsModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition cursor-pointer whitespace-nowrap shrink-0" title="系統與備份設定">
-                        <i data-lucide="settings" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400"></i>
-                        <span>系統設定</span>
-                    </button>
-
-                    <!-- 新增桌遊 -->
-                    <button onclick="openGameModal()" class="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer whitespace-nowrap shrink-0">
-                        <i data-lucide="plus" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]"></i>
-                        <span>新增桌遊</span>
+                    <!-- 4. 新增桌遊（手機版佔第三格） -->
+                    <button onclick="openGameModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-semibold bg-amber-500 hover:bg-amber-400 text-slate-900 shadow-md shadow-amber-500/20 transition cursor-pointer whitespace-nowrap">
+                        <i data-lucide="plus" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5] shrink-0"></i>
+                        <span class="truncate">新增桌遊</span>
                     </button>
                 </div>
             </div>
@@ -259,7 +259,6 @@
                         <p class="text-xs text-slate-300 mt-0.5">自動合併相同長寬規格，彙整「已到期＋即將到期」採購需求與全館總用量</p>
                     </div>
                 </div>
-                <!-- 手機版與電腦版皆保持同一橫排：切換按鈕組 + 右側「複製採購清單」 -->
                 <div class="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 flex-nowrap">
                     <div class="inline-flex rounded-xl bg-slate-900/25 p-0.5 sm:p-1 border border-white/15 shrink-0">
                         <button type="button" onclick="setSizeStatsMode('needed')" id="btn-size-mode-needed" class="px-2 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-semibold bg-amber-400 text-slate-900 shadow-xs transition cursor-pointer whitespace-nowrap">
@@ -330,7 +329,7 @@
                 </select>
             </div>
 
-            <!-- 第二排：訓練目標多選標籤區 (文青霧藍色系) -->
+            <!-- 第二排：訓練目標多選標籤區 -->
             <div class="space-y-1.5">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-600 flex items-center gap-1.5">
@@ -340,7 +339,7 @@
                     <span id="selected-goals-hint" class="text-xs font-medium text-[#4A7C9B] hidden"></span>
                 </div>
                 <div class="flex flex-wrap items-center gap-1.5" id="training-goal-pills">
-                    <!-- 由 JavaScript 動態渲染 10 大訓練目標膠囊按鈕 -->
+                    <!-- 由 JavaScript 動態渲染訓練目標膠囊按鈕 -->
                 </div>
             </div>
 
@@ -373,8 +372,8 @@
             </div>
         </section>
 
-        <!-- 桌遊卡片列表區 (4 欄精簡清爽排版 ＋ 捲動分批延遲載入防卡頓) -->
-        <section id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- 桌遊卡片列表區 (電腦版 3 欄完整顯示所有資訊與放大字級) -->
+        <section id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <!-- 由 JavaScript 動態渲染 -->
         </section>
 
@@ -444,15 +443,15 @@
                     <input type="text" id="game-name" required placeholder="例如：璀璨寶石 Splendor" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white">
                 </div>
 
-                <!-- 訓練目標複選區 (文青霧藍色系) -->
+                <!-- 訓練目標複選區 -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 mb-1.5">訓練目標 <span class="text-slate-400 font-normal">(可複選多個類別)</span></label>
                     <div id="modal-goals-selector" class="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                        <!-- 由 JavaScript 動態渲染 10 個可複選訓練目標按鈕 -->
+                        <!-- 由 JavaScript 動態渲染可複選訓練目標按鈕 -->
                     </div>
                 </div>
 
-                <!-- 桌遊圖片設定區（支援 Google 雲端硬碟連結自動轉換） -->
+                <!-- 桌遊圖片設定區 -->
                 <div class="space-y-2">
                     <label class="block text-xs font-bold text-slate-700">桌遊圖片 <span class="text-slate-400 font-normal">(支援直接貼上 Google 雲端硬碟分享連結、一般網址或上傳本機圖片)</span></label>
                     <div class="flex flex-col sm:flex-row gap-2">
@@ -499,7 +498,7 @@
                     </div>
                 </div>
 
-                <!-- 上次更換日期與週期 (僅保留 180 天與 365 天) -->
+                <!-- 上次更換日期與週期 (180 天 / 365 天) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="w-full">
                         <label class="block text-xs font-bold text-slate-700 mb-1">上次更換日期 <span class="text-red-500">*</span></label>
@@ -645,6 +644,11 @@
     <!-- ========================================== -->
     <div id="size-games-popover" onclick="event.stopPropagation()" class="hidden fixed z-50 w-72 max-w-[90vw] bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl border border-slate-700 transition-opacity duration-150"></div>
 
+    <!-- ========================================== -->
+    <!-- 全域浮動完整配件內容氣泡框（滑鼠移入顯示、點擊釘選） -->
+    <!-- ========================================== -->
+    <div id="accessories-popover" onclick="event.stopPropagation()" class="hidden fixed z-50 w-80 max-w-[90vw] bg-slate-900 text-white text-xs rounded-xl p-3.5 shadow-2xl border border-slate-700 transition-opacity duration-150"></div>
+
     <script>
         // ==========================================
         // 1. 狀態與空白初始設定
@@ -670,7 +674,6 @@
             '生涯'
         ];
 
-        // 自動合併「預設 10 項訓練目標」與「目前試算表/桌遊中出現的所有新目標」
         function getAllTrainingGoals() {
             const combined = [...TRAINING_GOALS];
             games.forEach(g => {
@@ -702,10 +705,17 @@
         let currentSizeStatsMap = new Map();
         let pinnedPopoverSizeKey = null;
         let hoveredPopoverSizeKey = null;
+
+        // 配件氣泡框釘選與懸浮狀態
+        let pinnedAccessoriesGameId = null;
+        let hoveredAccessoriesGameId = null;
+
+        // 試算表同步狀態自動復原計時器（90 秒後變回「試算表同步」）
+        let syncResetTimer = null;
+
         let lastCloudSyncTime = 0;
         let lastIsMobileView = window.innerWidth < 640;
 
-        // 將 Google 雲端硬碟分享連結自動轉換為可直接顯示的圖片網址
         function fixGoogleDriveUrl(url) {
             if (!url) return '';
             const trimmed = String(url).trim();
@@ -738,7 +748,7 @@
             loadGamesFromStorage();
             renderTrainingGoalPills();
             updateNotificationButtonState();
-            updateCloudSyncUI();
+            updateCloudSyncUI('idle');
             renderGames();
             lucide.createIcons();
 
@@ -752,6 +762,7 @@
                 });
             }
 
+            // 點擊視窗外部時關閉釘選的氣泡框
             document.addEventListener('click', (e) => {
                 const popover = document.getElementById('size-games-popover');
                 if (popover && !popover.classList.contains('hidden')) {
@@ -759,6 +770,15 @@
                         pinnedPopoverSizeKey = null;
                         hoveredPopoverSizeKey = null;
                         hideSizeGamesPopover();
+                    }
+                }
+
+                const accPopover = document.getElementById('accessories-popover');
+                if (accPopover && !accPopover.classList.contains('hidden')) {
+                    if (!accPopover.contains(e.target) && !e.target.closest('.accessories-trigger')) {
+                        pinnedAccessoriesGameId = null;
+                        hoveredAccessoriesGameId = null;
+                        hideAccessoriesPopover();
                     }
                 }
 
@@ -777,7 +797,12 @@
                 }
                 if (pinnedPopoverSizeKey) {
                     const trigger = document.querySelector(`.ellipsis-games-trigger[data-size-key="${CSS.escape(pinnedPopoverSizeKey)}"]`);
-                    if (trigger) positionSizeGamesPopover(trigger);
+                    if (trigger) positionFloatingPopover(popover, trigger);
+                }
+                if (pinnedAccessoriesGameId) {
+                    const accTrigger = document.querySelector(`.accessories-trigger[data-game-id="${CSS.escape(pinnedAccessoriesGameId)}"]`);
+                    const accPop = document.getElementById('accessories-popover');
+                    if (accTrigger && accPop) positionFloatingPopover(accPop, accTrigger);
                 }
             });
 
@@ -798,7 +823,7 @@
                 }
             });
 
-            // 只要停留在網頁畫面，每 30 秒自動在背景無聲檢查試算表是否有資料更新
+            // 每 30 秒背景靜默檢查試算表更新（無聲同步，不干擾畫面與按鈕）
             setInterval(() => {
                 if (document.visibilityState === 'visible' && getGoogleSheetUrl()) {
                     const isModalOpen = !document.getElementById('game-modal').classList.contains('hidden') ||
@@ -818,15 +843,15 @@
                 }
             });
 
+            // 初次開啟網頁時背景靜默載入最新資料，按鈕維持「試算表同步」待命
             if (getGoogleSheetUrl()) {
-                await syncFromGoogleSheet(false);
+                await syncFromGoogleSheet(false, true);
             }
 
             checkAndTriggerAlerts();
             setInterval(checkAndTriggerAlerts, 3600000);
         });
 
-        // 智慧解析更換週期（支援數字、字串 "365天"、"1年" 及不同試算表欄位命名）
         function parseIntervalDaysValue(item) {
             const rawVal = item.intervalDays !== undefined && item.intervalDays !== ''
                 ? item.intervalDays
@@ -902,6 +927,11 @@
             return (localStorage.getItem(GS_URL_KEY) || DEFAULT_GS_URL).trim();
         }
 
+        // 更新試算表同步按鈕視覺狀態：
+        // 'idle'   -> 顯示「試算表同步」（待命狀態）
+        // 'syncing'-> 顯示「同步中...」
+        // 'synced' -> 顯示「試算表已同步」，並在 90 秒（1.5 分鐘）後自動變回「試算表同步」
+        // 'error'  -> 顯示「同步失敗」
         function updateCloudSyncUI(state = 'idle') {
             const url = getGoogleSheetUrl();
             const btn = document.getElementById('btn-cloud-sync');
@@ -916,20 +946,46 @@
 
             btn.classList.remove('hidden');
 
-            if (!icon || !text) return;
+            if (syncResetTimer) {
+                clearTimeout(syncResetTimer);
+                syncResetTimer = null;
+            }
+
+            const baseClass = 'w-full sm:w-auto inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-medium transition cursor-pointer whitespace-nowrap';
 
             if (state === 'syncing') {
-                icon.setAttribute('data-lucide', 'refresh-cw');
-                icon.classList.add('animate-spin');
-                text.textContent = '同步中...';
+                btn.className = `${baseClass} bg-amber-950/80 text-amber-300 border border-amber-600/60`;
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'refresh-cw');
+                    icon.className = 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0 animate-spin';
+                }
+                if (text) text.textContent = '同步中...';
+            } else if (state === 'synced') {
+                btn.className = `${baseClass} bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border border-emerald-700/70`;
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'cloud-check');
+                    icon.className = 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0';
+                }
+                if (text) text.textContent = '試算表已同步';
+
+                // 同步完成過 90 秒（1~2 分鐘）後自動變回「試算表同步」
+                syncResetTimer = setTimeout(() => {
+                    updateCloudSyncUI('idle');
+                }, 90000);
             } else if (state === 'error') {
-                icon.setAttribute('data-lucide', 'cloud-off');
-                icon.classList.remove('animate-spin');
-                text.textContent = '同步失敗';
+                btn.className = `${baseClass} bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-700/70`;
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'cloud-off');
+                    icon.className = 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 shrink-0';
+                }
+                if (text) text.textContent = '同步失敗';
             } else {
-                icon.setAttribute('data-lucide', 'cloud-check');
-                icon.classList.remove('animate-spin');
-                text.textContent = '試算表已同步';
+                btn.className = `${baseClass} bg-slate-800 hover:bg-slate-700 text-sky-300 border border-sky-500/40`;
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'refresh-cw');
+                    icon.className = 'w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0';
+                }
+                if (text) text.textContent = '試算表同步';
             }
             lucide.createIcons();
         }
@@ -966,7 +1022,7 @@
                         showToast(`已從 Google 試算表同步 ${games.length} 筆最新資料！`, 'success');
                     }
                     if (!silentMode) {
-                        updateCloudSyncUI('idle');
+                        updateCloudSyncUI('synced');
                     }
                     return true;
                 } else {
@@ -999,7 +1055,7 @@
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 const result = await res.json();
                 if (result && result.status === 'success') {
-                    updateCloudSyncUI('idle');
+                    updateCloudSyncUI('synced');
                     if (showFeedback) {
                         showToast(`已成功將 ${games.length} 筆資料寫入 Google 試算表！`, 'success');
                     }
@@ -1249,7 +1305,6 @@
             emptyBox.classList.add('hidden');
             currentSizeStatsMap.clear();
 
-            // 手機版最多顯示 2 項桌遊，第 3 項起收納進「+N 項...」；電腦版維持最多 3 項
             const isMobile = window.innerWidth < 640;
             const MAX_VISIBLE = isMobile ? 2 : 3;
 
@@ -1327,8 +1382,34 @@
         }
 
         // ==========================================
-        // 省略符號 (+N 項...) 移入預覽與點擊釘選控制
+        // 通用浮動氣泡定位引擎（支援對應桌遊清單與配件完整說明）
         // ==========================================
+        function positionFloatingPopover(popover, triggerEl) {
+            if (!popover || !triggerEl) return;
+
+            const rect = triggerEl.getBoundingClientRect();
+            const popRect = popover.getBoundingClientRect();
+            const margin = 10;
+
+            let top = rect.top - popRect.height - 8;
+            if (top < margin) {
+                top = rect.bottom + 8;
+            }
+            if (top + popRect.height > window.innerHeight - margin) {
+                top = Math.max(margin, window.innerHeight - popRect.height - margin);
+            }
+
+            let left = rect.left;
+            if (left + popRect.width > window.innerWidth - margin) {
+                left = window.innerWidth - popRect.width - margin;
+            }
+            left = Math.max(margin, left);
+
+            popover.style.top = `${top}px`;
+            popover.style.left = `${left}px`;
+        }
+
+        // 省略符號 (+N 項...) 移入預覽與點擊釘選控制
         function handleEllipsisHover(event, sizeKey) {
             if (pinnedPopoverSizeKey && pinnedPopoverSizeKey !== sizeKey) return;
             hoveredPopoverSizeKey = sizeKey;
@@ -1427,39 +1508,80 @@
             `;
 
             popover.classList.remove('hidden');
-            positionSizeGamesPopover(triggerEl);
-        }
-
-        function positionSizeGamesPopover(triggerEl) {
-            const popover = document.getElementById('size-games-popover');
-            if (!popover || !triggerEl) return;
-
-            const rect = triggerEl.getBoundingClientRect();
-            const popRect = popover.getBoundingClientRect();
-            const margin = 10;
-
-            let top = rect.top - popRect.height - 8;
-            if (top < margin) {
-                top = rect.bottom + 8;
-            }
-            if (top + popRect.height > window.innerHeight - margin) {
-                top = Math.max(margin, window.innerHeight - popRect.height - margin);
-            }
-
-            let left = rect.left;
-            if (left + popRect.width > window.innerWidth - margin) {
-                left = window.innerWidth - popRect.width - margin;
-            }
-            left = Math.max(margin, left);
-
-            popover.style.top = `${top}px`;
-            popover.style.left = `${left}px`;
+            positionFloatingPopover(popover, triggerEl);
         }
 
         function hideSizeGamesPopover() {
             const popover = document.getElementById('size-games-popover');
             if (popover) popover.classList.add('hidden');
             updateEllipsisButtonStyles();
+        }
+
+        // ==========================================
+        // 配件超過兩行時：滑鼠移入顯示、點擊釘選完整視窗
+        // ==========================================
+        function isTextTruncated(el) {
+            if (!el) return false;
+            return el.scrollHeight > el.clientHeight + 2;
+        }
+
+        function handleAccessoriesHover(event, gameId) {
+            const trigger = event.currentTarget;
+            if (!isTextTruncated(trigger) && pinnedAccessoriesGameId !== gameId) return;
+            if (pinnedAccessoriesGameId && pinnedAccessoriesGameId !== gameId) return;
+            hoveredAccessoriesGameId = gameId;
+            showAccessoriesPopover(trigger, gameId, pinnedAccessoriesGameId === gameId);
+        }
+
+        function handleAccessoriesLeave(gameId) {
+            if (hoveredAccessoriesGameId === gameId) {
+                hoveredAccessoriesGameId = null;
+            }
+            if (!pinnedAccessoriesGameId) {
+                hideAccessoriesPopover();
+            }
+        }
+
+        function handleAccessoriesClick(event, gameId) {
+            const trigger = event.currentTarget;
+            if (!isTextTruncated(trigger) && pinnedAccessoriesGameId !== gameId) return;
+            event.stopPropagation();
+            if (pinnedAccessoriesGameId === gameId) {
+                pinnedAccessoriesGameId = null;
+                hoveredAccessoriesGameId = null;
+                hideAccessoriesPopover();
+            } else {
+                pinnedAccessoriesGameId = gameId;
+                hoveredAccessoriesGameId = gameId;
+                showAccessoriesPopover(trigger, gameId, true);
+            }
+        }
+
+        function showAccessoriesPopover(triggerEl, gameId, isPinned) {
+            const game = games.find(g => g.id === gameId);
+            const popover = document.getElementById('accessories-popover');
+            if (!game || !game.accessories || !popover) return;
+
+            popover.innerHTML = `
+                <div class="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-700/80">
+                    <div class="font-bold text-amber-400 flex items-center gap-1.5 min-w-0">
+                        <span class="truncate">${escapeHTML(game.name)} • 完整配件</span>
+                        ${isPinned ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30 shrink-0">已釘選</span>' : ''}
+                    </div>
+                    <span class="text-[10px] text-slate-400 shrink-0">${isPinned ? '點外部關閉' : '點擊可釘選'}</span>
+                </div>
+                <div class="text-xs sm:text-[13px] text-slate-100 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto pr-1">
+                    ${escapeHTML(game.accessories)}
+                </div>
+            `;
+
+            popover.classList.remove('hidden');
+            positionFloatingPopover(popover, triggerEl);
+        }
+
+        function hideAccessoriesPopover() {
+            const popover = document.getElementById('accessories-popover');
+            if (popover) popover.classList.add('hidden');
         }
 
         function copyShoppingList() {
@@ -1653,7 +1775,7 @@
             let ledClass = 'bg-emerald-500 led-green';
             let badgeBg = 'bg-white/95 text-emerald-700 border-emerald-200';
             let statusText = `剩餘 ${daysRemaining} 天`;
-            let nextDateColor = 'text-slate-600';
+            let nextDateColor = 'text-slate-700';
             let replaceBtnClass = 'bg-emerald-600 hover:bg-emerald-700 text-white';
 
             if (status === 'yellow') {
@@ -1675,100 +1797,106 @@
 
             const goalsList = Array.isArray(game.goals) ? game.goals : [];
             const goalsUnderTitleHTML = goalsList.length > 0
-                ? `<div class="mt-1.5 flex items-center gap-1 flex-wrap">
-                    <i data-lucide="tag" class="w-3 h-3 text-[#5B8FB9] shrink-0" title="訓練目標"></i>
+                ? `<div class="mt-2 flex items-center gap-1.5 flex-wrap">
+                    <i data-lucide="tag" class="w-3.5 h-3.5 text-[#5B8FB9] shrink-0" title="訓練目標"></i>
                     ${goalsList.map(g => {
                         const isSelected = selectedGoals.has(g);
                         const tagStyle = isSelected
                             ? 'bg-[#4A7C9B] text-white border-[#4A7C9B] font-semibold'
                             : 'bg-[#EEF5F9] text-[#3B6884] border-[#C5DCE8] font-medium';
-                        return `<button type="button" onclick="toggleGoalFilter('${escapeHTML(g)}')" class="px-1.5 py-0.5 rounded text-[11px] leading-none border transition cursor-pointer hover:opacity-85 ${tagStyle}" title="點擊篩選「${escapeHTML(g)}」">${escapeHTML(g)}</button>`;
+                        return `<button type="button" onclick="toggleGoalFilter('${escapeHTML(g)}')" class="px-2 py-1 rounded-md text-xs leading-none border transition cursor-pointer hover:opacity-85 ${tagStyle}" title="點擊篩選「${escapeHTML(g)}」">${escapeHTML(g)}</button>`;
                     }).join('')}
                 </div>`
-                : `<div class="mt-1 flex items-center gap-1 text-[11px] text-slate-400">
-                    <i data-lucide="tag" class="w-3 h-3 text-slate-300 shrink-0"></i>
+                : `<div class="mt-1.5 flex items-center gap-1 text-xs text-slate-400">
+                    <i data-lucide="tag" class="w-3.5 h-3.5 text-slate-300 shrink-0"></i>
                     <span>未設定訓練目標</span>
                 </div>`;
 
             const shortSizeText = String(game.size || '').replace(/\s*\([^)]*\)\s*/g, '').trim() || game.size;
             const resolvedImageUrl = fixGoogleDriveUrl(game.imageUrl);
+            const safeGameIdAttr = escapeHTML(game.id);
 
             const imageBlockHTML = resolvedImageUrl
-                ? `<div class="relative w-full h-36 bg-slate-100/70 overflow-hidden group">
-                    <img src="${escapeHTML(resolvedImageUrl)}" alt="${escapeHTML(game.name)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-400 text-[11px] gap-1\\'><i data-lucide=\\'image-off\\' class=\\'w-5 h-5\\'></i><span>圖片載入失敗（請確認雲端硬碟權限設為公開）</span></div>'; lucide.createIcons();" class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105">
-                    <span class="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] border shadow-2xs backdrop-blur-xs ${badgeBg}">
+                ? `<div class="relative w-full h-40 bg-slate-100/70 overflow-hidden group">
+                    <img src="${escapeHTML(resolvedImageUrl)}" alt="${escapeHTML(game.name)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs gap-1\\'><i data-lucide=\\'image-off\\' class=\\'w-5 h-5\\'></i><span>圖片載入失敗（請確認雲端硬碟權限設為公開）</span></div>'; lucide.createIcons();" class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105">
+                    <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs border shadow-2xs backdrop-blur-xs ${badgeBg}">
                         <span class="w-2 h-2 rounded-full ${ledClass}"></span>
                         ${statusText}
                     </span>
                 </div>`
-                : `<div onclick="openGameModal('${escapeHTML(game.id)}')" class="relative w-full h-24 bg-slate-100/70 flex items-center justify-center text-slate-400 hover:text-[#4A7C9B] transition cursor-pointer group" title="點擊為此桌遊新增封面圖片">
-                    <div class="flex items-center gap-1.5 text-[11px] font-medium">
+                : `<div onclick="openGameModal('${safeGameIdAttr}')" class="relative w-full h-24 bg-slate-100/70 flex items-center justify-center text-slate-400 hover:text-[#4A7C9B] transition cursor-pointer group" title="點擊為此桌遊新增封面圖片">
+                    <div class="flex items-center gap-1.5 text-xs font-medium">
                         <i data-lucide="image-plus" class="w-4 h-4 group-hover:scale-110 transition"></i>
                         <span>點擊新增圖片</span>
                     </div>
-                    <span class="absolute top-2 right-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] border ${badgeBg}">
+                    <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs border ${badgeBg}">
                         <span class="w-2 h-2 rounded-full ${ledClass}"></span>
                         ${statusText}
                     </span>
                 </div>`;
 
             return `
-                <article id="game-card-${escapeHTML(game.id)}" class="bg-white rounded-2xl border ${cardBorder} shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
+                <article id="game-card-${safeGameIdAttr}" class="bg-white rounded-2xl border ${cardBorder} shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden">
                     <div>
                         <!-- 1. 桌遊圖片與狀態徽章 -->
                         ${imageBlockHTML}
 
-                        <!-- 2. 卡片內容主體 -->
-                        <div class="p-3.5 space-y-2.5">
+                        <!-- 2. 卡片內容主體（3 欄寬裕版面＋清晰放大字體） -->
+                        <div class="p-4 space-y-3">
                             <!-- 標題與訓練目標 -->
                             <div>
-                                <h3 class="text-sm sm:text-base font-bold text-slate-800 leading-snug line-clamp-1" title="${escapeHTML(game.name)}">
+                                <h3 class="text-base sm:text-[17px] font-bold text-slate-800 leading-snug" title="${escapeHTML(game.name)}">
                                     ${escapeHTML(game.name)}
                                 </h3>
                                 ${goalsUnderTitleHTML}
                             </div>
 
-                            <!-- 桌遊配件 -->
+                            <!-- 桌遊配件：超過兩行顯示省略符號，滑鼠移入顯示完整內容、點擊可釘選 -->
                             ${game.accessories ? `
-                            <p class="text-[11px] text-slate-500 leading-relaxed line-clamp-2" title="配件：${escapeHTML(game.accessories)}">
-                                <span class="font-semibold text-slate-600">配件：</span>${escapeHTML(game.accessories)}
+                            <p data-game-id="${safeGameIdAttr}"
+                               onmouseenter="handleAccessoriesHover(event, '${safeGameIdAttr}')"
+                               onmouseleave="handleAccessoriesLeave('${safeGameIdAttr}')"
+                               onclick="handleAccessoriesClick(event, '${safeGameIdAttr}')"
+                               class="accessories-trigger text-xs text-slate-600 leading-relaxed line-clamp-2 rounded-lg hover:bg-slate-50 transition cursor-pointer"
+                               title="若文字有省略，移入可預覽完整配件、點擊可釘選視窗">
+                                <span class="font-semibold text-slate-700">配件：</span>${escapeHTML(game.accessories)}
                             </p>` : ''}
 
-                            <!-- 卡套尺寸與數量 -->
-                            <div class="flex items-center gap-1.5 pt-0.5">
-                                <div class="flex-1 min-w-0 bg-slate-100 border border-slate-200/70 rounded-full px-2.5 py-1 flex items-center justify-center gap-1 whitespace-nowrap overflow-hidden" title="${escapeHTML(game.size)}">
-                                    <span class="text-[10px] text-slate-500 shrink-0">尺寸</span>
-                                    <span class="text-[11px] font-bold text-slate-700 truncate">${escapeHTML(shortSizeText)}</span>
+                            <!-- 卡套尺寸與數量（放大字級，一覽無遺） -->
+                            <div class="flex items-center gap-2 pt-0.5">
+                                <div class="flex-1 min-w-0 bg-slate-100 border border-slate-200/80 rounded-full px-3 py-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap overflow-hidden" title="${escapeHTML(game.size)}">
+                                    <span class="text-xs text-slate-500 shrink-0">尺寸</span>
+                                    <span class="text-xs sm:text-[13px] font-bold text-slate-800 truncate">${escapeHTML(shortSizeText)}</span>
                                 </div>
-                                <div class="bg-[#EEF5F9] border border-[#C5DCE8] rounded-full px-2.5 py-1 flex items-center justify-center gap-1 whitespace-nowrap shrink-0">
-                                    <span class="text-[10px] text-[#5B8FB9]">數量</span>
-                                    <span class="text-[11px] font-bold text-[#3B6884]">${Number(game.count).toLocaleString()} 張</span>
+                                <div class="bg-[#EEF5F9] border border-[#C5DCE8] rounded-full px-3 py-1.5 flex items-center justify-center gap-1.5 whitespace-nowrap shrink-0">
+                                    <span class="text-xs text-[#5B8FB9]">數量</span>
+                                    <span class="text-xs sm:text-[13px] font-bold text-[#3B6884]">${Number(game.count).toLocaleString()} 張</span>
                                 </div>
                             </div>
 
-                            <!-- 精簡單行更換日期 -->
-                            <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-100" title="上次更換：${escapeHTML(game.lastReplaced)}">
-                                <span class="inline-flex items-center gap-1">
-                                    <i data-lucide="calendar-clock" class="w-3 h-3 text-slate-400"></i>
-                                    下次更換
+                            <!-- 清晰單行更換日期 -->
+                            <div class="flex items-center justify-between text-xs text-slate-600 pt-1.5 border-t border-slate-100" title="上次更換：${escapeHTML(game.lastReplaced)}">
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i>
+                                    下次更換（週期 ${parseIntervalDaysValue(game)} 天）
                                 </span>
-                                <span class="font-mono ${nextDateColor}">${escapeHTML(nextDateStr)}</span>
+                                <span class="font-mono text-xs sm:text-[13px] ${nextDateColor}">${escapeHTML(nextDateStr)}</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- 3. 卡片底部操作列 -->
-                    <div class="px-3.5 py-2 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2">
-                        <button onclick="markAsReplacedToday('${game.id}')" class="inline-flex items-center justify-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold ${replaceBtnClass} transition cursor-pointer" title="將更換日期重設為今天，燈號恢復綠燈">
-                            <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                    <div class="px-4 py-2.5 bg-slate-50/70 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button onclick="markAsReplacedToday('${game.id}')" class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${replaceBtnClass} transition cursor-pointer" title="將更換日期重設為今天，燈號恢復綠燈">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                             <span>今日已更換</span>
                         </button>
-                        <div class="flex items-center gap-0.5">
+                        <div class="flex items-center gap-1">
                             <button onclick="openGameModal('${game.id}')" class="p-1.5 rounded-lg text-slate-400 hover:text-[#4A7C9B] hover:bg-[#EEF5F9] transition cursor-pointer" title="編輯">
-                                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
                             </button>
                             <button onclick="confirmDeleteGame('${game.id}', '${escapeHTML(game.name).replace(/'/g, "\\'")}')" class="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition cursor-pointer" title="刪除">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
                             </button>
                         </div>
                     </div>
